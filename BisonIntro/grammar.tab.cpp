@@ -766,62 +766,62 @@ namespace yy {
 
 
 
-  const signed char parser::yypact_ninf_ = -1;
+  const signed char parser::yypact_ninf_ = -4;
 
   const signed char parser::yytable_ninf_ = -1;
 
   const signed char
   parser::yypact_[] =
   {
-      -1,     0,    -1
+      -3,    -4,     0,    -1,    -4,    -3,    -2,    -1,    -4
   };
 
   const signed char
   parser::yydefact_[] =
   {
-       2,     0,     1
+       0,     4,     0,     2,     1,     0,     0,     3,     5
   };
 
   const signed char
   parser::yypgoto_[] =
   {
-      -1,    -1
+      -4,    -4,     1
   };
 
   const signed char
   parser::yydefgoto_[] =
   {
-       0,     1
+       0,     2,     3
   };
 
   const signed char
   parser::yytable_[] =
   {
-       2
+       4,     1,     8,     5,     6,     0,     7
   };
 
   const signed char
   parser::yycheck_[] =
   {
-       0
+       0,     4,     4,     3,     5,    -1,     5
   };
 
   const signed char
   parser::yystos_[] =
   {
-       0,     4,     0
+       0,     4,     7,     8,     0,     3,     5,     8,     4
   };
 
   const signed char
   parser::yyr1_[] =
   {
-       0,     3,     4
+       0,     6,     7,     7,     8,     8
   };
 
   const signed char
   parser::yyr2_[] =
   {
-       0,     2,     0
+       0,     2,     1,     3,     1,     3
   };
 
 
@@ -831,8 +831,8 @@ namespace yy {
   const char*
   const parser::yytname_[] =
   {
-  "\"end of file\"", "error", "\"invalid token\"", "$accept",
-  "root_symbol", YY_NULLPTR
+  "\"end of file\"", "error", "\"invalid token\"", "SEMICOLON", "NUMBER",
+  "'+'", "$accept", "addition_list", "addition", YY_NULLPTR
   };
 #endif
 
@@ -841,7 +841,7 @@ namespace yy {
   const signed char
   parser::yyrline_[] =
   {
-       0,    18,    18
+       0,    19,    19,    20,    23,    24
   };
 
   void
@@ -884,6 +884,7 @@ namespace yy {
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     5,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -904,11 +905,10 @@ namespace yy {
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     1,     2
+       2,     2,     2,     2,     2,     2,     1,     2,     3,     4
     };
     // Last valid token kind.
-    const int code_max = 257;
+    const int code_max = 259;
 
     if (t <= 0)
       return symbol_kind::S_YYEOF;
@@ -921,7 +921,7 @@ namespace yy {
 } // yy
 #line 923 "grammar.tab.cpp"
 
-#line 22 "grammar.y"
+#line 28 "grammar.y"
 
 
 void yy::parser::error(const std::string& msg) {

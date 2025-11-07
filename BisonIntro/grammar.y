@@ -11,12 +11,13 @@ void yyerror(const char *s);
 
 
 %start addition_list
+%token SEMICOLON NUMBER
 
 %%
 
 addition_list
 	: addition 
-	| addition_list ';' addition
+	| addition_list SEMICOLON addition
 	;
 
 addition : NUMBER

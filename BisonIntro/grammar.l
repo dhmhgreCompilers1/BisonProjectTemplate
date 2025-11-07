@@ -9,6 +9,15 @@
 
 %%
 
+"+"   { return '+'; }
+";"   { return  yy::parser::token::SEMICOLON; }
+[0-9]+ {
+			*yylval = atoi(yytext);
+			return yy::parser::token::NUMBER;
+		}
+[ \t\n]  { /* skip whitespace */ }
+
+
 
 
 %%

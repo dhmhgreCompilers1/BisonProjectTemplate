@@ -222,7 +222,9 @@ namespace yy {
         YYEMPTY = -2,
     YYEOF = 0,                     // "end of file"
     YYerror = 256,                 // error
-    YYUNDEF = 257                  // "invalid token"
+    YYUNDEF = 257,                 // "invalid token"
+    SEMICOLON = 258,               // SEMICOLON
+    NUMBER = 259                   // NUMBER
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -239,13 +241,17 @@ namespace yy {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 3, ///< Number of tokens.
+        YYNTOKENS = 6, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
         S_YYUNDEF = 2,                           // "invalid token"
-        S_YYACCEPT = 3,                          // $accept
-        S_root_symbol = 4                        // root_symbol
+        S_SEMICOLON = 3,                         // SEMICOLON
+        S_NUMBER = 4,                            // NUMBER
+        S_5_ = 5,                                // '+'
+        S_YYACCEPT = 6,                          // $accept
+        S_addition_list = 7,                     // addition_list
+        S_addition = 8                           // addition
       };
     };
 
@@ -729,9 +735,9 @@ namespace yy {
     /// Constants.
     enum
     {
-      yylast_ = 0,     ///< Last index in yytable_.
-      yynnts_ = 2,  ///< Number of nonterminal symbols.
-      yyfinal_ = 2 ///< Termination state number.
+      yylast_ = 6,     ///< Last index in yytable_.
+      yynnts_ = 3,  ///< Number of nonterminal symbols.
+      yyfinal_ = 4 ///< Termination state number.
     };
 
 
@@ -740,7 +746,7 @@ namespace yy {
 
 
 } // yy
-#line 744 "grammar.tab.h"
+#line 750 "grammar.tab.h"
 
 
 

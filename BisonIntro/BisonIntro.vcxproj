@@ -143,6 +143,9 @@
     <ClInclude Include="grammar.tab.h" />
     <ClInclude Include="stack.hh" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="test.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\..\..\..\..\..\..\..\..\FlexBison\custom_build_rules\win_flex_bison_custom_build.targets" />

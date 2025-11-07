@@ -8,7 +8,7 @@ extern int yylex(yy::parser::semantic_type *yylval);
 void yyerror(const char *s);
 %}
 
-
+%error-verbose
 
 %start addition_list
 %token SEMICOLON NUMBER
@@ -16,8 +16,8 @@ void yyerror(const char *s);
 %%
 
 addition_list
-	: addition 
-	| addition_list SEMICOLON addition
+	: addition SEMICOLON
+	| addition_list  addition SEMICOLON
 	;
 
 addition : NUMBER

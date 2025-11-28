@@ -1,0 +1,151 @@
+Grammar
+
+    0 $accept: addition_list $end
+
+    1 addition_list: addition SEMICOLON
+    2              | addition_list addition SEMICOLON
+
+    3 addition: NUMBER
+    4         | IDENTIFIER
+    5         | addition '+' addition
+    6         | IDENTIFIER '=' addition
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '+' (43) 5
+    '=' (61) 6
+    error (256)
+    NUMBER <node> (258) 3
+    IDENTIFIER <node> (259) 4 6
+    SEMICOLON (260) 1 2
+
+
+Nonterminals, with rules where they appear
+
+    $accept (8)
+        on left: 0
+    addition_list <node> (9)
+        on left: 1 2
+        on right: 0 2
+    addition <node> (10)
+        on left: 3 4 5 6
+        on right: 1 2 5 6
+
+
+State 0
+
+    0 $accept: . addition_list $end
+
+    NUMBER      shift, and go to state 1
+    IDENTIFIER  shift, and go to state 2
+
+    addition_list  go to state 3
+    addition       go to state 4
+
+
+State 1
+
+    3 addition: NUMBER .
+
+    $default  reduce using rule 3 (addition)
+
+
+State 2
+
+    4 addition: IDENTIFIER .
+    6         | IDENTIFIER . '=' addition
+
+    '='  shift, and go to state 5
+
+    $default  reduce using rule 4 (addition)
+
+
+State 3
+
+    0 $accept: addition_list . $end
+    2 addition_list: addition_list . addition SEMICOLON
+
+    $end        shift, and go to state 6
+    NUMBER      shift, and go to state 1
+    IDENTIFIER  shift, and go to state 2
+
+    addition  go to state 7
+
+
+State 4
+
+    1 addition_list: addition . SEMICOLON
+    5 addition: addition . '+' addition
+
+    SEMICOLON  shift, and go to state 8
+    '+'        shift, and go to state 9
+
+
+State 5
+
+    6 addition: IDENTIFIER '=' . addition
+
+    NUMBER      shift, and go to state 1
+    IDENTIFIER  shift, and go to state 2
+
+    addition  go to state 10
+
+
+State 6
+
+    0 $accept: addition_list $end .
+
+    $default  accept
+
+
+State 7
+
+    2 addition_list: addition_list addition . SEMICOLON
+    5 addition: addition . '+' addition
+
+    SEMICOLON  shift, and go to state 11
+    '+'        shift, and go to state 9
+
+
+State 8
+
+    1 addition_list: addition SEMICOLON .
+
+    $default  reduce using rule 1 (addition_list)
+
+
+State 9
+
+    5 addition: addition '+' . addition
+
+    NUMBER      shift, and go to state 1
+    IDENTIFIER  shift, and go to state 2
+
+    addition  go to state 12
+
+
+State 10
+
+    5 addition: addition . '+' addition
+    6         | IDENTIFIER '=' addition .
+
+    '+'  shift, and go to state 9
+
+    $default  reduce using rule 6 (addition)
+
+
+State 11
+
+    2 addition_list: addition_list addition SEMICOLON .
+
+    $default  reduce using rule 2 (addition_list)
+
+
+State 12
+
+    5 addition: addition . '+' addition
+    5         | addition '+' addition .
+
+    $default  reduce using rule 5 (addition)

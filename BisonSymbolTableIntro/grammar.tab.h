@@ -264,8 +264,8 @@ namespace yy {
         S_NUMBER = 3,                            // NUMBER
         S_IDENTIFIER = 4,                        // IDENTIFIER
         S_SEMICOLON = 5,                         // SEMICOLON
-        S_6_ = 6,                                // '+'
-        S_7_ = 7,                                // '='
+        S_6_ = 6,                                // '='
+        S_7_ = 7,                                // '+'
         S_YYACCEPT = 8,                          // $accept
         S_addition_list = 9,                     // addition_list
         S_addition = 10                          // addition

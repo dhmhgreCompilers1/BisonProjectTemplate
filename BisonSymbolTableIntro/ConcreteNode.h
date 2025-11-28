@@ -4,7 +4,7 @@
 using namespace std;
 
 typedef enum nodetypeid {
-	NA = 0, NUMBER_ = 1,IDENTIFIER_, ADDITION, ADDITIONLIST
+	NA = 0, NUMBER_ = 1, IDENTIFIER_, ADDITION, ADDITIONLIST
 }NODETYPE;
 
 class NUMBER : public STNode {
@@ -21,7 +21,6 @@ private:
 	int m_value;
 
 };
-
 class IDENTIFIER : public STNode {
 public:
 	IDENTIFIER(char* text);

@@ -13,7 +13,16 @@ NUMBER::NUMBER(char* text) :STNode(nodetypeid::NUMBER_) {
 NUMBER::~NUMBER() {
 }
 
-IDENTIFIER::IDENTIFIER(char* text) : STNode(IDENTIFIER_){
+
+string NUMBER::GetNumberText() {
+	return m_number;
+}
+
+int NUMBER::GetValue() {
+	return m_value;
+}
+
+IDENTIFIER::IDENTIFIER(char* text) : STNode(IDENTIFIER_) {
 	m_identifier = text;
 	m_graphvizID += "_name_=" + m_identifier;
 }
@@ -23,14 +32,6 @@ IDENTIFIER::~IDENTIFIER() {
 
 string IDENTIFIER::GetIdentifierText() {
 	return m_identifier;
-}
-
-string NUMBER::GetNumberText() {
-	return m_number;
-}
-
-int NUMBER::GetValue() {
-	return m_value;
 }
 
 Addition::Addition(STNode* number) :STNode(ADDITION) {
@@ -49,7 +50,7 @@ Addition::Addition(STNode* addition, STNode* number) : STNode(ADDITION) {
 
 
 
-AdditionList::AdditionList(STNode* addition) :STNode(ADDITIONLIST) {
+AdditionList::AdditionList(STNode* addition):STNode(ADDITIONLIST) {
 	AddChild(addition);
 	addition->setParent(this);
 }

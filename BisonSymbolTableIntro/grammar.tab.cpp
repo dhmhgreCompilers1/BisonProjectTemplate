@@ -578,37 +578,37 @@ namespace yy {
           switch (yyn)
             {
   case 2: // addition_list: addition SEMICOLON
-#line 30 "grammar.y"
+#line 33 "grammar.y"
                                                         { STNode::mg_root= (yylhs.value.node) = new AdditionList((yystack_[1].value.node));}
 #line 584 "grammar.tab.cpp"
     break;
 
   case 3: // addition_list: addition_list addition SEMICOLON
-#line 31 "grammar.y"
+#line 34 "grammar.y"
                                             { STNode::mg_root= (yylhs.value.node) = new AdditionList((yystack_[2].value.node),(yystack_[1].value.node));}
 #line 590 "grammar.tab.cpp"
     break;
 
   case 4: // addition: NUMBER
-#line 34 "grammar.y"
-                                                                { (yylhs.value.node) = new Addition((yystack_[0].value.node)); }
+#line 37 "grammar.y"
+                                                                { (yylhs.value.node) = (yystack_[0].value.node); }
 #line 596 "grammar.tab.cpp"
     break;
 
   case 5: // addition: IDENTIFIER
-#line 35 "grammar.y"
-                                                                { (yylhs.value.node) = new Addition((yystack_[0].value.node)); }
+#line 38 "grammar.y"
+                                                                { (yylhs.value.node) = (yystack_[0].value.node); }
 #line 602 "grammar.tab.cpp"
     break;
 
   case 6: // addition: addition '+' addition
-#line 36 "grammar.y"
+#line 39 "grammar.y"
                                                         { (yylhs.value.node) = new Addition((yystack_[2].value.node),(yystack_[0].value.node));}
 #line 608 "grammar.tab.cpp"
     break;
 
   case 7: // addition: IDENTIFIER '=' addition
-#line 37 "grammar.y"
+#line 40 "grammar.y"
                                                         { (yylhs.value.node) = new Addition((yystack_[2].value.node),(yystack_[0].value.node));}
 #line 614 "grammar.tab.cpp"
     break;
@@ -969,8 +969,8 @@ namespace yy {
   const signed char
   parser::yypact_[] =
   {
-       4,    -5,    -4,     1,     5,     4,    -5,     7,    -5,     4,
-       3,    -5,     3
+       8,    -5,     7,     1,     2,     8,    -5,     3,    -5,     8,
+      -4,    -5,    -5
   };
 
   const signed char
@@ -995,21 +995,21 @@ namespace yy {
   const signed char
   parser::yytable_[] =
   {
-       7,     6,    10,     5,     1,     2,    12,     1,     2,     9,
-       8,     9,    11,     9
+       7,     6,    10,     9,     1,     2,    12,     8,    11,     9,
+       9,     1,     2,     5
   };
 
   const signed char
   parser::yycheck_[] =
   {
-       3,     0,     5,     7,     3,     4,     9,     3,     4,     6,
-       5,     6,     5,     6
+       3,     0,     5,     7,     3,     4,     9,     5,     5,     7,
+       7,     3,     4,     6
   };
 
   const signed char
   parser::yystos_[] =
   {
-       0,     3,     4,     9,    10,     7,     0,    10,     5,     6,
+       0,     3,     4,     9,    10,     6,     0,    10,     5,     7,
       10,     5,    10
   };
 
@@ -1033,7 +1033,7 @@ namespace yy {
   const parser::yytname_[] =
   {
   "\"end of file\"", "error", "\"invalid token\"", "NUMBER", "IDENTIFIER",
-  "SEMICOLON", "'+'", "'='", "$accept", "addition_list", "addition", YY_NULLPTR
+  "SEMICOLON", "'='", "'+'", "$accept", "addition_list", "addition", YY_NULLPTR
   };
 #endif
 
@@ -1042,7 +1042,7 @@ namespace yy {
   const signed char
   parser::yyrline_[] =
   {
-       0,    30,    30,    31,    34,    35,    36,    37
+       0,    33,    33,    34,    37,    38,    39,    40
   };
 
   void
@@ -1085,9 +1085,9 @@ namespace yy {
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     6,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     7,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     7,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     6,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -1123,7 +1123,7 @@ namespace yy {
 } // yy
 #line 1125 "grammar.tab.cpp"
 
-#line 41 "grammar.y"
+#line 45 "grammar.y"
 
 
 void yy::parser::error(const std::string& msg) {

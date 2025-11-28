@@ -44,6 +44,12 @@
 
 #ifndef YY_YY_GRAMMAR_TAB_H_INCLUDED
 # define YY_YY_GRAMMAR_TAB_H_INCLUDED
+// "%code requires" blocks.
+#line 12 "grammar.y"
+ 
+#include "STNode.h"
+
+#line 53 "grammar.tab.h"
 
 
 # include <cstdlib> // std::abort
@@ -178,7 +184,7 @@
 #endif
 
 namespace yy {
-#line 182 "grammar.tab.h"
+#line 188 "grammar.tab.h"
 
 
 
@@ -194,7 +200,15 @@ namespace yy {
     typedef YYSTYPE value_type;
 #else
     /// Symbol semantic values.
-    typedef int value_type;
+    union value_type
+    {
+#line 16 "grammar.y"
+
+	STNode *node;	
+
+#line 210 "grammar.tab.h"
+
+    };
 #endif
     /// Backward compatibility (Bison 3.8).
     typedef value_type semantic_type;
@@ -223,8 +237,8 @@ namespace yy {
     YYEOF = 0,                     // "end of file"
     YYerror = 256,                 // error
     YYUNDEF = 257,                 // "invalid token"
-    SEMICOLON = 258,               // SEMICOLON
-    NUMBER = 259                   // NUMBER
+    NUMBER = 258,                  // NUMBER
+    SEMICOLON = 259                // SEMICOLON
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -246,8 +260,8 @@ namespace yy {
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
         S_YYUNDEF = 2,                           // "invalid token"
-        S_SEMICOLON = 3,                         // SEMICOLON
-        S_NUMBER = 4,                            // NUMBER
+        S_NUMBER = 3,                            // NUMBER
+        S_SEMICOLON = 4,                         // SEMICOLON
         S_5_ = 5,                                // '+'
         S_YYACCEPT = 6,                          // $accept
         S_addition_list = 7,                     // addition_list
@@ -753,7 +767,7 @@ namespace yy {
     /// Constants.
     enum
     {
-      yylast_ = 10,     ///< Last index in yytable_.
+      yylast_ = 8,     ///< Last index in yytable_.
       yynnts_ = 3,  ///< Number of nonterminal symbols.
       yyfinal_ = 4 ///< Termination state number.
     };
@@ -764,7 +778,7 @@ namespace yy {
 
 
 } // yy
-#line 768 "grammar.tab.h"
+#line 782 "grammar.tab.h"
 
 
 

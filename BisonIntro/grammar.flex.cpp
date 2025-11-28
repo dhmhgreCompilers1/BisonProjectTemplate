@@ -447,9 +447,10 @@ char *yytext;
 #line 1 "grammar.l"
 #line 4 "grammar.l"
 #include "grammar.tab.h"
+#include "ConcreteNode.h"
 #define YY_DECL int yylex(yy::parser::semantic_type *yylval)
-#line 451 "grammar.flex.cpp"
 #line 452 "grammar.flex.cpp"
+#line 453 "grammar.flex.cpp"
 
 #define INITIAL 0
 
@@ -663,10 +664,10 @@ YY_DECL
 		}
 
 	{
-#line 10 "grammar.l"
+#line 11 "grammar.l"
 
 
-#line 669 "grammar.flex.cpp"
+#line 670 "grammar.flex.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -725,34 +726,37 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 12 "grammar.l"
+#line 13 "grammar.l"
 { return '+'; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 13 "grammar.l"
+#line 14 "grammar.l"
 { return  yy::parser::token::SEMICOLON; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 14 "grammar.l"
+#line 15 "grammar.l"
 {
-			*yylval = atoi(yytext);
+			// 1. Create NUMBER node
+			STNode* numberNode = new NUMBER(yytext);
+			// 2. Attach node to semantic value
+			yylval->node = numberNode;
 			return yy::parser::token::NUMBER;
 		}
 	YY_BREAK
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 18 "grammar.l"
+#line 22 "grammar.l"
 { /* skip whitespace */ }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 23 "grammar.l"
+#line 27 "grammar.l"
 ECHO;
 	YY_BREAK
-#line 755 "grammar.flex.cpp"
+#line 759 "grammar.flex.cpp"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1757,5 +1761,5 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 23 "grammar.l"
+#line 27 "grammar.l"
 

@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\SyntaxTree">
+      <UniqueIdentifier>{904dfd6f-b8b3-44b4-945e-cc1c18bba70d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SyntaxTree">
+      <UniqueIdentifier>{ca3e6cad-1d0f-454f-aa16-bc54af4aa65f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Flex Include="grammar.l">
@@ -34,6 +40,15 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="STNode.h">
+      <Filter>Header Files\SyntaxTree</Filter>
+    </ClCompile>
+    <ClCompile Include="STNode.cpp">
+      <Filter>Source Files\SyntaxTree</Filter>
+    </ClCompile>
+    <ClCompile Include="ConcreteNode.cpp">
+      <Filter>Source Files\SyntaxTree</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="grammar.flex.h">
@@ -45,8 +60,19 @@
     <ClInclude Include="stack.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ConcreteNode.h">
+      <Filter>Header Files\SyntaxTree</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="test.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="output.dot" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="output.gif">
+      <Filter>Grammar Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

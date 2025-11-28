@@ -41,11 +41,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "ConcreteNode.h"
 #include "grammar.tab.h"
 extern int yylex(yy::parser::semantic_type *yylval);
 void yyerror(const char *s);
 
-#line 49 "grammar.tab.cpp"
+#line 50 "grammar.tab.cpp"
 
 
 #include "grammar.tab.h"
@@ -123,7 +124,7 @@ void yyerror(const char *s);
 #define YYRECOVERING()  (!!yyerrstatus_)
 
 namespace yy {
-#line 127 "grammar.tab.cpp"
+#line 128 "grammar.tab.cpp"
 
   /// Build a parser object.
   parser::parser ()
@@ -576,8 +577,32 @@ namespace yy {
         {
           switch (yyn)
             {
+  case 2: // addition_list: addition SEMICOLON
+#line 30 "grammar.y"
+                                                        { STNode::mg_root= (yylhs.value.node) = new AdditionList((yystack_[1].value.node));}
+#line 584 "grammar.tab.cpp"
+    break;
 
-#line 581 "grammar.tab.cpp"
+  case 3: // addition_list: addition_list addition SEMICOLON
+#line 31 "grammar.y"
+                                            { STNode::mg_root= (yylhs.value.node) = new AdditionList((yystack_[2].value.node),(yystack_[1].value.node));}
+#line 590 "grammar.tab.cpp"
+    break;
+
+  case 4: // addition: NUMBER
+#line 34 "grammar.y"
+                                                                { (yylhs.value.node) = new Addition((yystack_[0].value.node)); }
+#line 596 "grammar.tab.cpp"
+    break;
+
+  case 5: // addition: addition '+' NUMBER
+#line 35 "grammar.y"
+                                                        { (yylhs.value.node) = new Addition((yystack_[2].value.node),(yystack_[0].value.node));}
+#line 602 "grammar.tab.cpp"
+    break;
+
+
+#line 606 "grammar.tab.cpp"
 
             default:
               break;
@@ -925,14 +950,14 @@ namespace yy {
   }
 
 
-  const signed char parser::yypact_ninf_ = -3;
+  const signed char parser::yypact_ninf_ = -4;
 
   const signed char parser::yytable_ninf_ = -1;
 
   const signed char
   parser::yypact_[] =
   {
-       4,    -3,     0,    -2,    -3,     2,    -3,     5,    -3,    -3
+       4,    -4,     0,    -3,    -4,     1,    -4,     5,    -4,    -4
   };
 
   const signed char
@@ -944,7 +969,7 @@ namespace yy {
   const signed char
   parser::yypgoto_[] =
   {
-      -3,    -3,     8
+      -4,    -4,     2
   };
 
   const signed char
@@ -956,21 +981,19 @@ namespace yy {
   const signed char
   parser::yytable_[] =
   {
-       4,     6,     0,     7,     1,     8,     0,     7,     1,     9,
-       5
+       4,     6,     7,     1,     5,     8,     7,     1,     9
   };
 
   const signed char
   parser::yycheck_[] =
   {
-       0,     3,    -1,     5,     4,     3,    -1,     5,     4,     4,
-       2
+       0,     4,     5,     3,     2,     4,     5,     3,     3
   };
 
   const signed char
   parser::yystos_[] =
   {
-       0,     4,     7,     8,     0,     8,     3,     5,     3,     4
+       0,     3,     7,     8,     0,     8,     4,     5,     4,     3
   };
 
   const signed char
@@ -992,7 +1015,7 @@ namespace yy {
   const char*
   const parser::yytname_[] =
   {
-  "\"end of file\"", "error", "\"invalid token\"", "SEMICOLON", "NUMBER",
+  "\"end of file\"", "error", "\"invalid token\"", "NUMBER", "SEMICOLON",
   "'+'", "$accept", "addition_list", "addition", YY_NULLPTR
   };
 #endif
@@ -1002,7 +1025,7 @@ namespace yy {
   const signed char
   parser::yyrline_[] =
   {
-       0,    19,    19,    20,    23,    24
+       0,    30,    30,    31,    34,    35
   };
 
   void
@@ -1080,9 +1103,9 @@ namespace yy {
   }
 
 } // yy
-#line 1084 "grammar.tab.cpp"
+#line 1107 "grammar.tab.cpp"
 
-#line 28 "grammar.y"
+#line 39 "grammar.y"
 
 
 void yy::parser::error(const std::string& msg) {

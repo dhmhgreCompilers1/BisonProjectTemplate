@@ -11,7 +11,7 @@ class NUMBER : public STNode {
 public:
 
 	NUMBER(char* text);
-	~NUMBER();
+	~NUMBER();   
 	
 	string GetNumberText();
 	int GetValue();

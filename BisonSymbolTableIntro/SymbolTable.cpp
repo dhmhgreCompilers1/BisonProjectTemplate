@@ -10,10 +10,6 @@ SymbolTable::~SymbolTable() {
 }
 
 STNode* SymbolTable::Insert(string name, STNode* node) {
-	STNode* existingNode = Lookup(name);
-	if (existingNode != nullptr) {
-		return existingNode; // Symbol already exists
-	}
 	(*m_table)[name] = node;
 	return node;
 }

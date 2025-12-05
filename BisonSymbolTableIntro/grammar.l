@@ -15,11 +15,12 @@
 ";"   { return  yy::parser::token::SEMICOLON; }
 "="   { return  '='; }
 [a-zA-Z_][a-zA-Z0-9_]* {
-			// 1. Create IDENTIFIER node
-			STNode* identifierNode = new IDENTIFIER(yytext);
-			// 2. Store/Lookup node to symboltable			
-			// 3. Attach node to semantic value
-			yylval->node = SymbolTable::GetInstance()->Insert(yytext, identifierNode);;
+
+			yylval->node=SymbolTable::GetInstance()->Lookup(yytext));			
+			if ( yylval->node == nullptr){				
+				// Symbol not found, create new entry
+				yylval->node=SymbolTable::GetInstance()->Insert(yytext, new IDENTIFIER(yytext));				
+			}	
 			return yy::parser::token::IDENTIFIER;
 		}
 [0-9]+ {

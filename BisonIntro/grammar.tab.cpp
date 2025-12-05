@@ -579,13 +579,13 @@ namespace yy {
             {
   case 2: // addition_list: addition SEMICOLON
 #line 30 "grammar.y"
-                                                        { STNode::mg_root= (yylhs.value.node) = new AdditionList((yystack_[1].value.node));}
+                                                        { STNode::mg_root= (yylhs.value.node) = new ExpressionList((yystack_[1].value.node));}
 #line 584 "grammar.tab.cpp"
     break;
 
   case 3: // addition_list: addition_list addition SEMICOLON
 #line 31 "grammar.y"
-                                            { STNode::mg_root= (yylhs.value.node) = new AdditionList((yystack_[2].value.node),(yystack_[1].value.node));}
+                                            { STNode::mg_root= (yylhs.value.node) = new ExpressionList((yystack_[2].value.node),(yystack_[1].value.node));}
 #line 590 "grammar.tab.cpp"
     break;
 

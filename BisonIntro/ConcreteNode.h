@@ -4,7 +4,7 @@
 using namespace std;
 
 typedef enum nodetypeid {
-	NA = 0, NUMBER_ = 1,IDENTIFIER_, ADDITION, ADDITIONLIST
+	NA = 0, NUMBER_ = 1,IDENTIFIER_, ADDITION, EXPRESSIONLIST
 }NODETYPE;
 
 class NUMBER : public STNode {
@@ -37,8 +37,8 @@ public:
 	Addition(STNode* addition, STNode* number);	
 };
 
-class AdditionList : public STNode {
+class ExpressionList : public STNode {
 public:
-	AdditionList(STNode* addition);
-	AdditionList(STNode* additionList, STNode* addition);	
+	ExpressionList(STNode* addition);
+	ExpressionList(STNode* additionList, STNode* addition);	
 };

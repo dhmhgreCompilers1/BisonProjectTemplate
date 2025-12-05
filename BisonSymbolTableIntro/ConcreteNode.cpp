@@ -1,6 +1,7 @@
 #include "ConcreteNode.h"
 
-string g_nodetypesstr[] = { "NA","NUMBER","IDENTIFIER","ADDITION", "ADDITIONLIST" };
+string g_nodetypesstr[] = { "NA","NUMBER","IDENTIFIER",
+	"ADDITION", "EXPRESSIONLIST" ,"ASSIGNMENT"};
 STNode* STNode::mg_root = nullptr;
 
 
@@ -46,16 +47,21 @@ Addition::Addition(STNode* addition, STNode* number) : STNode(ADDITION) {
 	number->setParent(this);
 }
 
+Assignment::Assignment(STNode* identifier, STNode* addition):
+STNode(ASSIGNMENT){
+	AddChild(identifier);
+	AddChild(addition);
+	addition->setParent(this);
+	identifier->setParent(this);
+}
 
 
-
-
-AdditionList::AdditionList(STNode* addition):STNode(ADDITIONLIST) {
+ExpressionList::ExpressionList(STNode* addition) :STNode(EXPRESSIONLIST) {
 	AddChild(addition);
 	addition->setParent(this);
 }
 
-AdditionList::AdditionList(STNode* additionlist, STNode* addition) : STNode(ADDITIONLIST) {
+ExpressionList::ExpressionList(STNode* additionlist, STNode* addition) : STNode(EXPRESSIONLIST) {
 	AddChild(additionlist);
 	AddChild(addition);
 	additionlist->setParent(this);

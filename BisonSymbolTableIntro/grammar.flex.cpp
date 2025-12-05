@@ -449,9 +449,10 @@ char *yytext;
 #line 4 "grammar.l"
 #include "grammar.tab.h"
 #include "ConcreteNode.h"
+#include "SymbolTable.h"
 #define YY_DECL int yylex(yy::parser::semantic_type *yylval)
-#line 453 "grammar.flex.cpp"
 #line 454 "grammar.flex.cpp"
+#line 455 "grammar.flex.cpp"
 
 #define INITIAL 0
 
@@ -665,10 +666,10 @@ YY_DECL
 		}
 
 	{
-#line 11 "grammar.l"
+#line 12 "grammar.l"
 
 
-#line 671 "grammar.flex.cpp"
+#line 672 "grammar.flex.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -727,33 +728,34 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 13 "grammar.l"
+#line 14 "grammar.l"
 { return '+'; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 14 "grammar.l"
+#line 15 "grammar.l"
 { return  yy::parser::token::SEMICOLON; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 15 "grammar.l"
+#line 16 "grammar.l"
 { return  '='; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 16 "grammar.l"
+#line 17 "grammar.l"
 {
 			// 1. Create IDENTIFIER node
 			STNode* identifierNode = new IDENTIFIER(yytext);
-			// 2. Attach node to semantic value
-			yylval->node = identifierNode;
+			// 2. Store/Lookup node to symboltable			
+			// 3. Attach node to semantic value
+			yylval->node = SymbolTable::GetInstance()->Insert(yytext, identifierNode);;
 			return yy::parser::token::IDENTIFIER;
 		}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 23 "grammar.l"
+#line 25 "grammar.l"
 {
 			// 1. Create NUMBER node
 			STNode* numberNode = new NUMBER(yytext);
@@ -765,15 +767,15 @@ YY_RULE_SETUP
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 30 "grammar.l"
+#line 32 "grammar.l"
 { /* skip whitespace */ }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 35 "grammar.l"
+#line 37 "grammar.l"
 ECHO;
 	YY_BREAK
-#line 776 "grammar.flex.cpp"
+#line 778 "grammar.flex.cpp"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1778,5 +1780,5 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 35 "grammar.l"
+#line 37 "grammar.l"
 

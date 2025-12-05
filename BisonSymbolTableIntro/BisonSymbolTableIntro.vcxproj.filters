@@ -49,6 +49,9 @@
     <ClCompile Include="ConcreteNode.cpp">
       <Filter>Source Files\SyntaxTree</Filter>
     </ClCompile>
+    <ClCompile Include="SymbolTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="grammar.flex.h">
@@ -62,6 +65,9 @@
     </ClInclude>
     <ClInclude Include="ConcreteNode.h">
       <Filter>Header Files\SyntaxTree</Filter>
+    </ClInclude>
+    <ClInclude Include="SymbolTable.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

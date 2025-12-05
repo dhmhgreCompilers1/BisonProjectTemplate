@@ -140,12 +140,14 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="STNode.cpp" />
     <ClCompile Include="STNode.h" />
+    <ClCompile Include="SymbolTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConcreteNode.h" />
     <ClInclude Include="grammar.flex.h" />
     <ClInclude Include="grammar.tab.h" />
     <ClInclude Include="stack.hh" />
+    <ClInclude Include="SymbolTable.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="test.txt" />

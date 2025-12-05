@@ -267,8 +267,8 @@ namespace yy {
         S_6_ = 6,                                // '='
         S_7_ = 7,                                // '+'
         S_YYACCEPT = 8,                          // $accept
-        S_addition_list = 9,                     // addition_list
-        S_addition = 10                          // addition
+        S_expression_list = 9,                   // expression_list
+        S_expression = 10                        // expression
       };
     };
 

@@ -4,16 +4,15 @@
 
 #include "grammar.flex.h"
 #include "grammar.tab.h"
-using namespace yy;
 using namespace std;
 ofstream outfile("output.dot");
 
 void PrintTree(STNode* current, STNode* parent);
 
 int main(int argc, char** argv) {
-	parser parser;
+	yy::parser parser;
 	STNode* root;
-	if (argc > 1) {
+	if (argc == 2) {
 		fopen_s(&yyin, argv[1], "r");
 		if (!yyin) {
 			perror("Could not open file");

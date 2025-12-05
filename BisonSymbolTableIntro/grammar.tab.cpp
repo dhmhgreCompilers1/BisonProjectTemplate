@@ -577,39 +577,39 @@ namespace yy {
         {
           switch (yyn)
             {
-  case 2: // addition_list: addition SEMICOLON
+  case 2: // expression_list: expression SEMICOLON
 #line 33 "grammar.y"
-                                                        { STNode::mg_root= (yylhs.value.node) = new AdditionList((yystack_[1].value.node));}
+                                                        { STNode::mg_root= (yylhs.value.node) = new ExpressionList((yystack_[1].value.node));}
 #line 584 "grammar.tab.cpp"
     break;
 
-  case 3: // addition_list: addition_list addition SEMICOLON
+  case 3: // expression_list: expression_list expression SEMICOLON
 #line 34 "grammar.y"
-                                            { STNode::mg_root= (yylhs.value.node) = new AdditionList((yystack_[2].value.node),(yystack_[1].value.node));}
+                                                { STNode::mg_root= (yylhs.value.node) = new ExpressionList((yystack_[2].value.node),(yystack_[1].value.node));}
 #line 590 "grammar.tab.cpp"
     break;
 
-  case 4: // addition: NUMBER
+  case 4: // expression: NUMBER
 #line 37 "grammar.y"
                                                                 { (yylhs.value.node) = (yystack_[0].value.node); }
 #line 596 "grammar.tab.cpp"
     break;
 
-  case 5: // addition: IDENTIFIER
+  case 5: // expression: IDENTIFIER
 #line 38 "grammar.y"
                                                                 { (yylhs.value.node) = (yystack_[0].value.node); }
 #line 602 "grammar.tab.cpp"
     break;
 
-  case 6: // addition: addition '+' addition
+  case 6: // expression: expression '+' expression
 #line 39 "grammar.y"
                                                         { (yylhs.value.node) = new Addition((yystack_[2].value.node),(yystack_[0].value.node));}
 #line 608 "grammar.tab.cpp"
     break;
 
-  case 7: // addition: IDENTIFIER '=' addition
+  case 7: // expression: IDENTIFIER '=' expression
 #line 40 "grammar.y"
-                                                        { (yylhs.value.node) = new Addition((yystack_[2].value.node),(yystack_[0].value.node));}
+                                                        { (yylhs.value.node) = new Assignment((yystack_[2].value.node),(yystack_[0].value.node));}
 #line 614 "grammar.tab.cpp"
     break;
 
@@ -1033,7 +1033,7 @@ namespace yy {
   const parser::yytname_[] =
   {
   "\"end of file\"", "error", "\"invalid token\"", "NUMBER", "IDENTIFIER",
-  "SEMICOLON", "'='", "'+'", "$accept", "addition_list", "addition", YY_NULLPTR
+  "SEMICOLON", "'='", "'+'", "$accept", "expression_list", "expression", YY_NULLPTR
   };
 #endif
 

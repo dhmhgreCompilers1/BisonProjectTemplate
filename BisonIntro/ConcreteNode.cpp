@@ -49,12 +49,12 @@ Addition::Addition(STNode* addition, STNode* number) : STNode(ADDITION) {
 
 
 
-AdditionList::AdditionList(STNode* addition) :STNode(ADDITIONLIST) {
+ExpressionList::ExpressionList(STNode* addition) :STNode(EXPRESSIONLIST) {
 	AddChild(addition);
 	addition->setParent(this);
 }
 
-AdditionList::AdditionList(STNode* additionlist, STNode* addition) : STNode(ADDITIONLIST) {
+ExpressionList::ExpressionList(STNode* additionlist, STNode* addition) : STNode(EXPRESSIONLIST) {
 	AddChild(additionlist);
 	AddChild(addition);
 	additionlist->setParent(this);

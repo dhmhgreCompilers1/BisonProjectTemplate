@@ -135,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConcreteNode.cpp" />
+    <ClCompile Include="Evaluate.cpp" />
     <ClCompile Include="grammar.flex.cpp" />
     <ClCompile Include="grammar.tab.cpp" />
     <ClCompile Include="main.cpp" />

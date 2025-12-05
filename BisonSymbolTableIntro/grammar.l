@@ -16,7 +16,7 @@
 "="   { return  '='; }
 [a-zA-Z_][a-zA-Z0-9_]* {
 
-			yylval->node=SymbolTable::GetInstance()->Lookup(yytext));			
+			yylval->node=SymbolTable::GetInstance()->Lookup(yytext);			
 			if ( yylval->node == nullptr){				
 				// Symbol not found, create new entry
 				yylval->node=SymbolTable::GetInstance()->Insert(yytext, new IDENTIFIER(yytext));				

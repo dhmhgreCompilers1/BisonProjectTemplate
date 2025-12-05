@@ -746,19 +746,17 @@ YY_RULE_SETUP
 #line 17 "grammar.l"
 {
 
-			if ( (yylval->node=SymbolTable::GetInstance()->Lookup(yytext)) != nullptr ) {
-				return yy::parser::token::IDENTIFIER;
-			}
-			else{
+			yylval->node=SymbolTable::GetInstance()->Lookup(yytext);			
+			if ( yylval->node == nullptr){				
 				// Symbol not found, create new entry
-				yylval->node=SymbolTable::GetInstance()->Insert(yytext, new IDENTIFIER(yytext));
-				return yy::parser::token::IDENTIFIER;
-			}			
+				yylval->node=SymbolTable::GetInstance()->Insert(yytext, new IDENTIFIER(yytext));				
+			}	
+			return yy::parser::token::IDENTIFIER;
 		}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 28 "grammar.l"
+#line 26 "grammar.l"
 {
 			// 1. Create NUMBER node
 			STNode* numberNode = new NUMBER(yytext);
@@ -770,15 +768,15 @@ YY_RULE_SETUP
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 35 "grammar.l"
+#line 33 "grammar.l"
 { /* skip whitespace */ }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 40 "grammar.l"
+#line 38 "grammar.l"
 ECHO;
 	YY_BREAK
-#line 781 "grammar.flex.cpp"
+#line 779 "grammar.flex.cpp"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1783,5 +1781,5 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 40 "grammar.l"
+#line 38 "grammar.l"
 

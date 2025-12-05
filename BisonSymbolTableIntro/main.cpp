@@ -8,6 +8,7 @@ using namespace std;
 ofstream outfile("output.dot");
 
 void PrintTree(STNode* current, STNode* parent);
+int Evaluate(STNode* current, STNode* parent);
 
 int main(int argc, char** argv) {
 	yy::parser parser;
@@ -25,9 +26,13 @@ int main(int argc, char** argv) {
 
 	PrintTree(root, nullptr);
 	system("dot -Tgif output.dot -o output.gif");
+
+	Evaluate(root, nullptr);
 	return 0;
 
 }
+
+
 
 void PrintTree(STNode* current, STNode* parent) {
 
@@ -47,13 +52,10 @@ void PrintTree(STNode* current, STNode* parent) {
 	for (auto child : *(current->m_children)) {
 		PrintTree(child, current);
 	}
-
 	// Postorder action ( Action after we have visited node children )
 	// 1. print graphviz footer for root node
 	if (parent == nullptr) {
 		outfile << "}" << endl;
 		outfile.close();
 	}
-
-
 }

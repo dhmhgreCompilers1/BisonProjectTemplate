@@ -4,6 +4,7 @@
 #include <list>
 #include <string>
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 enum nodetypeid;
@@ -17,6 +18,14 @@ public:
 	nodetypeid GetNodeType();
 	void AddChild(STNode* node);	
 	string GetName();
+
+
+
+public:
+	
+	void virtual PrintTree(ofstream *file, STNode *parent);
+	virtual int Evaluate();
+	
 protected:
 
 	STNode* m_parent;	

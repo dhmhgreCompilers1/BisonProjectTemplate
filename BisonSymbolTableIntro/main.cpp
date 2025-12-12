@@ -7,7 +7,7 @@
 using namespace std;
 ofstream outfile("output.dot");
 
-void PrintTree(STNode* current, STNode* parent);
+
 int Evaluate(STNode* current, STNode* parent);
 
 int main(int argc, char** argv) {
@@ -24,38 +24,14 @@ int main(int argc, char** argv) {
 
 	root = STNode::mg_root;
 
-	PrintTree(root, nullptr);
-	system("dot -Tgif output.dot -o output.gif");
+	root->PrintTree(nullptr,nullptr);
+	
 
-	Evaluate(root, nullptr);
+	root->Evaluate();
 	return 0;
 
 }
 
 
 
-void PrintTree(STNode* current, STNode* parent) {
 
-	// Preorder actions ( Action before we visit children )
-
-	// 1. Print edge from parent to current
-	if (parent != nullptr) {
-		outfile << "\"" << parent->GetName() << "\"" << " -> " << "\"" << current->GetName() << "\"" << ";" << endl;
-	}
-
-	// 2. print graphviz header for root node
-	if (parent == nullptr) {
-		outfile << "digraph G {" << endl;
-	}
-
-	// Visit children
-	for (auto child : *(current->m_children)) {
-		PrintTree(child, current);
-	}
-	// Postorder action ( Action after we have visited node children )
-	// 1. print graphviz footer for root node
-	if (parent == nullptr) {
-		outfile << "}" << endl;
-		outfile.close();
-	}
-}

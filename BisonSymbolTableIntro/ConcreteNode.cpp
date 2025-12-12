@@ -1,7 +1,7 @@
 #include "ConcreteNode.h"
 
 string g_nodetypesstr[] = { "NA","NUMBER","IDENTIFIER",
-	"ADDITION", "EXPRESSIONLIST" ,"ASSIGNMENT"};
+	"ADDITION", "EXPRESSIONLIST" ,"ASSIGNMENT" };
 STNode* STNode::mg_root = nullptr;
 
 
@@ -28,6 +28,14 @@ IDENTIFIER::IDENTIFIER(char* text) : STNode(IDENTIFIER_) {
 	m_graphvizID += "_name_=" + m_identifier;
 }
 
+void IDENTIFIER::SetValue(int v) {
+	m_value = v;
+}
+
+int IDENTIFIER::GetValue() {
+	return m_value;
+}
+
 IDENTIFIER::~IDENTIFIER() {
 }
 
@@ -47,8 +55,8 @@ Addition::Addition(STNode* addition, STNode* number) : STNode(ADDITION) {
 	number->setParent(this);
 }
 
-Assignment::Assignment(STNode* identifier, STNode* addition):
-STNode(ASSIGNMENT){
+Assignment::Assignment(STNode* identifier, STNode* addition) :
+	STNode(ASSIGNMENT) {
 	AddChild(identifier);
 	AddChild(addition);
 	addition->setParent(this);

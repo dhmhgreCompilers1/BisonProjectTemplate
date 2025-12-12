@@ -32,7 +32,34 @@ nodetypeid STNode::GetNodeType() {
 	return m_nodetype;
 }
 
+void STNode::PrintTree(ofstream *outfile,STNode *parent) {
 
+	// Preorder actions ( Action before we visit children )
+
+	// 1. Print edge from parent to current
+	if (parent != nullptr) {
+		(*outfile) << "\"" << parent->GetName() << "\"" <<
+			" -> " << "\"" << GetName() << "\"" << ";" << endl;
+	}
+
+	// 2. print graphviz header for root node
+	if (m_parent == nullptr) {
+		outfile = new ofstream("output.dot");
+		*outfile << "digraph G {" << endl;
+	}
+
+	// Visit children
+	for (auto child : *(m_children)) {
+		child->PrintTree(outfile,this);
+	}
+	// Postorder action ( Action after we have visited node children )
+	// 1. print graphviz footer for root node
+	if (m_parent == nullptr) {
+		*outfile << "}" << endl;
+		(*outfile).close();
+		system("dot -Tgif output.dot -o output.gif");
+	}
+}
 
 
 

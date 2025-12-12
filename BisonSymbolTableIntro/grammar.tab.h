@@ -239,7 +239,25 @@ namespace yy {
     YYUNDEF = 257,                 // "invalid token"
     NUMBER = 258,                  // NUMBER
     IDENTIFIER = 259,              // IDENTIFIER
-    SEMICOLON = 260                // SEMICOLON
+    SEMICOLON = 260,               // SEMICOLON
+    LOR = 261,                     // LOR
+    LAND = 262,                    // LAND
+    BITOR = 263,                   // BITOR
+    BITXOR = 264,                  // BITXOR
+    BITAND = 265,                  // BITAND
+    EQ = 266,                      // EQ
+    NEQ = 267,                     // NEQ
+    LT = 268,                      // LT
+    LTE = 269,                     // LTE
+    GT = 270,                      // GT
+    GTE = 271,                     // GTE
+    LSHIFT = 272,                  // LSHIFT
+    RSHIFT = 273,                  // RSHIFT
+    FDIV = 274,                    // FDIV
+    LNOT = 275,                    // LNOT
+    BNOT = 276,                    // BNOT
+    INCREMENT = 277,               // INCREMENT
+    DECREMENT = 278                // DECREMENT
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -256,7 +274,7 @@ namespace yy {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 8, ///< Number of tokens.
+        YYNTOKENS = 34, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
@@ -265,10 +283,37 @@ namespace yy {
         S_IDENTIFIER = 4,                        // IDENTIFIER
         S_SEMICOLON = 5,                         // SEMICOLON
         S_6_ = 6,                                // '='
-        S_7_ = 7,                                // '+'
-        S_YYACCEPT = 8,                          // $accept
-        S_expression_list = 9,                   // expression_list
-        S_expression = 10                        // expression
+        S_LOR = 7,                               // LOR
+        S_LAND = 8,                              // LAND
+        S_BITOR = 9,                             // BITOR
+        S_BITXOR = 10,                           // BITXOR
+        S_BITAND = 11,                           // BITAND
+        S_EQ = 12,                               // EQ
+        S_NEQ = 13,                              // NEQ
+        S_LT = 14,                               // LT
+        S_LTE = 15,                              // LTE
+        S_GT = 16,                               // GT
+        S_GTE = 17,                              // GTE
+        S_LSHIFT = 18,                           // LSHIFT
+        S_RSHIFT = 19,                           // RSHIFT
+        S_20_ = 20,                              // '+'
+        S_21_ = 21,                              // '-'
+        S_22_ = 22,                              // '*'
+        S_23_ = 23,                              // '/'
+        S_24_ = 24,                              // '%'
+        S_FDIV = 25,                             // FDIV
+        S_26_ = 26,                              // '^'
+        S_LNOT = 27,                             // LNOT
+        S_BNOT = 28,                             // BNOT
+        S_INCREMENT = 29,                        // INCREMENT
+        S_DECREMENT = 30,                        // DECREMENT
+        S_31_ = 31,                              // '('
+        S_32_ = 32,                              // ')'
+        S_33_ = 33,                              // ','
+        S_YYACCEPT = 34,                         // $accept
+        S_expression_list = 35,                  // expression_list
+        S_expression = 36,                       // expression
+        S_args = 37                              // args
       };
     };
 
@@ -510,7 +555,7 @@ namespace yy {
     // Tables.
     // YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
     // STATE-NUM.
-    static const signed char yypact_[];
+    static const short yypact_[];
 
     // YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
     // Performed when YYTABLE does not specify something else to do.  Zero
@@ -770,9 +815,9 @@ namespace yy {
     /// Constants.
     enum
     {
-      yylast_ = 13,     ///< Last index in yytable_.
-      yynnts_ = 3,  ///< Number of nonterminal symbols.
-      yyfinal_ = 6 ///< Termination state number.
+      yylast_ = 341,     ///< Last index in yytable_.
+      yynnts_ = 4,  ///< Number of nonterminal symbols.
+      yyfinal_ = 17 ///< Termination state number.
     };
 
 
@@ -781,7 +826,7 @@ namespace yy {
 
 
 } // yy
-#line 785 "grammar.tab.h"
+#line 830 "grammar.tab.h"
 
 
 

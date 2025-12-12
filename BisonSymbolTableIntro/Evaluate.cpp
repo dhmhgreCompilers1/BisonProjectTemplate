@@ -75,5 +75,94 @@ int Assignment::Evaluate() {
 	return result;
 }
 
+int Increment::Evaluate() {
+	return 0;
+}
+
+int Decrement::Evaluate() {
+	return 0;
+}
+
+int Subtraction::Evaluate() {	
+	return 0;
+}
+
+int Multiplication::Evaluate() {
+	return 0;
+}
+int Division::Evaluate() {
+	return 0;
+}
+int Modulo::Evaluate() {
+	return 0;
+}
+int Exponentiation::Evaluate() {
+	return 0;
+}
+int UnaryMinus::Evaluate() {
+	return 0;
+}
+int UnaryPlus::Evaluate() {
+	return 0;
+}
+int FloorDivision::Evaluate() {
+	return 0;
+}
+int LogicalAnd::Evaluate() {
+	return 0;
+}
+int LogicalOr::Evaluate() {
+	return 0;
+}
+int LogicalNot::Evaluate() {
+	return 0;
+}
+int LessThan::Evaluate() {
+	return 0;
+}
+int GreaterThan::Evaluate() {
+	return 0;
+}
+int LessThanOrEqual::Evaluate() {
+	return 0;
+}
+int GreaterThanOrEqual::Evaluate() {
+	return 0;
+}
+int Equal::Evaluate() {
+	return 0;
+}
+int NotEqual::Evaluate() {
+	return 0;
+}
+int FunctionCall::Evaluate() {
+	return 0;
+}
+int BITWISEAND::Evaluate() {
+	return 0;
+}
+int BITWISEOR::Evaluate() {
+	return 0;
+}
+int BITWISEXOR::Evaluate() {
+	return 0;
+}
+int BITWISENOT::Evaluate() {
+	return 0;
+}
+int LSHIFT::Evaluate() {
+	return 0;
+}
+int RSHIFT::Evaluate() {
+	return 0;
+}
+int ArgumentList::Evaluate() {
+	return 0;
+}
+
+
+
+
+
 
 

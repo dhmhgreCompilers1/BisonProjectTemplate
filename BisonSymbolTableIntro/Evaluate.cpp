@@ -1,3 +1,5 @@
+#include <math.h>
+
 #include "ConcreteNode.h"
 #include "SymbolTable.h"
 
@@ -76,28 +78,56 @@ int Assignment::Evaluate() {
 }
 
 int Increment::Evaluate() {
-	return 0;
+	auto it = m_children->begin();
+	IDENTIFIER* idnode = dynamic_cast<IDENTIFIER*>((*it));
+	// 1. Evaluate expression
+	int result = (*it)->Evaluate();
+	// 2. Assign value to IDENTIFIER
+	return idnode->SetValue(result + 1);
 }
 
 int Decrement::Evaluate() {
-	return 0;
+	auto it = m_children->begin();
+	IDENTIFIER* idnode = dynamic_cast<IDENTIFIER*>((*it));
+	// 1. Evaluate expression
+	int result = (*it)->Evaluate();
+	// 2. Assign value to IDENTIFIER
+	return idnode->SetValue(result - 1);
 }
 
 int Subtraction::Evaluate() {	
-	return 0;
+	list<STNode*>::iterator it = m_children->begin();
+	return (*it)->Evaluate() - (*(++it))->Evaluate();
 }
 
 int Multiplication::Evaluate() {
-	return 0;
+	auto it = m_children->begin();
+	return (*it)->Evaluate() * (*(++it))->Evaluate();
 }
 int Division::Evaluate() {
-	return 0;
+	auto it = m_children->begin();
+	int left = (*it)->Evaluate();
+	int right = (*(++it))->Evaluate();
+	if (right == 0) {
+		throw std::runtime_error("Division by zero");
+	}
+	return left / right;
 }
 int Modulo::Evaluate() {
-	return 0;
+	auto it = m_children->begin();
+	int left = (*it)->Evaluate();
+	int right = (*(++it))->Evaluate();
+	if (right == 0) {
+		throw std::runtime_error("Modulo by zero");
+	}
+	return left % right;
 }
 int Exponentiation::Evaluate() {
-	return 0;
+	auto it = m_children->begin();
+	int left = (*it)->Evaluate();
+	int right = (*(++it))->Evaluate();
+
+	return pow(left, right);
 }
 int UnaryMinus::Evaluate() {
 	return 0;
@@ -135,7 +165,7 @@ int Equal::Evaluate() {
 int NotEqual::Evaluate() {
 	return 0;
 }
-int FunctionCall::Evaluate() {
+int UserDefinedFunctionCall::Evaluate() {
 	return 0;
 }
 int BITWISEAND::Evaluate() {
@@ -160,8 +190,20 @@ int ArgumentList::Evaluate() {
 	return 0;
 }
 
+int BuiltInFunctionCall::Evaluate()
+{
+	return 0;
+}
 
+int FunctionDefinition::Evaluate()
+{
+	return 0;
+}
 
+int ParamList::Evaluate()
+{
+	return 0;
+}
 
 
 

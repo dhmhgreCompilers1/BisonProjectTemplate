@@ -7,9 +7,10 @@ typedef enum nodetypeid {
 	NA = 0, NUMBER_ = 1, IDENTIFIER_, ADDITION, EXPRESSIONLIST, ASSIGNMENT,
 	SUBTRACTION, MULTIPLICATION, DIVISION, MODULUS, EXPONENTIATION, UNARYMINUS
 	, UNARYPLUS, FLOORDIVISION, LOGICALAND, LOGICALOR, LOGICALNOT, LESSTHAN, GREATERTHAN,
-	LESSTHANOREQUAL, GREATERTHANOREQUAL, EQUAL, NOTEQUAL, INCREMENT, DECREMENT, FUNCTIONCALL,
+	LESSTHANOREQUAL, GREATERTHANOREQUAL, EQUAL, NOTEQUAL, INCREMENT, DECREMENT, USERDEFINEDFUNCTIONCALL,
+	BUILTINFUNCTIONCALL,
 	BITAND, BITOR, BITXOR,BITNOT,
-	LSHFT, RSHFT, ARGUMENTLIST
+	LSHFT, RSHFT, ARGUMENTLIST, FUNCTIONDEFINITION, PARAMLIST
 	
 
 }NODETYPE;
@@ -36,7 +37,7 @@ public:
 	IDENTIFIER(char* text);
 	~IDENTIFIER();
 	string GetIdentifierText();
-	void SetValue(int v);
+	int SetValue(int v);
 	int GetValue();
 
 public:
@@ -228,13 +229,23 @@ public:
 	int Evaluate() override;
 };
 
-class FunctionCall : public STNode {
+class UserDefinedFunctionCall : public STNode {
 public:
-	FunctionCall(STNode* identifier, STNode* args);
+	UserDefinedFunctionCall(STNode* identifier, STNode* args);
 
 public:
 	int Evaluate() override;
 };
+
+class BuiltInFunctionCall : public STNode {
+public:
+	BuiltInFunctionCall(STNode* identifier, STNode* args);
+
+public:
+	int Evaluate() override;
+};
+
+
 
 class BITWISEAND : public STNode {
 public:
@@ -278,6 +289,22 @@ class ArgumentList : public STNode {
 	public:
 	ArgumentList(STNode* identifier);
 	ArgumentList(STNode* identifierList, STNode* identifier);
+public:
+	int Evaluate() override;
+};
+
+class FunctionDefinition : public STNode {
+public:
+	FunctionDefinition(STNode* identifier, STNode* paramList, STNode* expList);
+	FunctionDefinition(STNode* identifier, STNode* expList);
+public:
+	int Evaluate() override;
+};
+
+class ParamList : public STNode {
+public:
+	ParamList(STNode* paramList, STNode* identifier);
+	ParamList(STNode* identifier);
 public:
 	int Evaluate() override;
 };

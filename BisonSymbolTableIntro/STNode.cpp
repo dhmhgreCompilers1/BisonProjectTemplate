@@ -56,8 +56,8 @@ void STNode::PrintTree(ofstream *outfile,STNode *parent) {
 	// 1. print graphviz footer for root node
 	if (m_parent == nullptr) {
 		*outfile << "}" << endl;
-		(*outfile).close();
-		system("dot -Tgif output.dot -o output.gif");
+		outfile->close();	
+		delete outfile;
 	}
 }
 

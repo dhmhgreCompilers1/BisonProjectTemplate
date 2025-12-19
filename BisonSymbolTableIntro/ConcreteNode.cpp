@@ -6,9 +6,10 @@ string g_nodetypesstr[] = { "NA","NUMBER","IDENTIFIER",
 	"SUBTRACTION", "MULTIPLICATION", "DIVISION", "MODULUS", "EXPONENTIATION",
 	"UNARYMINUS","UNARYPLUS", "FLOORDIVISION", "LOGICALAND", "LOGICALOR",
 	"LOGICALNOT", "LESSTHAN", "GREATERTHAN","LESSTHANOREQUAL", "GREATERTHANOREQUAL",
-	"EQUAL", "NOTEQUAL", "INCREMENT", "DECREMENT", "FUNCTIONCALL"
+	"EQUAL", "NOTEQUAL", "INCREMENT", "DECREMENT", "USERDEFINEDFUNCTIONCALL",
+	"BUILTINFUNCTIONCALL",
 	   "BITWISEAND","BITWISEOR","BITWISEXOR", "BITWISENOT",
-		"LSHIFT", "RSHIFT" , "ARGUMENTLIST"};
+		"LSHIFT", "RSHIFT" , "ARGUMENTLIST", "FUNCTIONDEFINITION", "PARAMLIST"};
 STNode* STNode::mg_root = nullptr;
 
 
@@ -35,8 +36,8 @@ IDENTIFIER::IDENTIFIER(char* text) : STNode(IDENTIFIER_) {
 	m_graphvizID += "_name_=" + m_identifier;
 }
 
-void IDENTIFIER::SetValue(int v) {
-	m_value = v;
+int IDENTIFIER::SetValue(int v) {
+	return (m_value = v);
 }
 
 int IDENTIFIER::GetValue() {
@@ -223,11 +224,19 @@ ExpressionList::ExpressionList(STNode* additionlist, STNode* addition) : STNode(
 	addition->setParent(this);
 }
 
-FunctionCall::FunctionCall(STNode* identifier, STNode* args) :
-	STNode(FUNCTIONCALL) {
+UserDefinedFunctionCall::UserDefinedFunctionCall(STNode* identifier, STNode* args) :
+	STNode(USERDEFINEDFUNCTIONCALL) {
 	AddChild(identifier);
 	AddChild(args);
 	identifier->setParent(this);
+	args->setParent(this);
+}
+
+BuiltInFunctionCall::BuiltInFunctionCall(STNode* id, STNode* args) :
+	STNode(BUILTINFUNCTIONCALL) {
+	AddChild(id);
+	AddChild(args);
+	id->setParent(this);
 	args->setParent(this);
 }
 
@@ -244,23 +253,56 @@ LSHIFT::LSHIFT(STNode* lhs, STNode* rhs) : STNode(LSHFT) {
 
 }
 
-RSHIFT::RSHIFT(STNode* lhs, STNode* rhs):STNode(RSHFT){
+RSHIFT::RSHIFT(STNode* lhs, STNode* rhs) :STNode(RSHFT) {
 	AddChild(lhs);
 	AddChild(rhs);
 	lhs->setParent(this);
 	rhs->setParent(this);
 }
 
-ArgumentList::ArgumentList(STNode* identifier): STNode(ARGUMENTLIST)  {
+ArgumentList::ArgumentList(STNode* identifier) : STNode(ARGUMENTLIST) {
 	AddChild(identifier);
 	identifier->setParent(this);
 }
 ArgumentList::ArgumentList(STNode* identifierList, STNode* identifier) :
-STNode(ARGUMENTLIST) {
+	STNode(ARGUMENTLIST) {
 	AddChild(identifierList);
 	AddChild(identifier);
 	identifierList->setParent(this);
 	identifier->setParent(this);
 }
+
+FunctionDefinition::FunctionDefinition(STNode* identifier, STNode* paramList, STNode* expList) :
+	STNode(FUNCTIONDEFINITION) {
+	AddChild(identifier);
+	AddChild(paramList);
+	AddChild(expList);
+	identifier->setParent(this);
+	paramList->setParent(this);
+	expList->setParent(this);
+}
+
+FunctionDefinition::FunctionDefinition(STNode* identifier, STNode* expList) :
+	STNode(FUNCTIONDEFINITION) {
+	AddChild(identifier);
+	AddChild(expList);
+	identifier->setParent(this);
+	expList->setParent(this);
+}
+
+ParamList::ParamList(STNode* paramList, STNode* identifier) :
+	STNode(PARAMLIST) {
+	AddChild(paramList);
+	AddChild(identifier);
+	paramList->setParent(this);
+	identifier->setParent(this);
+}
+
+ParamList::ParamList(STNode* identifier) :
+	STNode(PARAMLIST) {
+	AddChild(identifier);
+	identifier->setParent(this);
+}
+
 
 

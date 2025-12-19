@@ -28,6 +28,7 @@ int main(int argc, char** argv) {
 	
 
 	root->Evaluate();
+	system("dot -Tgif output.dot -o output.gif");
 	return 0;
 
 }

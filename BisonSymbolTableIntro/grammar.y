@@ -11,6 +11,7 @@ void yyerror(const char *s);
 
 %code requires{ 
 #include "STNode.h"
+#include "SymbolTable.h"
 }
 
 %union {
@@ -22,8 +23,8 @@ void yyerror(const char *s);
 
 %start expression_list
 %token <node> NUMBER IDENTIFIER
-%token SEMICOLON
-%type <node> expression expression_list, args
+%token SEMICOLON FUNCTION
+%type <node> expression expression_list param_list args
 %right '='
 %left LOR 
 %left LAND
@@ -36,22 +37,57 @@ void yyerror(const char *s);
 %left '+' '-'
 %left '*' '/' '%' FDIV
 %right '^'
-%left LNOT,BNOT 
+%left LNOT BNOT 
 %right INCREMENT DECREMENT
-
 
 %%
 
 expression_list
 	: expression SEMICOLON				{ STNode::mg_root= $$ = new ExpressionList($1);}
 	| expression_list  expression SEMICOLON { STNode::mg_root= $$ = new ExpressionList($1,$2);}
+	| FUNCTION IDENTIFIER '(' param_list ')' '{'  expression_list  '}'	{ STNode::mg_root= $$ = new FunctionDefinition($2, $4, $7); }
+	| FUNCTION IDENTIFIER '(' ')' '{'  expression_list  '}' { STNode::mg_root= $$ = new FunctionDefinition($2, $6); }
+	;
+
+param_list: IDENTIFIER	{
+							$$ = new ParamList($1);
+						}
+	| param_list ',' IDENTIFIER	{
+									$$ = new ParamList($1,$3);
+								}	
 	;
 
 expression : NUMBER						{ $$ = $1; }
-		|  IDENTIFIER					{ $$ = $1; }
+		|  IDENTIFIER					{	Symbol* sym = new Symbol();
+											sym->m_name = ((IDENTIFIER *)$1)->GetIdentifierText();
+											sym->isFunction = false;
+											sym->m_node = $1;
+											SymbolTable::GetInstance()->Insert(sym->m_name,
+											sym, false);
+											$$ = $1; }
 		| '(' expression ')'			{ $$ = $2; }
-		|  IDENTIFIER '(' ')'			{ $$ = new FunctionCall($1, nullptr); }
-		|  IDENTIFIER '(' args ')'			{ $$ = new FunctionCall($1, $3); }
+		|  IDENTIFIER '(' ')'			{ // Look if the function is built-in
+												if (SymbolTable::GetInstance()->Lookup(
+												((IDENTIFIER*)$1)->GetIdentifierText(), true) == nullptr) {
+													// if not, create a user-defined function call
+													$$ = new UserDefinedFunctionCall($1, nullptr); }
+													else {
+														
+
+												// else create a normal function call
+												$$ = new BuiltInFunctionCall($1, nullptr); }
+										}
+		|  IDENTIFIER '(' args ')'			{   // Look if the function is built-in
+												if (SymbolTable::GetInstance()->Lookup(
+												((IDENTIFIER*)$1)->GetIdentifierText(), true) == nullptr) {
+													// if not, create a user-defined function call
+													$$ = new UserDefinedFunctionCall($1, $3); }
+													else {
+														
+
+												// else create a normal function call
+												$$ = new BuiltInFunctionCall($1, $3); }
+											}
 		|  expression '+' expression		{ $$ = new Addition($1,$3);}
 		|  expression '-' expression		{ $$ = new Subtraction($1,$3);}
 		|  expression '*' expression		{ $$ = new Multiplication($1,$3);}

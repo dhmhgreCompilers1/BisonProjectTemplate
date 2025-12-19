@@ -1,4 +1,7 @@
-a=1;
-b=2;
-c=a+b;
-b+15;
+function foo ( a,b) {
+	f=1;
+}
+
+a=2;
+b=3;
+c=pow(2,3);

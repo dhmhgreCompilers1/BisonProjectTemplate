@@ -54,7 +54,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
-    <Import Project="..\..\..\..\..\..\..\..\..\FlexBison\custom_build_rules\win_flex_bison_custom_build.props" />
+    <Import Project="C:\flexbison\custom_build_rules\win_flex_bison\win_flex_bison_custom_build.props" />
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
@@ -139,6 +139,8 @@
     <ClCompile Include="grammar.flex.cpp" />
     <ClCompile Include="grammar.tab.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Scope.cpp" />
+    <ClCompile Include="ScopeSystem.cpp" />
     <ClCompile Include="STNode.cpp" />
     <ClCompile Include="STNode.h" />
     <ClCompile Include="SymbolTable.cpp" />
@@ -147,6 +149,8 @@
     <ClInclude Include="ConcreteNode.h" />
     <ClInclude Include="grammar.flex.h" />
     <ClInclude Include="grammar.tab.h" />
+    <ClInclude Include="Scope.h" />
+    <ClInclude Include="ScopeSystem.h" />
     <ClInclude Include="stack.hh" />
     <ClInclude Include="SymbolTable.h" />
   </ItemGroup>
@@ -162,6 +166,6 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\..\..\..\..\..\..\..\..\FlexBison\custom_build_rules\win_flex_bison_custom_build.targets" />
+    <Import Project="C:\flexbison\custom_build_rules\win_flex_bison\win_flex_bison_custom_build.targets" />
   </ImportGroup>
 </Project>

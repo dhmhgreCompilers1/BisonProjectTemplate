@@ -1,53 +1,29 @@
 #include "SymbolTable.h"
 
-SymbolTable* SymbolTable::m_instance = nullptr;
 SymbolTable::SymbolTable() {
-	m_vtable = new map<string, Symbol*>();
-	m_ftable = new map<string, Symbol*>();
-	// Create records for built-in functions if any
-
-	// Initialize built-in function: pow(double, double) -> double
-	Symbol* powSymbol = new Symbol();
-	powSymbol->m_name = "pow";
-	powSymbol->isFunction = true;
-	(*m_ftable)[powSymbol->m_name] = powSymbol;
+	m_table = new map<string, Symbol*>();
+	// Create records for built-in functions if any	
 }
 
 SymbolTable::~SymbolTable() {
-	delete m_vtable;
-	delete m_ftable;
+	delete m_table;
 }
 
-Symbol* SymbolTable::Insert(string name, Symbol* node, bool isFunction) {
-	if (isFunction) {
-		(*m_ftable)[name] = node;
-	}
-	else {
-		(*m_vtable)[name] = node;
+Symbol* SymbolTable::Insert(string name, Symbol* node) {
+	if (!Lookup(name)) {
+		(*m_table)[name] = node;	
+	} else {
+		// symbol not found when trying to insert/update
+		throw std::runtime_error("Symbol already exists: " + name);
 	}
 	return node;
 }
 
-Symbol* SymbolTable::Lookup(string name, bool findFunction) {
-
-	if (findFunction) {
-		map<string, Symbol*>::iterator it = m_ftable->find(name);
-		if (it != m_ftable->end()) {
-			return it->second;
-		}
-		return nullptr;
-	}else {	
-		map<string, Symbol*>::iterator it = m_vtable->find(name);
-		if (it != m_vtable->end()) {
-			return it->second;
-		}
-		return nullptr;
-	}
+Symbol* SymbolTable::Lookup(string name) {	
+	map<string, Symbol*>::iterator it = m_table->find(name);
+	if (it != m_table->end()) {
+		return it->second;
+	}			
+	return nullptr;
 }
 
-SymbolTable* SymbolTable::GetInstance() {
-	if (m_instance == nullptr) {
-		m_instance = new SymbolTable();
-	}
-	return m_instance;
-}

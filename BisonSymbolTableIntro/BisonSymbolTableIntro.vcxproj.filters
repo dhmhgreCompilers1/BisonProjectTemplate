@@ -19,6 +19,12 @@
     <Filter Include="Source Files\SyntaxTree">
       <UniqueIdentifier>{ca3e6cad-1d0f-454f-aa16-bc54af4aa65f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ScopeSystem">
+      <UniqueIdentifier>{bffcba81-5bd0-4353-bbaa-cd326f4e8d9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ScopeSystem">
+      <UniqueIdentifier>{5147b390-b2f9-45a4-81f7-f2242f514306}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Flex Include="grammar.l">
@@ -49,11 +55,17 @@
     <ClCompile Include="ConcreteNode.cpp">
       <Filter>Source Files\SyntaxTree</Filter>
     </ClCompile>
-    <ClCompile Include="SymbolTable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Evaluate.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SymbolTable.cpp">
+      <Filter>Source Files\ScopeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="ScopeSystem.cpp">
+      <Filter>Source Files\ScopeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Scope.cpp">
+      <Filter>Source Files\ScopeSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -69,8 +81,14 @@
     <ClInclude Include="ConcreteNode.h">
       <Filter>Header Files\SyntaxTree</Filter>
     </ClInclude>
+    <ClInclude Include="Scope.h">
+      <Filter>Header Files\ScopeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="ScopeSystem.h">
+      <Filter>Header Files\ScopeSystem</Filter>
+    </ClInclude>
     <ClInclude Include="SymbolTable.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\ScopeSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

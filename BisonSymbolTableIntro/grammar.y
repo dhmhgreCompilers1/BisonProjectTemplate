@@ -11,7 +11,7 @@ void yyerror(const char *s);
 
 %code requires{ 
 #include "STNode.h"
-#include "SymbolTable.h"
+#include "ScopeSystem.h"
 }
 
 %union {
@@ -45,8 +45,32 @@ void yyerror(const char *s);
 expression_list
 	: expression SEMICOLON				{ STNode::mg_root= $$ = new ExpressionList($1);}
 	| expression_list  expression SEMICOLON { STNode::mg_root= $$ = new ExpressionList($1,$2);}
-	| FUNCTION IDENTIFIER '(' param_list ')' '{'  expression_list  '}'	{ STNode::mg_root= $$ = new FunctionDefinition($2, $4, $7); }
-	| FUNCTION IDENTIFIER '(' ')' '{'  expression_list  '}' { STNode::mg_root= $$ = new FunctionDefinition($2, $6); }
+	| FUNCTION IDENTIFIER '(' param_list ')' '{'  expression_list  '}'	{ STNode::mg_root= $$ = new FunctionDefinition($2, $4, $7);
+																		  if ( CScopeSystem::GetInstance()->Lookup(((IDENTIFIER *)$2)->GetIdentifierText(),
+																		  Symbol::SYMBOLTYPE::ST_FUNCTION)) {
+																			  fprintf(stderr, "Error: Redefinition of function %s\n", ((IDENTIFIER *)$2)->GetIdentifierText().c_str());
+																			  exit(1);
+																		  }
+																		  Symbol *newSym = new Symbol();
+																		  newSym->m_name = ((IDENTIFIER *)$2)->GetIdentifierText();
+																		  newSym->m_symbolType = Symbol::SYMBOLTYPE::ST_FUNCTION;
+																		  newSym->m_node = $$;
+																		  CScopeSystem::GetInstance()->Insert(((IDENTIFIER *)$2)->GetIdentifierText(),
+																		  newSym);
+																		}
+	| FUNCTION IDENTIFIER '(' ')' '{'  expression_list  '}' { STNode::mg_root= $$ = new FunctionDefinition($2, $6);
+																if ( CScopeSystem::GetInstance()->Lookup(((IDENTIFIER *)$2)->GetIdentifierText(),
+																											Symbol::SYMBOLTYPE::ST_FUNCTION)) {
+																	 fprintf(stderr, "Error: Redefinition of function %s\n", ((IDENTIFIER *)$2)->GetIdentifierText().c_str());
+																	 exit(1);
+																}
+																Symbol *newSym = new Symbol();
+																newSym->m_name = ((IDENTIFIER *)$2)->GetIdentifierText();
+																newSym->m_symbolType = Symbol::SYMBOLTYPE::ST_FUNCTION;
+																newSym->m_node = $$;
+															  CScopeSystem::GetInstance()->Insert(((IDENTIFIER *)$2)->GetIdentifierText(),
+															  newSym);
+															}
 	;
 
 param_list: IDENTIFIER	{
@@ -60,15 +84,14 @@ param_list: IDENTIFIER	{
 expression : NUMBER						{ $$ = $1; }
 		|  IDENTIFIER					{	Symbol* sym = new Symbol();
 											sym->m_name = ((IDENTIFIER *)$1)->GetIdentifierText();
-											sym->isFunction = false;
+											sym->m_symbolType = Symbol::SYMBOLTYPE::ST_VARIABLE;
 											sym->m_node = $1;
-											SymbolTable::GetInstance()->Insert(sym->m_name,
-											sym, false);
+											CScopeSystem::GetInstance()->Insert(sym->m_name,sym);
 											$$ = $1; }
 		| '(' expression ')'			{ $$ = $2; }
 		|  IDENTIFIER '(' ')'			{ // Look if the function is built-in
-												if (SymbolTable::GetInstance()->Lookup(
-												((IDENTIFIER*)$1)->GetIdentifierText(), true) == nullptr) {
+												if (CScopeSystem::GetInstance()->
+												Lookup(((IDENTIFIER*)$1)->GetIdentifierText(), Symbol::SYMBOLTYPE::ST_FUNCTION) == nullptr) {
 													// if not, create a user-defined function call
 													$$ = new UserDefinedFunctionCall($1, nullptr); }
 													else {
@@ -78,8 +101,8 @@ expression : NUMBER						{ $$ = $1; }
 												$$ = new BuiltInFunctionCall($1, nullptr); }
 										}
 		|  IDENTIFIER '(' args ')'			{   // Look if the function is built-in
-												if (SymbolTable::GetInstance()->Lookup(
-												((IDENTIFIER*)$1)->GetIdentifierText(), true) == nullptr) {
+												if (CScopeSystem::GetInstance()->Lookup(
+												((IDENTIFIER*)$1)->GetIdentifierText(), Symbol::SYMBOLTYPE::ST_FUNCTION) == nullptr) {
 													// if not, create a user-defined function call
 													$$ = new UserDefinedFunctionCall($1, $3); }
 													else {

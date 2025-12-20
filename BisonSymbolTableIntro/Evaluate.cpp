@@ -1,7 +1,7 @@
 #include <math.h>
 
 #include "ConcreteNode.h"
-#include "SymbolTable.h"
+#include "ScopeSystem.h"
 
 int STNode::Evaluate() {
 	std::list<STNode*>::iterator it;
@@ -59,7 +59,7 @@ int Assignment::Evaluate() {
 	std::list<STNode*>::iterator it;
 	int result;
 	// 1. Get identifier from symbol table
-	SymbolTable* symtab = SymbolTable::GetInstance();
+	CScopeSystem* scopeSystem = CScopeSystem::GetInstance();
 
 	// 2. Get identifier node
 	it = m_children->begin();

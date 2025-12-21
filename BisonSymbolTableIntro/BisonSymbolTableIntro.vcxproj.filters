@@ -95,7 +95,12 @@
     <Text Include="test.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="output.dot" />
     <None Include="grammar.output" />
+    <None Include="output1.dot" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="output1.gif">
+      <Filter>Grammar Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

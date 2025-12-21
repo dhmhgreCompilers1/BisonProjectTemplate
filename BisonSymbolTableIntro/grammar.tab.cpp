@@ -39,6 +39,7 @@
 // First part of user prologue.
 #line 3 "grammar.y"
 
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include "ConcreteNode.h"
@@ -46,7 +47,7 @@
 extern int yylex(yy::parser::semantic_type *yylval);
 void yyerror(const char *s);
 
-#line 50 "grammar.tab.cpp"
+#line 51 "grammar.tab.cpp"
 
 
 #include "grammar.tab.h"
@@ -124,7 +125,7 @@ void yyerror(const char *s);
 #define YYRECOVERING()  (!!yyerrstatus_)
 
 namespace yy {
-#line 128 "grammar.tab.cpp"
+#line 129 "grammar.tab.cpp"
 
   /// Build a parser object.
   parser::parser ()
@@ -578,19 +579,19 @@ namespace yy {
           switch (yyn)
             {
   case 2: // expression_list: expression SEMICOLON
-#line 46 "grammar.y"
+#line 47 "grammar.y"
                                                         { STNode::mg_root= (yylhs.value.node) = new ExpressionList((yystack_[1].value.node));}
-#line 584 "grammar.tab.cpp"
+#line 585 "grammar.tab.cpp"
     break;
 
   case 3: // expression_list: expression_list expression SEMICOLON
-#line 47 "grammar.y"
+#line 48 "grammar.y"
                                                 { STNode::mg_root= (yylhs.value.node) = new ExpressionList((yystack_[2].value.node),(yystack_[1].value.node));}
-#line 590 "grammar.tab.cpp"
+#line 591 "grammar.tab.cpp"
     break;
 
   case 4: // expression_list: FUNCTION IDENTIFIER '(' param_list ')' '{' expression_list '}'
-#line 48 "grammar.y"
+#line 49 "grammar.y"
                                                                                 { STNode::mg_root= (yylhs.value.node) = new FunctionDefinition((yystack_[6].value.node), (yystack_[4].value.node), (yystack_[1].value.node));
 																		  if ( CScopeSystem::GetInstance()->Lookup(((IDENTIFIER *)(yystack_[6].value.node))->GetIdentifierText(),
 																		  Symbol::SYMBOLTYPE::ST_FUNCTION)) {
@@ -603,26 +604,26 @@ namespace yy {
 																		  CScopeSystem::GetInstance()->Insert(((IDENTIFIER *)(yystack_[6].value.node))->GetIdentifierText(),
 																		  newSym);
 																		}
-#line 607 "grammar.tab.cpp"
+#line 608 "grammar.tab.cpp"
     break;
 
   case 5: // $@1: %empty
-#line 60 "grammar.y"
+#line 61 "grammar.y"
                               { CScopeSystem::GetInstance()->EnterScope(((IDENTIFIER *)(yystack_[0].value.node))->GetIdentifierText());
 				      		}
-#line 614 "grammar.tab.cpp"
+#line 615 "grammar.tab.cpp"
     break;
 
   case 6: // $@2: %empty
-#line 62 "grammar.y"
+#line 63 "grammar.y"
                                          { 
 						CScopeSystem::GetInstance()->ExitScope();
 						}
-#line 622 "grammar.tab.cpp"
+#line 623 "grammar.tab.cpp"
     break;
 
   case 7: // expression_list: FUNCTION IDENTIFIER $@1 '(' ')' '{' expression_list $@2 '}'
-#line 65 "grammar.y"
+#line 66 "grammar.y"
             { STNode::mg_root= (yylhs.value.node) = new FunctionDefinition((yystack_[7].value.node), (yystack_[2].value.node));
 			if ( CScopeSystem::GetInstance()->Lookup(((IDENTIFIER *)(yystack_[7].value.node))->GetIdentifierText(),
 														Symbol::SYMBOLTYPE::ST_FUNCTION)) {
@@ -635,11 +636,11 @@ namespace yy {
 			CScopeSystem::GetInstance()->Insert(((IDENTIFIER *)(yystack_[7].value.node))->GetIdentifierText(),
 			newSym);
 		}
-#line 639 "grammar.tab.cpp"
+#line 640 "grammar.tab.cpp"
     break;
 
   case 8: // param_list: IDENTIFIER
-#line 79 "grammar.y"
+#line 80 "grammar.y"
                         {
 							(yylhs.value.node) = new ParamList((yystack_[0].value.node));
 							if ( CScopeSystem::GetInstance()->Lookup(((IDENTIFIER *)(yystack_[0].value.node))->GetIdentifierText(),
@@ -651,11 +652,11 @@ namespace yy {
 									((IDENTIFIER *)(yystack_[0].value.node))->GetIdentifierText());
 							CScopeSystem::GetInstance()->Insert(((IDENTIFIER *)(yystack_[0].value.node))->GetIdentifierText(),newSym);
 						}
-#line 655 "grammar.tab.cpp"
+#line 656 "grammar.tab.cpp"
     break;
 
   case 9: // param_list: param_list ',' IDENTIFIER
-#line 91 "grammar.y"
+#line 92 "grammar.y"
                                                         {
 									(yylhs.value.node) = new ParamList((yystack_[2].value.node),(yystack_[0].value.node));
 									if ( CScopeSystem::GetInstance()->Lookup(((IDENTIFIER *)(yystack_[0].value.node))->GetIdentifierText(),
@@ -667,17 +668,17 @@ namespace yy {
 										((IDENTIFIER *)(yystack_[0].value.node))->GetIdentifierText());
 									CScopeSystem::GetInstance()->Insert(((IDENTIFIER *)(yystack_[0].value.node))->GetIdentifierText(),newSym);
 								}
-#line 671 "grammar.tab.cpp"
+#line 672 "grammar.tab.cpp"
     break;
 
   case 10: // expression: NUMBER
-#line 104 "grammar.y"
+#line 105 "grammar.y"
                                                                 { (yylhs.value.node) = (yystack_[0].value.node); }
-#line 677 "grammar.tab.cpp"
+#line 678 "grammar.tab.cpp"
     break;
 
   case 11: // expression: IDENTIFIER
-#line 105 "grammar.y"
+#line 106 "grammar.y"
                                                                 { Symbol *sym = CScopeSystem::GetInstance()->Lookup(
 											((IDENTIFIER*)(yystack_[0].value.node))->GetIdentifierText(),
 											Symbol::SYMBOLTYPE::ST_VARIABLE);
@@ -688,223 +689,238 @@ namespace yy {
 											}		
 											(yylhs.value.node) = sym->m_node; 
 										}
-#line 692 "grammar.tab.cpp"
+#line 693 "grammar.tab.cpp"
     break;
 
   case 12: // expression: '(' expression ')'
-#line 115 "grammar.y"
+#line 116 "grammar.y"
                                                         { (yylhs.value.node) = (yystack_[1].value.node); }
-#line 698 "grammar.tab.cpp"
+#line 699 "grammar.tab.cpp"
     break;
 
   case 13: // expression: IDENTIFIER '(' ')'
-#line 116 "grammar.y"
+#line 117 "grammar.y"
                                                         { // Look if the function is built-in
-										  Symbol *sym = CScopeSystem::GetInstance()->Lookup(
-										  ((IDENTIFIER*)(yystack_[2].value.node))->GetIdentifierText(),
-										  Symbol::SYMBOLTYPE::ST_FUNCTION);		
+										  FunctionSymbol *sym = (FunctionSymbol *)(
+										  CScopeSystem::GetInstance()->Lookup(((IDENTIFIER*)(yystack_[2].value.node))->GetIdentifierText(),
+										  Symbol::SYMBOLTYPE::ST_FUNCTION));		
 										  if ( sym == nullptr){
 										     // undefined function
 											 fprintf(stderr, "Error: Undefined function %s\n",
 											 ((IDENTIFIER*)(yystack_[2].value.node))->GetIdentifierText().c_str());
 										  }
-
+										  if (	sym->GetFunctionType() ==
+												FunctionSymbol::FT_USERDEFINEDFUNCTION ){
+											(yylhs.value.node) = new UserDefinedFunctionCall((yystack_[2].value.node),nullptr);
+										  }
+										  else if ( sym->GetFunctionType() ==
+													FunctionSymbol::FT_BUILTINFUNCTION ){
+											(yylhs.value.node) = new BuiltInFunctionCall((yystack_[2].value.node),nullptr);
+										  }
 										}
-#line 714 "grammar.tab.cpp"
+#line 722 "grammar.tab.cpp"
     break;
 
   case 14: // expression: IDENTIFIER '(' args ')'
-#line 127 "grammar.y"
-                                                                {   // Look if the function is built-in
-												if (CScopeSystem::GetInstance()->Lookup(
-												((IDENTIFIER*)(yystack_[3].value.node))->GetIdentifierText(), Symbol::SYMBOLTYPE::ST_FUNCTION) == nullptr) {
-													// if not, create a user-defined function call
-													(yylhs.value.node) = new UserDefinedFunctionCall((yystack_[3].value.node), (yystack_[1].value.node)); }
-													else {
-														
-
-												// else create a normal function call
-												(yylhs.value.node) = new BuiltInFunctionCall((yystack_[3].value.node), (yystack_[1].value.node)); }
+#line 135 "grammar.y"
+                                                                {   
+												  // Look if the function is built-in
+												  FunctionSymbol *sym = (FunctionSymbol *)(
+												  CScopeSystem::GetInstance()->Lookup(((IDENTIFIER*)(yystack_[3].value.node))->GetIdentifierText(),
+												  Symbol::SYMBOLTYPE::ST_FUNCTION));		
+												  if ( sym == nullptr){
+													 // undefined function
+													 fprintf(stderr, "Error: Undefined function %s\n",
+													 ((IDENTIFIER*)(yystack_[3].value.node))->GetIdentifierText().c_str());
+												  }
+												  if (	sym->GetFunctionType() ==
+														FunctionSymbol::FT_USERDEFINEDFUNCTION ){
+													(yylhs.value.node) = new UserDefinedFunctionCall((yystack_[3].value.node),(yystack_[1].value.node));
+												  }
+												  else if ( sym->GetFunctionType() ==
+															FunctionSymbol::FT_BUILTINFUNCTION ){
+													(yylhs.value.node) = new BuiltInFunctionCall((yystack_[3].value.node),(yystack_[1].value.node));
+												  }
 											}
-#line 730 "grammar.tab.cpp"
+#line 746 "grammar.tab.cpp"
     break;
 
   case 15: // expression: expression '+' expression
-#line 138 "grammar.y"
+#line 154 "grammar.y"
                                                         { (yylhs.value.node) = new Addition((yystack_[2].value.node),(yystack_[0].value.node));}
-#line 736 "grammar.tab.cpp"
+#line 752 "grammar.tab.cpp"
     break;
 
   case 16: // expression: expression '-' expression
-#line 139 "grammar.y"
+#line 155 "grammar.y"
                                                         { (yylhs.value.node) = new Subtraction((yystack_[2].value.node),(yystack_[0].value.node));}
-#line 742 "grammar.tab.cpp"
+#line 758 "grammar.tab.cpp"
     break;
 
   case 17: // expression: expression '*' expression
-#line 140 "grammar.y"
+#line 156 "grammar.y"
                                                         { (yylhs.value.node) = new Multiplication((yystack_[2].value.node),(yystack_[0].value.node));}
-#line 748 "grammar.tab.cpp"
+#line 764 "grammar.tab.cpp"
     break;
 
   case 18: // expression: expression '/' expression
-#line 141 "grammar.y"
+#line 157 "grammar.y"
                                                         { (yylhs.value.node) = new Division((yystack_[2].value.node),(yystack_[0].value.node));}
-#line 754 "grammar.tab.cpp"
+#line 770 "grammar.tab.cpp"
     break;
 
   case 19: // expression: expression '%' expression
-#line 142 "grammar.y"
+#line 158 "grammar.y"
                                                         { (yylhs.value.node) = new Modulo((yystack_[2].value.node),(yystack_[0].value.node));}
-#line 760 "grammar.tab.cpp"
+#line 776 "grammar.tab.cpp"
     break;
 
   case 20: // expression: '-' expression
-#line 143 "grammar.y"
+#line 159 "grammar.y"
                                                                         { (yylhs.value.node) = new UnaryMinus((yystack_[0].value.node));}
-#line 766 "grammar.tab.cpp"
+#line 782 "grammar.tab.cpp"
     break;
 
   case 21: // expression: '+' expression
-#line 144 "grammar.y"
+#line 160 "grammar.y"
                                                                         { (yylhs.value.node) = new UnaryMinus((yystack_[0].value.node));}
-#line 772 "grammar.tab.cpp"
+#line 788 "grammar.tab.cpp"
     break;
 
   case 22: // expression: expression FDIV expression
-#line 145 "grammar.y"
+#line 161 "grammar.y"
                                                         { (yylhs.value.node) = new FloorDivision((yystack_[2].value.node),(yystack_[0].value.node));}
-#line 778 "grammar.tab.cpp"
+#line 794 "grammar.tab.cpp"
     break;
 
   case 23: // expression: expression INCREMENT
-#line 146 "grammar.y"
+#line 162 "grammar.y"
                                                                 { (yylhs.value.node) = new Increment((yystack_[1].value.node));}
-#line 784 "grammar.tab.cpp"
+#line 800 "grammar.tab.cpp"
     break;
 
   case 24: // expression: expression DECREMENT
-#line 147 "grammar.y"
+#line 163 "grammar.y"
                                                                 { (yylhs.value.node) = new Decrement((yystack_[1].value.node));}
-#line 790 "grammar.tab.cpp"
+#line 806 "grammar.tab.cpp"
     break;
 
   case 25: // expression: expression '^' expression
-#line 148 "grammar.y"
+#line 164 "grammar.y"
                                                         { (yylhs.value.node) = new Exponentiation((yystack_[2].value.node),(yystack_[0].value.node));}
-#line 796 "grammar.tab.cpp"
+#line 812 "grammar.tab.cpp"
     break;
 
   case 26: // expression: expression LAND expression
-#line 149 "grammar.y"
+#line 165 "grammar.y"
                                                         { (yylhs.value.node) = new LogicalAnd((yystack_[2].value.node),(yystack_[0].value.node));}
-#line 802 "grammar.tab.cpp"
+#line 818 "grammar.tab.cpp"
     break;
 
   case 27: // expression: expression LOR expression
-#line 150 "grammar.y"
+#line 166 "grammar.y"
                                                         { (yylhs.value.node) = new LogicalOr((yystack_[2].value.node),(yystack_[0].value.node));}
-#line 808 "grammar.tab.cpp"
+#line 824 "grammar.tab.cpp"
     break;
 
   case 28: // expression: LNOT expression
-#line 151 "grammar.y"
+#line 167 "grammar.y"
                                                                         { (yylhs.value.node) = new LogicalNot((yystack_[0].value.node));}
-#line 814 "grammar.tab.cpp"
+#line 830 "grammar.tab.cpp"
     break;
 
   case 29: // expression: expression EQ expression
-#line 152 "grammar.y"
+#line 168 "grammar.y"
                                                                 { (yylhs.value.node) = new Equal((yystack_[2].value.node),(yystack_[0].value.node));}
-#line 820 "grammar.tab.cpp"
+#line 836 "grammar.tab.cpp"
     break;
 
   case 30: // expression: expression NEQ expression
-#line 153 "grammar.y"
+#line 169 "grammar.y"
                                                         { (yylhs.value.node) = new NotEqual((yystack_[2].value.node),(yystack_[0].value.node));}
-#line 826 "grammar.tab.cpp"
+#line 842 "grammar.tab.cpp"
     break;
 
   case 31: // expression: expression LT expression
-#line 154 "grammar.y"
+#line 170 "grammar.y"
                                                                 { (yylhs.value.node) = new LessThan((yystack_[2].value.node),(yystack_[0].value.node));}
-#line 832 "grammar.tab.cpp"
+#line 848 "grammar.tab.cpp"
     break;
 
   case 32: // expression: expression LTE expression
-#line 155 "grammar.y"
+#line 171 "grammar.y"
                                                         { (yylhs.value.node) = new LessThanOrEqual((yystack_[2].value.node),(yystack_[0].value.node));}
-#line 838 "grammar.tab.cpp"
+#line 854 "grammar.tab.cpp"
     break;
 
   case 33: // expression: expression GT expression
-#line 156 "grammar.y"
+#line 172 "grammar.y"
                                                                 { (yylhs.value.node) = new GreaterThan((yystack_[2].value.node),(yystack_[0].value.node));}
-#line 844 "grammar.tab.cpp"
+#line 860 "grammar.tab.cpp"
     break;
 
   case 34: // expression: expression GTE expression
-#line 157 "grammar.y"
+#line 173 "grammar.y"
                                                         { (yylhs.value.node) = new GreaterThanOrEqual((yystack_[2].value.node),(yystack_[0].value.node));}
-#line 850 "grammar.tab.cpp"
+#line 866 "grammar.tab.cpp"
     break;
 
   case 35: // expression: expression BITAND expression
-#line 158 "grammar.y"
+#line 174 "grammar.y"
                                                         { (yylhs.value.node) = new BITWISEAND((yystack_[2].value.node),(yystack_[0].value.node));}
-#line 856 "grammar.tab.cpp"
+#line 872 "grammar.tab.cpp"
     break;
 
   case 36: // expression: expression BITOR expression
-#line 159 "grammar.y"
+#line 175 "grammar.y"
                                                         { (yylhs.value.node) = new BITWISEOR((yystack_[2].value.node),(yystack_[0].value.node));}
-#line 862 "grammar.tab.cpp"
+#line 878 "grammar.tab.cpp"
     break;
 
   case 37: // expression: expression BITXOR expression
-#line 160 "grammar.y"
+#line 176 "grammar.y"
                                                         { (yylhs.value.node) = new BITWISEXOR((yystack_[2].value.node),(yystack_[0].value.node));}
-#line 868 "grammar.tab.cpp"
+#line 884 "grammar.tab.cpp"
     break;
 
   case 38: // expression: expression LSHIFT expression
-#line 161 "grammar.y"
+#line 177 "grammar.y"
                                                         { (yylhs.value.node) = new LSHIFT((yystack_[2].value.node),(yystack_[0].value.node));}
-#line 874 "grammar.tab.cpp"
+#line 890 "grammar.tab.cpp"
     break;
 
   case 39: // expression: expression RSHIFT expression
-#line 162 "grammar.y"
+#line 178 "grammar.y"
                                                         { (yylhs.value.node) = new RSHIFT((yystack_[2].value.node),(yystack_[0].value.node));}
-#line 880 "grammar.tab.cpp"
+#line 896 "grammar.tab.cpp"
     break;
 
   case 40: // expression: BNOT expression
-#line 163 "grammar.y"
+#line 179 "grammar.y"
                                                                         { (yylhs.value.node) = new BITWISENOT((yystack_[0].value.node));}
-#line 886 "grammar.tab.cpp"
+#line 902 "grammar.tab.cpp"
     break;
 
   case 41: // expression: IDENTIFIER '=' expression
-#line 164 "grammar.y"
+#line 180 "grammar.y"
                                                         { (yylhs.value.node) = new Assignment((yystack_[2].value.node),(yystack_[0].value.node));}
-#line 892 "grammar.tab.cpp"
+#line 908 "grammar.tab.cpp"
     break;
 
   case 42: // args: expression
-#line 167 "grammar.y"
+#line 183 "grammar.y"
                                                                 { (yylhs.value.node) = new ArgumentList((yystack_[0].value.node)); }
-#line 898 "grammar.tab.cpp"
+#line 914 "grammar.tab.cpp"
     break;
 
   case 43: // args: args ',' expression
-#line 168 "grammar.y"
+#line 184 "grammar.y"
                                                         { (yylhs.value.node) = new ArgumentList((yystack_[2].value.node),(yystack_[0].value.node)); }
-#line 904 "grammar.tab.cpp"
+#line 920 "grammar.tab.cpp"
     break;
 
 
-#line 908 "grammar.tab.cpp"
+#line 924 "grammar.tab.cpp"
 
             default:
               break;
@@ -1433,11 +1449,11 @@ namespace yy {
   const unsigned char
   parser::yyrline_[] =
   {
-       0,    46,    46,    47,    48,    60,    62,    60,    79,    91,
-     104,   105,   115,   116,   127,   138,   139,   140,   141,   142,
-     143,   144,   145,   146,   147,   148,   149,   150,   151,   152,
-     153,   154,   155,   156,   157,   158,   159,   160,   161,   162,
-     163,   164,   167,   168
+       0,    47,    47,    48,    49,    61,    63,    61,    80,    92,
+     105,   106,   116,   117,   135,   154,   155,   156,   157,   158,
+     159,   160,   161,   162,   163,   164,   165,   166,   167,   168,
+     169,   170,   171,   172,   173,   174,   175,   176,   177,   178,
+     179,   180,   183,   184
   };
 
   void
@@ -1517,9 +1533,9 @@ namespace yy {
   }
 
 } // yy
-#line 1521 "grammar.tab.cpp"
+#line 1537 "grammar.tab.cpp"
 
-#line 171 "grammar.y"
+#line 187 "grammar.y"
 
 
 void yy::parser::error(const std::string& msg) {

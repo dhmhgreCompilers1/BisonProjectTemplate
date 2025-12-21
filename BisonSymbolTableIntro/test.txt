@@ -5,3 +5,4 @@ function foo ( a,b) {
 a=2;
 b=3;
 c=pow(2,3);
+f=foo(1,3);

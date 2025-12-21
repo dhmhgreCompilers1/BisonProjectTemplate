@@ -1,6 +1,7 @@
 %language "C++"
 
 %{
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include "ConcreteNode.h"
@@ -114,26 +115,41 @@ expression : NUMBER						{ $$ = $1; }
 										}
 		| '(' expression ')'			{ $$ = $2; }
 		|  IDENTIFIER '(' ')'			{ // Look if the function is built-in
-										  Symbol *sym = CScopeSystem::GetInstance()->Lookup(
-										  ((IDENTIFIER*)$1)->GetIdentifierText(),
-										  Symbol::SYMBOLTYPE::ST_FUNCTION);		
+										  FunctionSymbol *sym = (FunctionSymbol *)(
+										  CScopeSystem::GetInstance()->Lookup(((IDENTIFIER*)$1)->GetIdentifierText(),
+										  Symbol::SYMBOLTYPE::ST_FUNCTION));		
 										  if ( sym == nullptr){
 										     // undefined function
 											 fprintf(stderr, "Error: Undefined function %s\n",
 											 ((IDENTIFIER*)$1)->GetIdentifierText().c_str());
 										  }
-
+										  if (	sym->GetFunctionType() ==
+												FunctionSymbol::FT_USERDEFINEDFUNCTION ){
+											$$ = new UserDefinedFunctionCall($1,nullptr);
+										  }
+										  else if ( sym->GetFunctionType() ==
+													FunctionSymbol::FT_BUILTINFUNCTION ){
+											$$ = new BuiltInFunctionCall($1,nullptr);
+										  }
 										}
-		|  IDENTIFIER '(' args ')'			{   // Look if the function is built-in
-												if (CScopeSystem::GetInstance()->Lookup(
-												((IDENTIFIER*)$1)->GetIdentifierText(), Symbol::SYMBOLTYPE::ST_FUNCTION) == nullptr) {
-													// if not, create a user-defined function call
-													$$ = new UserDefinedFunctionCall($1, $3); }
-													else {
-														
-
-												// else create a normal function call
-												$$ = new BuiltInFunctionCall($1, $3); }
+		|  IDENTIFIER '(' args ')'			{   
+												  // Look if the function is built-in
+												  FunctionSymbol *sym = (FunctionSymbol *)(
+												  CScopeSystem::GetInstance()->Lookup(((IDENTIFIER*)$1)->GetIdentifierText(),
+												  Symbol::SYMBOLTYPE::ST_FUNCTION));		
+												  if ( sym == nullptr){
+													 // undefined function
+													 fprintf(stderr, "Error: Undefined function %s\n",
+													 ((IDENTIFIER*)$1)->GetIdentifierText().c_str());
+												  }
+												  if (	sym->GetFunctionType() ==
+														FunctionSymbol::FT_USERDEFINEDFUNCTION ){
+													$$ = new UserDefinedFunctionCall($1,$3);
+												  }
+												  else if ( sym->GetFunctionType() ==
+															FunctionSymbol::FT_BUILTINFUNCTION ){
+													$$ = new BuiltInFunctionCall($1,$3);
+												  }
 											}
 		|  expression '+' expression		{ $$ = new Addition($1,$3);}
 		|  expression '-' expression		{ $$ = new Subtraction($1,$3);}

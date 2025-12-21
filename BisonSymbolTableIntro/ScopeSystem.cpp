@@ -9,6 +9,10 @@ CScopeSystem::CScopeSystem() {
 	CScope* globalScope = new CGlobalScope();
 	(*m_scopetable)[GLOBAL_SCOPE_NAME] = globalScope;
 	m_currentScope = globalScope;
+
+	// Initialize built-in functions
+	Insert("pow", 
+		new FunctionSymbol(nullptr, FunctionSymbol::FT_BUILTINFUNCTION, "pow"));
 }
 void CScopeSystem::EnterScope(string name) {
 	CScope* newScope = new CFunctionScope(m_currentScope);

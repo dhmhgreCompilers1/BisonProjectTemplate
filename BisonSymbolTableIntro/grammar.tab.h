@@ -45,7 +45,7 @@
 #ifndef YY_YY_GRAMMAR_TAB_H_INCLUDED
 # define YY_YY_GRAMMAR_TAB_H_INCLUDED
 // "%code requires" blocks.
-#line 12 "grammar.y"
+#line 13 "grammar.y"
  
 #include "STNode.h"
 #include "ScopeSystem.h"
@@ -203,7 +203,7 @@ namespace yy {
     /// Symbol semantic values.
     union value_type
     {
-#line 17 "grammar.y"
+#line 18 "grammar.y"
 
 	STNode *node;	
 

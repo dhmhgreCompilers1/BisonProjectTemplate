@@ -24,11 +24,12 @@ int main(int argc, char** argv) {
 
 	root = STNode::mg_root;
 
-	root->PrintTree(nullptr,nullptr);
-	
+	root->PrintTree(nullptr,nullptr);	
 
 	root->Evaluate();
-	system("dot -Tgif output.dot -o output.gif");
+	cout << "Working Directory is :" << endl;
+	system("cd");
+	system("dot -Tgif output1.dot -o output1.gif");
 	return 0;
 
 }

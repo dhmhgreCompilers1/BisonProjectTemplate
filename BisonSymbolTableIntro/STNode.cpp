@@ -44,7 +44,7 @@ void STNode::PrintTree(ofstream *outfile,STNode *parent) {
 
 	// 2. print graphviz header for root node
 	if (m_parent == nullptr) {
-		outfile = new ofstream("output.dot");
+		outfile = new ofstream("output1.dot");
 		*outfile << "digraph G {" << endl;
 	}
 

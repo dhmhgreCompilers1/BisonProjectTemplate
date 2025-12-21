@@ -317,9 +317,11 @@ namespace yy {
         S_36_ = 36,                              // ','
         S_YYACCEPT = 37,                         // $accept
         S_expression_list = 38,                  // expression_list
-        S_param_list = 39,                       // param_list
-        S_expression = 40,                       // expression
-        S_args = 41                              // args
+        S_39_1 = 39,                             // $@1
+        S_40_2 = 40,                             // $@2
+        S_param_list = 41,                       // param_list
+        S_expression = 42,                       // expression
+        S_args = 43                              // args
       };
     };
 
@@ -821,8 +823,8 @@ namespace yy {
     /// Constants.
     enum
     {
-      yylast_ = 383,     ///< Last index in yytable_.
-      yynnts_ = 5,  ///< Number of nonterminal symbols.
+      yylast_ = 354,     ///< Last index in yytable_.
+      yynnts_ = 7,  ///< Number of nonterminal symbols.
       yyfinal_ = 19 ///< Termination state number.
     };
 
@@ -832,7 +834,7 @@ namespace yy {
 
 
 } // yy
-#line 836 "grammar.tab.h"
+#line 838 "grammar.tab.h"
 
 
 

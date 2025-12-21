@@ -98,9 +98,4 @@
     <None Include="output.dot" />
     <None Include="grammar.output" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="output.gif">
-      <Filter>Grammar Files</Filter>
-    </Image>
-  </ItemGroup>
 </Project>

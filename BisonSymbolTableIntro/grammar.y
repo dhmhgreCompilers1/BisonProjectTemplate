@@ -51,54 +51,78 @@ expression_list
 																			  fprintf(stderr, "Error: Redefinition of function %s\n", ((IDENTIFIER *)$2)->GetIdentifierText().c_str());
 																			  exit(1);
 																		  }
-																		  Symbol *newSym = new Symbol();
-																		  newSym->m_name = ((IDENTIFIER *)$2)->GetIdentifierText();
-																		  newSym->m_symbolType = Symbol::SYMBOLTYPE::ST_FUNCTION;
-																		  newSym->m_node = $$;
+																		  FunctionSymbol *newSym = new FunctionSymbol($$,
+																					FunctionSymbol::FT_USERDEFINEDFUNCTION,
+																					((IDENTIFIER *)$2)->GetIdentifierText());	
 																		  CScopeSystem::GetInstance()->Insert(((IDENTIFIER *)$2)->GetIdentifierText(),
 																		  newSym);
 																		}
-	| FUNCTION IDENTIFIER '(' ')' '{'  expression_list  '}' { STNode::mg_root= $$ = new FunctionDefinition($2, $6);
-																if ( CScopeSystem::GetInstance()->Lookup(((IDENTIFIER *)$2)->GetIdentifierText(),
-																											Symbol::SYMBOLTYPE::ST_FUNCTION)) {
-																	 fprintf(stderr, "Error: Redefinition of function %s\n", ((IDENTIFIER *)$2)->GetIdentifierText().c_str());
-																	 exit(1);
-																}
-																Symbol *newSym = new Symbol();
-																newSym->m_name = ((IDENTIFIER *)$2)->GetIdentifierText();
-																newSym->m_symbolType = Symbol::SYMBOLTYPE::ST_FUNCTION;
-																newSym->m_node = $$;
-															  CScopeSystem::GetInstance()->Insert(((IDENTIFIER *)$2)->GetIdentifierText(),
-															  newSym);
-															}
+	| FUNCTION IDENTIFIER { CScopeSystem::GetInstance()->EnterScope(((IDENTIFIER *)$2)->GetIdentifierText());
+				      		}
+	     '(' ')' '{' expression_list { 
+						CScopeSystem::GetInstance()->ExitScope();
+						}					
+	'}' { STNode::mg_root= $$ = new FunctionDefinition($2, $7);
+			if ( CScopeSystem::GetInstance()->Lookup(((IDENTIFIER *)$2)->GetIdentifierText(),
+														Symbol::SYMBOLTYPE::ST_FUNCTION)) {
+					fprintf(stderr, "Error: Redefinition of function %s\n", ((IDENTIFIER *)$2)->GetIdentifierText().c_str());
+					exit(1);
+			}
+			FunctionSymbol *newSym = new FunctionSymbol($$,
+			FunctionSymbol::FT_USERDEFINEDFUNCTION,
+			((IDENTIFIER *)$2)->GetIdentifierText());			
+			CScopeSystem::GetInstance()->Insert(((IDENTIFIER *)$2)->GetIdentifierText(),
+			newSym);
+		}
 	;
 
 param_list: IDENTIFIER	{
 							$$ = new ParamList($1);
+							if ( CScopeSystem::GetInstance()->Lookup(((IDENTIFIER *)$1)->GetIdentifierText(),
+														Symbol::SYMBOLTYPE::ST_VARIABLE)) {
+								fprintf(stderr, "Error: Redefinition of function %s\n", ((IDENTIFIER *)$1)->GetIdentifierText().c_str());
+								exit(1);
+							}
+							VariableSymbol *newSym = new VariableSymbol($1,
+									((IDENTIFIER *)$1)->GetIdentifierText());
+							CScopeSystem::GetInstance()->Insert(((IDENTIFIER *)$1)->GetIdentifierText(),newSym);
 						}
-	| param_list ',' IDENTIFIER	{
+						
+			| param_list ',' IDENTIFIER	{
 									$$ = new ParamList($1,$3);
+									if ( CScopeSystem::GetInstance()->Lookup(((IDENTIFIER *)$3)->GetIdentifierText(),
+														Symbol::SYMBOLTYPE::ST_VARIABLE)) {
+										fprintf(stderr, "Error: Redefinition of function %s\n", ((IDENTIFIER *)$1)->GetIdentifierText().c_str());
+										exit(1);
+									}
+									VariableSymbol *newSym = new VariableSymbol($3,
+										((IDENTIFIER *)$3)->GetIdentifierText());
+									CScopeSystem::GetInstance()->Insert(((IDENTIFIER *)$3)->GetIdentifierText(),newSym);
 								}	
 	;
 
 expression : NUMBER						{ $$ = $1; }
-		|  IDENTIFIER					{	Symbol* sym = new Symbol();
-											sym->m_name = ((IDENTIFIER *)$1)->GetIdentifierText();
-											sym->m_symbolType = Symbol::SYMBOLTYPE::ST_VARIABLE;
-											sym->m_node = $1;
-											CScopeSystem::GetInstance()->Insert(sym->m_name,sym);
-											$$ = $1; }
+		|  IDENTIFIER					{ Symbol *sym = CScopeSystem::GetInstance()->Lookup(
+											((IDENTIFIER*)$1)->GetIdentifierText(),
+											Symbol::SYMBOLTYPE::ST_VARIABLE);
+											if (sym == nullptr) {
+												fprintf(stderr, "Error: Undefined variable %s\n",
+												((IDENTIFIER*)$1)->GetIdentifierText().c_str());
+												exit(1);
+											}		
+											$$ = sym->m_node; 
+										}
 		| '(' expression ')'			{ $$ = $2; }
 		|  IDENTIFIER '(' ')'			{ // Look if the function is built-in
-												if (CScopeSystem::GetInstance()->
-												Lookup(((IDENTIFIER*)$1)->GetIdentifierText(), Symbol::SYMBOLTYPE::ST_FUNCTION) == nullptr) {
-													// if not, create a user-defined function call
-													$$ = new UserDefinedFunctionCall($1, nullptr); }
-													else {
-														
+										  Symbol *sym = CScopeSystem::GetInstance()->Lookup(
+										  ((IDENTIFIER*)$1)->GetIdentifierText(),
+										  Symbol::SYMBOLTYPE::ST_FUNCTION);		
+										  if ( sym == nullptr){
+										     // undefined function
+											 fprintf(stderr, "Error: Undefined function %s\n",
+											 ((IDENTIFIER*)$1)->GetIdentifierText().c_str());
+										  }
 
-												// else create a normal function call
-												$$ = new BuiltInFunctionCall($1, nullptr); }
 										}
 		|  IDENTIFIER '(' args ')'			{   // Look if the function is built-in
 												if (CScopeSystem::GetInstance()->Lookup(

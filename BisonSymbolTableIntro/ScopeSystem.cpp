@@ -49,3 +49,9 @@ CScopeSystem* CScopeSystem::GetInstance() {
 	}
 	return m_instance;
 }
+
+// Single operator<< in terms of Print
+std::ostream& operator<<(std::ostream& os, const CScopeSystem& sys) {
+	sys.Print(os);
+	return os;
+}

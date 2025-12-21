@@ -33,4 +33,40 @@ public:
 
 	// Returns the singleton instance of CScopeSystem.
 	static CScopeSystem* GetInstance();
+
+	// Polymorphic-style hook (even though class isn't derived, this keeps style consistent)
+	void Print(std::ostream& os) const {
+		os << "CScopeSystem{";
+
+		os << "instance=" << static_cast<const void*>(m_instance) << ", ";
+
+		os << "currentScope=" << static_cast<const void*>(m_currentScope) << ", ";
+
+		if (m_scopetable == nullptr) {
+			os << "scopeTable=null";
+		}
+		else {
+			os << "scopeCount=" << m_scopetable->size();
+
+			// Print a short listing of scopes (name -> pointer)
+			os << ", scopes=[";
+			bool first = true;
+
+			for (const auto& kv : *m_scopetable) {
+				const std::string& name = kv.first;
+				CScope* scopePtr = kv.second;
+
+				if (!first) os << ", ";
+				first = false;
+				os << "{\"" << name << "\":" << static_cast<const void*>(scopePtr) << "}";
+			}
+
+			os << "]";
+
+		}
+
+		os << "}";
+	}
 };
+
+std::ostream& operator<<(std::ostream& os, const CScopeSystem& sys);

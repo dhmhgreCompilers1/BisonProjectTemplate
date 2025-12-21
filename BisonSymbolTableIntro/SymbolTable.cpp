@@ -34,3 +34,8 @@ Symbol* SymbolTable::Lookup(string name) {
 	return nullptr;
 }
 
+// Single operator<< for the whole hierarchy
+inline std::ostream& operator<<(std::ostream& os, const Symbol& s) {
+	s.Print(os);
+	return os;
+}

@@ -4,6 +4,7 @@
 
 #include "grammar.flex.h"
 #include "grammar.tab.h"
+#include "ScopeSystem.h"
 using namespace std;
 ofstream outfile("output.dot");
 
@@ -30,6 +31,9 @@ int main(int argc, char** argv) {
 	cout << "Working Directory is :" << endl;
 	system("cd");
 	system("dot -Tgif output1.dot -o output1.gif");
+
+	CScopeSystem* sys = CScopeSystem::GetInstance();
+	std::cout << (*sys) << "\n";
 	return 0;
 
 }

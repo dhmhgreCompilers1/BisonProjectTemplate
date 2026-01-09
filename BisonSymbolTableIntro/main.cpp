@@ -5,6 +5,7 @@
 #include "grammar.flex.h"
 #include "grammar.tab.h"
 #include "ScopeSystem.h"
+#include "ScopeSystemVisitor.h"
 using namespace std;
 ofstream outfile("output.dot");
 
@@ -25,7 +26,12 @@ int main(int argc, char** argv) {
 
 	root = STNode::mg_root;
 
-	root->PrintTree(nullptr,nullptr);	
+	CScopeSystemVisitor* scopeVisitor = new CScopeSystemVisitor();
+	scopeVisitor->Visit(root);
+
+	root->PrintTree(nullptr,nullptr);
+
+	
 
 	root->Evaluate();
 	cout << "Working Directory is :" << endl;
@@ -35,6 +41,11 @@ int main(int argc, char** argv) {
 	CScopeSystem* sys = CScopeSystem::GetInstance();
 	std::cout << (*sys) << "\n";
 	return 0;
+
+
+	// 1. Create Visitor class object
+
+	// 2. Call Accept on root node with visitor
 
 }
 

@@ -26,6 +26,7 @@ public:
 
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 
 private:
 	string m_number;
@@ -42,6 +43,7 @@ public:
 
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 private:
 	string m_identifier;
 	int m_value;
@@ -54,6 +56,7 @@ public:
 
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class Subtraction : public STNode {
@@ -62,6 +65,7 @@ public:
 	Subtraction(STNode* addition, STNode* number);
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class Multiplication : public STNode {
@@ -70,9 +74,8 @@ public:
 	Multiplication(STNode* addition, STNode* number);
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
-
-
 
 class Assignment : public STNode {
 public:
@@ -80,6 +83,7 @@ public:
 
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class ExpressionList : public STNode {
@@ -88,6 +92,7 @@ public:
 	ExpressionList(STNode* additionList, STNode* addition);
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 class Division : public STNode {
 public:
@@ -96,6 +101,7 @@ public:
 
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class Modulo : public STNode {
@@ -105,6 +111,7 @@ public:
 
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class Exponentiation : public STNode {
@@ -114,6 +121,7 @@ public:
 
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class UnaryMinus : public STNode {
@@ -122,6 +130,7 @@ public:
 
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class UnaryPlus : public STNode {
@@ -130,6 +139,7 @@ public:
 
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class FloorDivision : public STNode {
@@ -139,6 +149,7 @@ public:
 
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class LogicalAnd : public STNode {
@@ -147,6 +158,7 @@ public:
 
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class LogicalOr : public STNode {
@@ -155,6 +167,7 @@ public:
 
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class LogicalNot : public STNode {
@@ -163,6 +176,7 @@ public:
 
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class LessThan : public STNode {
@@ -171,6 +185,7 @@ public:
 
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class GreaterThan : public STNode {
@@ -179,6 +194,7 @@ public:
 
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class LessThanOrEqual : public STNode {
@@ -187,6 +203,7 @@ public:
 
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class GreaterThanOrEqual : public STNode {
@@ -195,6 +212,7 @@ public:
 
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class Equal : public STNode {
@@ -203,6 +221,7 @@ public:
 
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class NotEqual : public STNode {
@@ -211,6 +230,7 @@ public:
 
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class Increment : public STNode {
@@ -219,6 +239,7 @@ public:
 
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class Decrement : public STNode {
@@ -227,6 +248,7 @@ public:
 
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class UserDefinedFunctionCall : public STNode {
@@ -235,6 +257,7 @@ public:
 
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class BuiltInFunctionCall : public STNode {
@@ -243,6 +266,7 @@ public:
 
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 
@@ -252,18 +276,21 @@ public:
 	BITWISEAND(STNode* lhs, STNode* rhs);
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 class BITWISEOR : public STNode {
 public:
 	BITWISEOR(STNode* lhs, STNode* rhs);
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 class BITWISEXOR : public STNode {
 public:
 	BITWISEXOR(STNode* lhs, STNode* rhs);
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class BITWISENOT : public STNode {
@@ -271,18 +298,21 @@ class BITWISENOT : public STNode {
 		BITWISENOT(STNode* expr);
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 class LSHIFT : public STNode {
 	public:
 		LSHIFT(STNode* lhs, STNode* rhs);
 public:	
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 class RSHIFT : public STNode {
 	public:
 		RSHIFT(STNode* lhs, STNode* rhs);
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class ArgumentList : public STNode {
@@ -291,6 +321,7 @@ class ArgumentList : public STNode {
 	ArgumentList(STNode* identifierList, STNode* identifier);
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class FunctionDefinition : public STNode {
@@ -299,6 +330,7 @@ public:
 	FunctionDefinition(STNode* identifier, STNode* expList);
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 
 class ParamList : public STNode {
@@ -307,5 +339,6 @@ public:
 	ParamList(STNode* identifier);
 public:
 	int Evaluate() override;
+	void Accept(CVisitor* visitor) override;
 };
 

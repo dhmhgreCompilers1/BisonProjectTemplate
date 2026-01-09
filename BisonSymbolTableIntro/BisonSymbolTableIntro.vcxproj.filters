@@ -67,6 +67,9 @@
     <ClCompile Include="Scope.cpp">
       <Filter>Source Files\ScopeSystem</Filter>
     </ClCompile>
+    <ClCompile Include="ScopeSystemVisitor.cpp">
+      <Filter>Source Files\SyntaxTree</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="grammar.flex.h">
@@ -89,6 +92,12 @@
     </ClInclude>
     <ClInclude Include="SymbolTable.h">
       <Filter>Header Files\ScopeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitor.h">
+      <Filter>Header Files\SyntaxTree</Filter>
+    </ClInclude>
+    <ClInclude Include="ScopeSystemVisitor.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

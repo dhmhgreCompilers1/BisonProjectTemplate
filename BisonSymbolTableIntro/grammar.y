@@ -46,111 +46,22 @@ void yyerror(const char *s);
 expression_list
 	: expression SEMICOLON				{ STNode::mg_root= $$ = new ExpressionList($1);}
 	| expression_list  expression SEMICOLON { STNode::mg_root= $$ = new ExpressionList($1,$2);}
-	| FUNCTION IDENTIFIER '(' param_list ')' '{'  expression_list  '}'	{ STNode::mg_root= $$ = new FunctionDefinition($2, $4, $7);
-																		  if ( CScopeSystem::GetInstance()->Lookup(((IDENTIFIER *)$2)->GetIdentifierText(),
-																		  Symbol::SYMBOLTYPE::ST_FUNCTION)) {
-																			  fprintf(stderr, "Error: Redefinition of function %s\n", ((IDENTIFIER *)$2)->GetIdentifierText().c_str());
-																			  exit(1);
-																		  }
-																		  FunctionSymbol *newSym = new FunctionSymbol($$,
-																					FunctionSymbol::FT_USERDEFINEDFUNCTION,
-																					((IDENTIFIER *)$2)->GetIdentifierText());	
-																		  CScopeSystem::GetInstance()->Insert(((IDENTIFIER *)$2)->GetIdentifierText(),
-																		  newSym);
-																		}
-	| FUNCTION IDENTIFIER { CScopeSystem::GetInstance()->EnterScope(((IDENTIFIER *)$2)->GetIdentifierText());
-				      		}
-	     '(' ')' '{' expression_list { 
-						CScopeSystem::GetInstance()->ExitScope();
-						}					
-	'}' { STNode::mg_root= $$ = new FunctionDefinition($2, $7);
-			if ( CScopeSystem::GetInstance()->Lookup(((IDENTIFIER *)$2)->GetIdentifierText(),
-														Symbol::SYMBOLTYPE::ST_FUNCTION)) {
-					fprintf(stderr, "Error: Redefinition of function %s\n", ((IDENTIFIER *)$2)->GetIdentifierText().c_str());
-					exit(1);
-			}
-			FunctionSymbol *newSym = new FunctionSymbol($$,
-			FunctionSymbol::FT_USERDEFINEDFUNCTION,
-			((IDENTIFIER *)$2)->GetIdentifierText());			
-			CScopeSystem::GetInstance()->Insert(((IDENTIFIER *)$2)->GetIdentifierText(),
-			newSym);
-		}
+	| expression_list FUNCTION IDENTIFIER '(' param_list ')' '{'  expression_list  '}'	{   STNode::mg_root= $$ = new FunctionDefinition($3, $5, $8);}
+	| expression_list FUNCTION IDENTIFIER '(' ')' '{' expression_list '}'  {   STNode::mg_root= $$ = new FunctionDefinition($3, $7);}
+	| FUNCTION IDENTIFIER '(' param_list ')' '{'  expression_list  '}'	{   STNode::mg_root= $$ = new FunctionDefinition($2, $4, $7);}
+	| FUNCTION IDENTIFIER '(' ')' '{' expression_list '}'  {   STNode::mg_root= $$ = new FunctionDefinition($2, $6);}
 	;
 
-param_list: IDENTIFIER	{
-							$$ = new ParamList($1);
-							if ( CScopeSystem::GetInstance()->Lookup(((IDENTIFIER *)$1)->GetIdentifierText(),
-														Symbol::SYMBOLTYPE::ST_VARIABLE)) {
-								fprintf(stderr, "Error: Redefinition of function %s\n", ((IDENTIFIER *)$1)->GetIdentifierText().c_str());
-								exit(1);
-							}
-							VariableSymbol *newSym = new VariableSymbol($1,
-									((IDENTIFIER *)$1)->GetIdentifierText());
-							CScopeSystem::GetInstance()->Insert(((IDENTIFIER *)$1)->GetIdentifierText(),newSym);
-						}
+param_list: IDENTIFIER	{ $$ = new ParamList($1); }
 						
-			| param_list ',' IDENTIFIER	{
-									$$ = new ParamList($1,$3);
-									if ( CScopeSystem::GetInstance()->Lookup(((IDENTIFIER *)$3)->GetIdentifierText(),
-														Symbol::SYMBOLTYPE::ST_VARIABLE)) {
-										fprintf(stderr, "Error: Redefinition of function %s\n", ((IDENTIFIER *)$1)->GetIdentifierText().c_str());
-										exit(1);
-									}
-									VariableSymbol *newSym = new VariableSymbol($3,
-										((IDENTIFIER *)$3)->GetIdentifierText());
-									CScopeSystem::GetInstance()->Insert(((IDENTIFIER *)$3)->GetIdentifierText(),newSym);
-								}	
+			| param_list ',' IDENTIFIER	{ $$ = new ParamList($1,$3); }	
 	;
 
 expression : NUMBER						{ $$ = $1; }
-		|  IDENTIFIER					{ Symbol *sym = CScopeSystem::GetInstance()->Lookup(
-											((IDENTIFIER*)$1)->GetIdentifierText(),
-											Symbol::SYMBOLTYPE::ST_VARIABLE);
-											if (sym == nullptr) {
-												fprintf(stderr, "Error: Undefined variable %s\n",
-												((IDENTIFIER*)$1)->GetIdentifierText().c_str());
-												exit(1);
-											}		
-											$$ = sym->m_node; 
-										}
+		|  IDENTIFIER					{ $$ = $1; }
 		| '(' expression ')'			{ $$ = $2; }
-		|  IDENTIFIER '(' ')'			{ // Look if the function is built-in
-										  FunctionSymbol *sym = (FunctionSymbol *)(
-										  CScopeSystem::GetInstance()->Lookup(((IDENTIFIER*)$1)->GetIdentifierText(),
-										  Symbol::SYMBOLTYPE::ST_FUNCTION));		
-										  if ( sym == nullptr){
-										     // undefined function
-											 fprintf(stderr, "Error: Undefined function %s\n",
-											 ((IDENTIFIER*)$1)->GetIdentifierText().c_str());
-										  }
-										  if (	sym->GetFunctionType() ==
-												FunctionSymbol::FT_USERDEFINEDFUNCTION ){
-											$$ = new UserDefinedFunctionCall($1,nullptr);
-										  }
-										  else if ( sym->GetFunctionType() ==
-													FunctionSymbol::FT_BUILTINFUNCTION ){
-											$$ = new BuiltInFunctionCall($1,nullptr);
-										  }
-										}
-		|  IDENTIFIER '(' args ')'			{   
-												  // Look if the function is built-in
-												  FunctionSymbol *sym = (FunctionSymbol *)(
-												  CScopeSystem::GetInstance()->Lookup(((IDENTIFIER*)$1)->GetIdentifierText(),
-												  Symbol::SYMBOLTYPE::ST_FUNCTION));		
-												  if ( sym == nullptr){
-													 // undefined function
-													 fprintf(stderr, "Error: Undefined function %s\n",
-													 ((IDENTIFIER*)$1)->GetIdentifierText().c_str());
-												  }
-												  if (	sym->GetFunctionType() ==
-														FunctionSymbol::FT_USERDEFINEDFUNCTION ){
-													$$ = new UserDefinedFunctionCall($1,$3);
-												  }
-												  else if ( sym->GetFunctionType() ==
-															FunctionSymbol::FT_BUILTINFUNCTION ){
-													$$ = new BuiltInFunctionCall($1,$3);
-												  }
-											}
+		|  IDENTIFIER '(' ')'			{ $$ = new BuiltInFunctionCall($1,nullptr); }										
+		|  IDENTIFIER '(' args ')'		{ $$ = new BuiltInFunctionCall($1,$3); }
 		|  expression '+' expression		{ $$ = new Addition($1,$3);}
 		|  expression '-' expression		{ $$ = new Subtraction($1,$3);}
 		|  expression '*' expression		{ $$ = new Multiplication($1,$3);}

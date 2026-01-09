@@ -1,8 +1,7 @@
-function foo ( a,b) {
-	f=1;
+function b(x) {
+	x;
 }
 
 a=2;
-b=3;
-c=pow(2,3);
-f=foo(1,3);
+1+a*2;
+b(a);

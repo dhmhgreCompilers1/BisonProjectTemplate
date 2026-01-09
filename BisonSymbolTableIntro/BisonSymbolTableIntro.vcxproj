@@ -141,6 +141,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scope.cpp" />
     <ClCompile Include="ScopeSystem.cpp" />
+    <ClCompile Include="ScopeSystemVisitor.cpp" />
     <ClCompile Include="STNode.cpp" />
     <ClCompile Include="STNode.h" />
     <ClCompile Include="SymbolTable.cpp" />
@@ -151,8 +152,10 @@
     <ClInclude Include="grammar.tab.h" />
     <ClInclude Include="Scope.h" />
     <ClInclude Include="ScopeSystem.h" />
+    <ClInclude Include="ScopeSystemVisitor.h" />
     <ClInclude Include="stack.hh" />
     <ClInclude Include="SymbolTable.h" />
+    <ClInclude Include="Visitor.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="test.txt" />
@@ -162,9 +165,7 @@
     <None Include="output1.dot" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="output1.gif">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </Image>
+    <Image Include="output1.gif" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

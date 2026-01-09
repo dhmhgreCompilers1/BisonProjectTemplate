@@ -1,5 +1,7 @@
 #include "ConcreteNode.h"
 
+#include "Visitor.h"
+
 string g_nodetypesstr[] = { "NA","NUMBER","IDENTIFIER",
 	"ADDITION", "EXPRESSIONLIST" ,"ASSIGNMENT",
 
@@ -9,7 +11,7 @@ string g_nodetypesstr[] = { "NA","NUMBER","IDENTIFIER",
 	"EQUAL", "NOTEQUAL", "INCREMENT", "DECREMENT", "USERDEFINEDFUNCTIONCALL",
 	"BUILTINFUNCTIONCALL",
 	   "BITWISEAND","BITWISEOR","BITWISEXOR", "BITWISENOT",
-		"LSHIFT", "RSHIFT" , "ARGUMENTLIST", "FUNCTIONDEFINITION", "PARAMLIST"};
+		"LSHIFT", "RSHIFT" , "ARGUMENTLIST", "FUNCTIONDEFINITION", "PARAMLIST" };
 STNode* STNode::mg_root = nullptr;
 
 
@@ -42,6 +44,10 @@ int IDENTIFIER::SetValue(int v) {
 
 int IDENTIFIER::GetValue() {
 	return m_value;
+}
+
+void IDENTIFIER::Accept(CVisitor* visitor) {
+	visitor->VisitIdentifier(this);
 }
 
 IDENTIFIER::~IDENTIFIER() {
@@ -302,6 +308,142 @@ ParamList::ParamList(STNode* identifier) :
 	STNode(PARAMLIST) {
 	AddChild(identifier);
 	identifier->setParent(this);
+}
+
+void NUMBER::Accept(CVisitor* visitor) {
+	visitor->VisitNumber(this);
+}
+
+void Addition::Accept(CVisitor* visitor) {
+	visitor->VisitAddition(this);
+}
+
+void Assignment::Accept(CVisitor* visitor) {
+	visitor->VisitAssignment(this);
+}
+
+void Subtraction::Accept(CVisitor* visitor) {
+	visitor->VisitSubtraction(this);
+}
+
+void Multiplication::Accept(CVisitor* visitor) {
+	visitor->VisitMultiplication(this);
+}
+
+void Division::Accept(CVisitor* visitor) {
+	visitor->VisitDivision(this);
+}
+
+void Modulo::Accept(CVisitor* visitor) {
+	visitor->VisitModulo(this);
+}
+
+void Exponentiation::Accept(CVisitor* visitor) {
+	visitor->VisitExponentiation(this);
+}
+
+void FloorDivision::Accept(CVisitor* visitor) {
+	visitor->VisitFloorDivision(this);
+}
+
+void UnaryMinus::Accept(CVisitor* visitor) {
+	visitor->VisitUnaryMinus(this);
+}
+
+void UnaryPlus::Accept(CVisitor* visitor) {
+	visitor->VisitUnaryPlus(this);
+}
+
+void LogicalAnd::Accept(CVisitor* visitor) {
+	visitor->VisitLogicalAnd(this);
+}
+
+void LogicalOr::Accept(CVisitor* visitor) {
+	visitor->VisitLogicalOr(this);
+}
+
+void LogicalNot::Accept(CVisitor* visitor) {
+	visitor->VisitLogicalNot(this);
+}
+
+void Increment::Accept(CVisitor* visitor) {
+	visitor->VisitIncrement(this);
+}
+
+void Decrement::Accept(CVisitor* visitor) {
+	visitor->VisitDecrement(this);
+}
+
+void Equal::Accept(CVisitor* visitor) {
+	visitor->VisitEqual(this);
+}
+
+void NotEqual::Accept(CVisitor* visitor) {
+	visitor->VisitNotEqual(this);
+}
+
+void LessThan::Accept(CVisitor* visitor) {
+	visitor->VisitLessThan(this);
+}
+
+void GreaterThan::Accept(CVisitor* visitor) {
+	visitor->VisitGreaterThan(this);
+}
+
+void LessThanOrEqual::Accept(CVisitor* visitor) {
+	visitor->VisitLessThanOrEqual(this);
+}
+
+void GreaterThanOrEqual::Accept(CVisitor* visitor) {
+	visitor->VisitGreaterThanOrEqual(this);
+}
+
+void BITWISEAND::Accept(CVisitor* visitor) {
+	visitor->VisitBitAnd(this);
+}
+
+void BITWISEOR::Accept(CVisitor* visitor) {
+	visitor->VisitBitOr(this);
+}
+
+void BITWISEXOR::Accept(CVisitor* visitor) {
+	visitor->VisitBitXor(this);
+}
+
+void ExpressionList::Accept(CVisitor* visitor) {
+	visitor->VisitExpressionList(this);
+}
+
+void UserDefinedFunctionCall::Accept(CVisitor* visitor) {
+	visitor->VisitUserDefinedFunctionCall(this);
+}
+
+void BuiltInFunctionCall::Accept(CVisitor* visitor) {
+	visitor->VisitBuiltinFunctionCall(this);
+}
+
+void BITWISENOT::Accept(CVisitor* visitor) {
+	visitor->VisitBitNot(this);
+}
+
+void LSHIFT::Accept(CVisitor* visitor) {
+	visitor->VisitLeftShift(this);
+}
+
+void RSHIFT::Accept(CVisitor* visitor) {
+	visitor->VisitRightShift(this);
+}
+
+void ArgumentList::Accept(CVisitor* visitor) {
+	visitor->VisitArgumentList(this);
+}
+
+void FunctionDefinition::Accept(CVisitor* visitor) {
+	visitor->VisitFunctionDefinition(this);
+}
+
+void ParamList::Accept(CVisitor* visitor) {
+	visitor->VisitParameterList(this);
 }
 
 

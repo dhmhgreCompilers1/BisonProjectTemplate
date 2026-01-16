@@ -241,25 +241,37 @@ namespace yy {
     NUMBER = 258,                  // NUMBER
     IDENTIFIER = 259,              // IDENTIFIER
     SEMICOLON = 260,               // SEMICOLON
-    FUNCTION = 261,                // FUNCTION
-    LOR = 262,                     // LOR
-    LAND = 263,                    // LAND
-    BITOR = 264,                   // BITOR
-    BITXOR = 265,                  // BITXOR
-    BITAND = 266,                  // BITAND
-    EQ = 267,                      // EQ
-    NEQ = 268,                     // NEQ
-    LT = 269,                      // LT
-    LTE = 270,                     // LTE
-    GT = 271,                      // GT
-    GTE = 272,                     // GTE
-    LSHIFT = 273,                  // LSHIFT
-    RSHIFT = 274,                  // RSHIFT
-    FDIV = 275,                    // FDIV
-    LNOT = 276,                    // LNOT
-    BNOT = 277,                    // BNOT
-    INCREMENT = 278,               // INCREMENT
-    DECREMENT = 279                // DECREMENT
+    FLOAT = 261,                   // FLOAT
+    INT = 262,                     // INT
+    VOID = 263,                    // VOID
+    CHAR = 264,                    // CHAR
+    IF = 265,                      // IF
+    ELSE = 266,                    // ELSE
+    WHILE = 267,                   // WHILE
+    RETURN = 268,                  // RETURN
+    FOR = 269,                     // FOR
+    DO = 270,                      // DO
+    BREAK = 271,                   // BREAK
+    CONTINUE = 272,                // CONTINUE
+    LOR = 273,                     // LOR
+    LAND = 274,                    // LAND
+    BITOR = 275,                   // BITOR
+    BITXOR = 276,                  // BITXOR
+    BITAND = 277,                  // BITAND
+    EQ = 278,                      // EQ
+    NEQ = 279,                     // NEQ
+    LT = 280,                      // LT
+    LTE = 281,                     // LTE
+    GT = 282,                      // GT
+    GTE = 283,                     // GTE
+    LSHIFT = 284,                  // LSHIFT
+    RSHIFT = 285,                  // RSHIFT
+    FDIV = 286,                    // FDIV
+    INCREMENT = 287,               // INCREMENT
+    DECREMENT = 288,               // DECREMENT
+    LNOT = 289,                    // LNOT
+    BNOT = 290,                    // BNOT
+    LOWIF = 291                    // LOWIF
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -276,7 +288,7 @@ namespace yy {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 37, ///< Number of tokens.
+        YYNTOKENS = 51, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
@@ -284,42 +296,70 @@ namespace yy {
         S_NUMBER = 3,                            // NUMBER
         S_IDENTIFIER = 4,                        // IDENTIFIER
         S_SEMICOLON = 5,                         // SEMICOLON
-        S_FUNCTION = 6,                          // FUNCTION
-        S_7_ = 7,                                // '='
-        S_LOR = 8,                               // LOR
-        S_LAND = 9,                              // LAND
-        S_BITOR = 10,                            // BITOR
-        S_BITXOR = 11,                           // BITXOR
-        S_BITAND = 12,                           // BITAND
-        S_EQ = 13,                               // EQ
-        S_NEQ = 14,                              // NEQ
-        S_LT = 15,                               // LT
-        S_LTE = 16,                              // LTE
-        S_GT = 17,                               // GT
-        S_GTE = 18,                              // GTE
-        S_LSHIFT = 19,                           // LSHIFT
-        S_RSHIFT = 20,                           // RSHIFT
-        S_21_ = 21,                              // '+'
-        S_22_ = 22,                              // '-'
-        S_23_ = 23,                              // '*'
-        S_24_ = 24,                              // '/'
-        S_25_ = 25,                              // '%'
-        S_FDIV = 26,                             // FDIV
-        S_27_ = 27,                              // '^'
-        S_LNOT = 28,                             // LNOT
-        S_BNOT = 29,                             // BNOT
-        S_INCREMENT = 30,                        // INCREMENT
-        S_DECREMENT = 31,                        // DECREMENT
-        S_32_ = 32,                              // '('
-        S_33_ = 33,                              // ')'
-        S_34_ = 34,                              // '{'
-        S_35_ = 35,                              // '}'
-        S_36_ = 36,                              // ','
-        S_YYACCEPT = 37,                         // $accept
-        S_expression_list = 38,                  // expression_list
-        S_param_list = 39,                       // param_list
-        S_expression = 40,                       // expression
-        S_args = 41                              // args
+        S_FLOAT = 6,                             // FLOAT
+        S_INT = 7,                               // INT
+        S_VOID = 8,                              // VOID
+        S_CHAR = 9,                              // CHAR
+        S_IF = 10,                               // IF
+        S_ELSE = 11,                             // ELSE
+        S_WHILE = 12,                            // WHILE
+        S_RETURN = 13,                           // RETURN
+        S_FOR = 14,                              // FOR
+        S_DO = 15,                               // DO
+        S_BREAK = 16,                            // BREAK
+        S_CONTINUE = 17,                         // CONTINUE
+        S_LOR = 18,                              // LOR
+        S_LAND = 19,                             // LAND
+        S_BITOR = 20,                            // BITOR
+        S_BITXOR = 21,                           // BITXOR
+        S_BITAND = 22,                           // BITAND
+        S_EQ = 23,                               // EQ
+        S_NEQ = 24,                              // NEQ
+        S_LT = 25,                               // LT
+        S_LTE = 26,                              // LTE
+        S_GT = 27,                               // GT
+        S_GTE = 28,                              // GTE
+        S_LSHIFT = 29,                           // LSHIFT
+        S_RSHIFT = 30,                           // RSHIFT
+        S_FDIV = 31,                             // FDIV
+        S_INCREMENT = 32,                        // INCREMENT
+        S_DECREMENT = 33,                        // DECREMENT
+        S_LNOT = 34,                             // LNOT
+        S_BNOT = 35,                             // BNOT
+        S_LOWIF = 36,                            // LOWIF
+        S_37_ = 37,                              // '='
+        S_38_ = 38,                              // '+'
+        S_39_ = 39,                              // '-'
+        S_40_ = 40,                              // '*'
+        S_41_ = 41,                              // '/'
+        S_42_ = 42,                              // '%'
+        S_43_ = 43,                              // '^'
+        S_44_ = 44,                              // '('
+        S_45_ = 45,                              // ')'
+        S_46_ = 46,                              // ','
+        S_47_ = 47,                              // '['
+        S_48_ = 48,                              // ']'
+        S_49_ = 49,                              // '{'
+        S_50_ = 50,                              // '}'
+        S_YYACCEPT = 51,                         // $accept
+        S_compilation_unit = 52,                 // compilation_unit
+        S_declarations = 53,                     // declarations
+        S_statements = 54,                       // statements
+        S_declaration = 55,                      // declaration
+        S_function_definition = 56,              // function_definition
+        S_param_list = 57,                       // param_list
+        S_variable_declaration = 58,             // variable_declaration
+        S_type_specifier = 59,                   // type_specifier
+        S_declarators = 60,                      // declarators
+        S_direct_declarator = 61,                // direct_declarator
+        S_statement = 62,                        // statement
+        S_expression_statement = 63,             // expression_statement
+        S_compound_statement = 64,               // compound_statement
+        S_iteration_statement = 65,              // iteration_statement
+        S_selection_statement = 66,              // selection_statement
+        S_jump_statement = 67,                   // jump_statement
+        S_expression = 68,                       // expression
+        S_args = 69                              // args
       };
     };
 
@@ -521,7 +561,7 @@ namespace yy {
 
 
     /// Stored state numbers (used for stacks).
-    typedef signed char state_type;
+    typedef unsigned char state_type;
 
     /// The arguments of the error message.
     int yy_syntax_error_arguments_ (const context& yyctx,
@@ -577,9 +617,9 @@ namespace yy {
     // YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
     // positive, shift that token.  If negative, reduce the rule whose
     // number is the opposite.  If YYTABLE_NINF, syntax error.
-    static const signed char yytable_[];
+    static const short yytable_[];
 
-    static const signed char yycheck_[];
+    static const short yycheck_[];
 
     // YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
     // state STATE-NUM.
@@ -594,7 +634,7 @@ namespace yy {
 
 #if YYDEBUG
     // YYRLINE[YYN] -- Source line where rule number YYN was defined.
-    static const signed char yyrline_[];
+    static const unsigned char yyrline_[];
     /// Report on the debug stream that the rule \a r is going to be reduced.
     virtual void yy_reduce_print_ (int r) const;
     /// Print the state stack on the debug stream.
@@ -821,9 +861,9 @@ namespace yy {
     /// Constants.
     enum
     {
-      yylast_ = 433,     ///< Last index in yytable_.
-      yynnts_ = 5,  ///< Number of nonterminal symbols.
-      yyfinal_ = 19 ///< Termination state number.
+      yylast_ = 654,     ///< Last index in yytable_.
+      yynnts_ = 19,  ///< Number of nonterminal symbols.
+      yyfinal_ = 52 ///< Termination state number.
     };
 
 
@@ -832,7 +872,7 @@ namespace yy {
 
 
 } // yy
-#line 836 "grammar.tab.h"
+#line 876 "grammar.tab.h"
 
 
 

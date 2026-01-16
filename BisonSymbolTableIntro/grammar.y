@@ -22,10 +22,16 @@ void yyerror(const char *s);
 %error-verbose
 %verbose
 
-%start expression_list
+%start compilation_unit
 %token <node> NUMBER IDENTIFIER
-%token SEMICOLON FUNCTION
-%type <node> expression expression_list param_list args
+%token SEMICOLON FLOAT INT VOID CHAR IF ELSE WHILE RETURN FOR DO
+%token BREAK CONTINUE LOR LAND BITOR BITXOR BITAND EQ NEQ LT LTE GT GTE LSHIFT RSHIFT FDIV INCREMENT DECREMENT LNOT BNOT
+%type <node> expression compilation_unit param_list args declarations
+statements declaration function_definition variable_declaration 
+type_specifier declarators direct_declarator statement expression_statement
+compound_statement iteration_statement
+%nonassoc LOWIF
+%nonassoc ELSE
 %right '='
 %left LOR 
 %left LAND
@@ -43,19 +49,79 @@ void yyerror(const char *s);
 
 %%
 
-expression_list
-	: expression SEMICOLON				{ STNode::mg_root= $$ = new ExpressionList($1);}
-	| expression_list  expression SEMICOLON { STNode::mg_root= $$ = new ExpressionList($1,$2);}
-	| expression_list FUNCTION IDENTIFIER '(' param_list ')' '{'  expression_list  '}'	{   STNode::mg_root= $$ = new FunctionDefinition($3, $5, $8);}
-	| expression_list FUNCTION IDENTIFIER '(' ')' '{' expression_list '}'  {   STNode::mg_root= $$ = new FunctionDefinition($3, $7);}
-	| FUNCTION IDENTIFIER '(' param_list ')' '{'  expression_list  '}'	{   STNode::mg_root= $$ = new FunctionDefinition($2, $4, $7);}
-	| FUNCTION IDENTIFIER '(' ')' '{' expression_list '}'  {   STNode::mg_root= $$ = new FunctionDefinition($2, $6);}
+compilation_unit: declarations statements
+			| statements
+			| declarations
+			;
+
+declarations: declaration
+			| declarations declaration
+			;
+
+statements: statement
+			| statements statement
+			;
+
+declaration: function_definition
+			| variable_declaration
+			;
+function_definition
+	: type_specifier IDENTIFIER '(' param_list ')' compound_statement	
+	| type_specifier IDENTIFIER '(' ')' compound_statement  
 	;
 
-param_list: IDENTIFIER	{ $$ = new ParamList($1); }
-						
+param_list : IDENTIFIER	{ $$ = new ParamList($1); }						
 			| param_list ',' IDENTIFIER	{ $$ = new ParamList($1,$3); }	
 	;
+
+
+variable_declaration : type_specifier declarators SEMICOLON	
+
+type_specifier : INT	
+	| FLOAT	
+	| VOID	
+	| CHAR
+	;
+
+declarators
+	: direct_declarator				
+	| direct_declarator '=' expression	
+	| declarators ',' direct_declarator		
+	;
+
+direct_declarator : IDENTIFIER						
+				  | direct_declarator '[' ']'	
+	;
+
+statement : expression_statement				
+		  | compound_statement
+		  | iteration_statement
+		  | selection_statement
+		  | jump_statement
+		  ;
+expression_statement : expression SEMICOLON	
+						| SEMICOLON				
+						;
+
+compound_statement : '{' statements '}'	
+						| '{' '}'				
+						;
+
+iteration_statement : WHILE '(' expression ')' statement	
+					| FOR '(' expression_statement expression_statement  expression ')' statement	
+					| FOR '(' expression_statement expression_statement ')' statement	
+					| DO statement WHILE '(' expression ')' SEMICOLON	
+					;
+
+selection_statement : IF '(' expression ')' statement ELSE statement
+					| IF '(' expression ')' statement		%prec LOWIF			 
+					;
+jump_statement : RETURN expression SEMICOLON	
+			   | RETURN SEMICOLON
+			   | BREAK SEMICOLON
+			   | CONTINUE SEMICOLON
+			   ;
+
 
 expression : NUMBER						{ $$ = $1; }
 		|  IDENTIFIER					{ $$ = $1; }

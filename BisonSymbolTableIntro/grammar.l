@@ -10,7 +10,29 @@
 
 
 %%
-"function" { return yy::parser::token::FUNCTION; }
+"int" { return yy::parser::token::INT; }
+"float" { return yy::parser::token::FLOAT; }
+"void" { return yy::parser::token::VOID; }
+"char" { return yy::parser::token::CHAR; }
+"if"  { return yy::parser::token::IF; }
+"else"  { return yy::parser::token::ELSE; }
+"while"  { return yy::parser::token::WHILE; }
+"return"  { return yy::parser::token::RETURN; }
+"for"  { return yy::parser::token::FOR; }
+"do"  { return yy::parser::token::DO; }
+"break"  { return yy::parser::token::BREAK; }
+"continue"  { return yy::parser::token::CONTINUE; }
+"||"  { return yy::parser::token::LOR; }
+"&&"  { return yy::parser::token::LAND; }
+"|"   { return yy::parser::token::BITOR; }
+"^^"   { return yy::parser::token::BITXOR; }
+"&"   { return yy::parser::token::BITAND; }
+"=="  { return yy::parser::token::EQ; }
+"!="  { return yy::parser::token::NEQ; }
+"<"   { return yy::parser::token::LT; }
+"<="  { return yy::parser::token::LTE; }
+">"   { return yy::parser::token::GT; }
+">="  { return yy::parser::token::GTE; }
 ","   { return ','; }
 "+"   { return '+'; }
 "++"  { return yy::parser::token::INCREMENT; }

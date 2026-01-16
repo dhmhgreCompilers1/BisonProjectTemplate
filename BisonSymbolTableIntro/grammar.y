@@ -6,13 +6,14 @@
 #include <stdlib.h>
 #include "ConcreteNode.h"
 #include "grammar.tab.h"
-extern int yylex(yy::parser::semantic_type *yylval);
+extern int yylex(yy::parser::semantic_type *yylval, yy::parser::location_type* loc);
 void yyerror(const char *s);
 %}
 
 %code requires{ 
 #include "STNode.h"
 #include "ScopeSystem.h"
+extern int yylineno;
 }
 
 %union {
@@ -20,16 +21,24 @@ void yyerror(const char *s);
 }
 
 %error-verbose
-%verbose
+%define parse.error verbose
+%locations
+
+
+%initial-action {
+// Filename for locations here
+@$.begin.filename = @$.end.filename = new std::string("test.txt");
+}
+
 
 %start compilation_unit
-%token <node> NUMBER IDENTIFIER
-%token SEMICOLON FLOAT INT VOID CHAR IF ELSE WHILE RETURN FOR DO
+%token <node> NUMBER IDENTIFIER FLOAT INT VOID CHAR
+%token SEMICOLON IF ELSE WHILE RETURN FOR DO
 %token BREAK CONTINUE LOR LAND BITOR BITXOR BITAND EQ NEQ LT LTE GT GTE LSHIFT RSHIFT FDIV INCREMENT DECREMENT LNOT BNOT
 %type <node> expression compilation_unit param_list args declarations
 statements declaration function_definition variable_declaration 
 type_specifier declarators direct_declarator statement expression_statement
-compound_statement iteration_statement
+compound_statement iteration_statement, selection_statement jump_statement
 %nonassoc LOWIF
 %nonassoc ELSE
 %right '='
@@ -49,25 +58,25 @@ compound_statement iteration_statement
 
 %%
 
-compilation_unit: declarations statements
-			| statements
-			| declarations
+compilation_unit: declarations statements { STNode::mg_root= $$ = new CompilationUnit($1,$2); }
+			| statements { STNode::mg_root= $$ = new CompilationUnit($1); }	
+			| declarations { STNode::mg_root= $$ = new CompilationUnit($1); }
 			;
 
-declarations: declaration
-			| declarations declaration
+declarations: declaration	{ $$ = new Declarations($1); }
+			| declarations declaration { $$ = new Declarations($1,$2); }
 			;
 
-statements: statement
-			| statements statement
+statements: statement { $$ = new Statements($1); }
+			| statements statement { $$ = new Statements($1,$2); }
 			;
 
-declaration: function_definition
-			| variable_declaration
+declaration: function_definition { $$ = new Declaration($1); }
+			| variable_declaration { $$ = new Declaration($1); }
 			;
-function_definition
-	: type_specifier IDENTIFIER '(' param_list ')' compound_statement	
-	| type_specifier IDENTIFIER '(' ')' compound_statement  
+
+function_definition	: type_specifier IDENTIFIER '(' param_list ')' compound_statement { $$ = new FunctionDefinition($1,$2,$4,$6); }	
+	| type_specifier IDENTIFIER '(' ')' compound_statement  { $$ = new FunctionDefinition($1,$2,$5); } 
 	;
 
 param_list : IDENTIFIER	{ $$ = new ParamList($1); }						
@@ -75,7 +84,8 @@ param_list : IDENTIFIER	{ $$ = new ParamList($1); }
 	;
 
 
-variable_declaration : type_specifier declarators SEMICOLON	
+variable_declaration : type_specifier declarators SEMICOLON	{ $$ = new VariableDeclaration($1,$2); }
+;
 
 type_specifier : INT	
 	| FLOAT	
@@ -83,43 +93,43 @@ type_specifier : INT
 	| CHAR
 	;
 
-declarators
-	: direct_declarator				
-	| direct_declarator '=' expression	
-	| declarators ',' direct_declarator		
+declarators	: direct_declarator	 { $$ = new Declarators($1); }			
+	| direct_declarator '=' expression	{ $$ = new Declarators($1,$3); }
+	| declarators ',' direct_declarator	 { $$ = new Declarators($1,$3); }	
+	| declarators ',' direct_declarator '=' expression	{ $$ = new Declarators($1,$3,$5); }
 	;
 
-direct_declarator : IDENTIFIER						
-				  | direct_declarator '[' ']'	
+direct_declarator : IDENTIFIER	{ $$ = new DirectDeclarator($1); }					
+				  | direct_declarator '[' ']' { $$ = new DirectDeclarator($1); }	
 	;
 
-statement : expression_statement				
-		  | compound_statement
-		  | iteration_statement
+statement : expression_statement { $$ = new ExpressionStatement($1); }				
+		  | compound_statement	{ $$ = new CompoundStatement($1); }
+		  | iteration_statement 
 		  | selection_statement
 		  | jump_statement
 		  ;
-expression_statement : expression SEMICOLON	
-						| SEMICOLON				
+expression_statement : expression SEMICOLON	{ $$ = new ExpressionStatement($1); }	
+						| SEMICOLON			{ $$ = new EmptyStatement(); }	
 						;
 
-compound_statement : '{' statements '}'	
-						| '{' '}'				
+compound_statement : '{' statements '}'	{ $$ = new CompoundStatement($2); }
+						| '{' '}'		{ $$ = new CompoundStatement(); }		
 						;
 
-iteration_statement : WHILE '(' expression ')' statement	
-					| FOR '(' expression_statement expression_statement  expression ')' statement	
-					| FOR '(' expression_statement expression_statement ')' statement	
-					| DO statement WHILE '(' expression ')' SEMICOLON	
+iteration_statement : WHILE '(' expression ')' statement { $$ = new WhileLoop($3,$5); }	
+					| FOR '(' expression_statement expression_statement  expression ')' statement { $$ = new ForLoop($3,$4,$5,$7); }	
+					| FOR '(' expression_statement expression_statement ')' statement { $$ = new ForLoop($3,$4,$6); }	
+					| DO statement WHILE '(' expression ')' SEMICOLON { $$ = new DoWhileLoop($2,$5); }	
 					;
 
-selection_statement : IF '(' expression ')' statement ELSE statement
-					| IF '(' expression ')' statement		%prec LOWIF			 
+selection_statement : IF '(' expression ')' statement ELSE statement 	{ $$ = new IfElseStatement($3,$5,$7); }
+					| IF '(' expression ')' statement		%prec LOWIF { $$ = new IfStatement($3,$5); }			 
 					;
-jump_statement : RETURN expression SEMICOLON	
-			   | RETURN SEMICOLON
-			   | BREAK SEMICOLON
-			   | CONTINUE SEMICOLON
+jump_statement : RETURN expression SEMICOLON { $$ = new ReturnStatement($2); }	
+			   | RETURN SEMICOLON { $$ = new ReturnStatement(); }
+			   | BREAK SEMICOLON { $$ = new BreakStatement(); }
+			   | CONTINUE SEMICOLON { $$ = new ContinueStatement(); }
 			   ;
 
 
@@ -163,6 +173,6 @@ args : expression						{ $$ = new ArgumentList($1); }
 
 %%
 
-void yy::parser::error(const std::string& msg) {
-	fprintf(stderr, "Error: %s\n", msg.c_str());
+void yy::parser::error(const location_type& loc, const std::string& msg){
+	std::cerr << msg << " at "<< loc <<  std::endl;
 }

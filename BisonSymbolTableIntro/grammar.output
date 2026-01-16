@@ -117,11 +117,11 @@ Terminals, with rules where they appear
     error (256)
     NUMBER <node> (258) 43
     IDENTIFIER <node> (259) 10 11 12 13 22 44 46 47 74
-    SEMICOLON (260) 14 29 30 36 39 40 41 42
-    FLOAT (261) 16
-    INT (262) 15
-    VOID (263) 17
-    CHAR (264) 18
+    FLOAT <node> (260) 16
+    INT <node> (261) 15
+    VOID <node> (262) 17
+    CHAR <node> (263) 18
+    SEMICOLON (264) 14 29 30 36 39 40 41 42
     IF (265) 37 38
     ELSE (266) 37
     WHILE (267) 33 36
@@ -197,10 +197,10 @@ Nonterminals, with rules where they appear
     iteration_statement <node> (65)
         on left: 33 34 35 36
         on right: 26
-    selection_statement (66)
+    selection_statement <node> (66)
         on left: 37 38
         on right: 27
-    jump_statement (67)
+    jump_statement <node> (67)
         on left: 39 40 41 42
         on right: 28
     expression <node> (68)
@@ -217,11 +217,11 @@ State 0
 
     NUMBER      shift, and go to state 1
     IDENTIFIER  shift, and go to state 2
-    SEMICOLON   shift, and go to state 3
-    FLOAT       shift, and go to state 4
-    INT         shift, and go to state 5
-    VOID        shift, and go to state 6
-    CHAR        shift, and go to state 7
+    FLOAT       shift, and go to state 3
+    INT         shift, and go to state 4
+    VOID        shift, and go to state 5
+    CHAR        shift, and go to state 6
+    SEMICOLON   shift, and go to state 7
     IF          shift, and go to state 8
     WHILE       shift, and go to state 9
     RETURN      shift, and go to state 10
@@ -274,37 +274,37 @@ State 2
 
 State 3
 
-   30 expression_statement: SEMICOLON .
-
-    $default  reduce using rule 30 (expression_statement)
-
-
-State 4
-
    16 type_specifier: FLOAT .
 
     $default  reduce using rule 16 (type_specifier)
 
 
-State 5
+State 4
 
    15 type_specifier: INT .
 
     $default  reduce using rule 15 (type_specifier)
 
 
-State 6
+State 5
 
    17 type_specifier: VOID .
 
     $default  reduce using rule 17 (type_specifier)
 
 
-State 7
+State 6
 
    18 type_specifier: CHAR .
 
     $default  reduce using rule 18 (type_specifier)
+
+
+State 7
+
+   30 expression_statement: SEMICOLON .
+
+    $default  reduce using rule 30 (expression_statement)
 
 
 State 8
@@ -353,7 +353,7 @@ State 12
 
     NUMBER      shift, and go to state 1
     IDENTIFIER  shift, and go to state 2
-    SEMICOLON   shift, and go to state 3
+    SEMICOLON   shift, and go to state 7
     IF          shift, and go to state 8
     WHILE       shift, and go to state 9
     RETURN      shift, and go to state 10
@@ -473,7 +473,7 @@ State 20
 
     NUMBER      shift, and go to state 1
     IDENTIFIER  shift, and go to state 2
-    SEMICOLON   shift, and go to state 3
+    SEMICOLON   shift, and go to state 7
     IF          shift, and go to state 8
     WHILE       shift, and go to state 9
     RETURN      shift, and go to state 10
@@ -514,11 +514,11 @@ State 22
 
     NUMBER      shift, and go to state 1
     IDENTIFIER  shift, and go to state 2
-    SEMICOLON   shift, and go to state 3
-    FLOAT       shift, and go to state 4
-    INT         shift, and go to state 5
-    VOID        shift, and go to state 6
-    CHAR        shift, and go to state 7
+    FLOAT       shift, and go to state 3
+    INT         shift, and go to state 4
+    VOID        shift, and go to state 5
+    CHAR        shift, and go to state 6
+    SEMICOLON   shift, and go to state 7
     IF          shift, and go to state 8
     WHILE       shift, and go to state 9
     RETURN      shift, and go to state 10
@@ -556,7 +556,7 @@ State 23
 
     NUMBER      shift, and go to state 1
     IDENTIFIER  shift, and go to state 2
-    SEMICOLON   shift, and go to state 3
+    SEMICOLON   shift, and go to state 7
     IF          shift, and go to state 8
     WHILE       shift, and go to state 9
     RETURN      shift, and go to state 10
@@ -837,7 +837,7 @@ State 41
 
     NUMBER      shift, and go to state 1
     IDENTIFIER  shift, and go to state 2
-    SEMICOLON   shift, and go to state 3
+    SEMICOLON   shift, and go to state 7
     LNOT        shift, and go to state 15
     BNOT        shift, and go to state 16
     '+'         shift, and go to state 17
@@ -1072,7 +1072,7 @@ State 51
 
     NUMBER      shift, and go to state 1
     IDENTIFIER  shift, and go to state 2
-    SEMICOLON   shift, and go to state 3
+    SEMICOLON   shift, and go to state 7
     IF          shift, and go to state 8
     WHILE       shift, and go to state 9
     RETURN      shift, and go to state 10
@@ -1111,7 +1111,7 @@ State 53
 
     NUMBER      shift, and go to state 1
     IDENTIFIER  shift, and go to state 2
-    SEMICOLON   shift, and go to state 3
+    SEMICOLON   shift, and go to state 7
     IF          shift, and go to state 8
     WHILE       shift, and go to state 9
     RETURN      shift, and go to state 10
@@ -1741,7 +1741,7 @@ State 89
 
     NUMBER      shift, and go to state 1
     IDENTIFIER  shift, and go to state 2
-    SEMICOLON   shift, and go to state 3
+    SEMICOLON   shift, and go to state 7
     LNOT        shift, and go to state 15
     BNOT        shift, and go to state 16
     '+'         shift, and go to state 17
@@ -2693,7 +2693,7 @@ State 120
 
     NUMBER      shift, and go to state 1
     IDENTIFIER  shift, and go to state 2
-    SEMICOLON   shift, and go to state 3
+    SEMICOLON   shift, and go to state 7
     IF          shift, and go to state 8
     WHILE       shift, and go to state 9
     RETURN      shift, and go to state 10
@@ -2723,7 +2723,7 @@ State 121
 
     NUMBER      shift, and go to state 1
     IDENTIFIER  shift, and go to state 2
-    SEMICOLON   shift, and go to state 3
+    SEMICOLON   shift, and go to state 7
     IF          shift, and go to state 8
     WHILE       shift, and go to state 9
     RETURN      shift, and go to state 10
@@ -2955,7 +2955,7 @@ State 134
 
     NUMBER      shift, and go to state 1
     IDENTIFIER  shift, and go to state 2
-    SEMICOLON   shift, and go to state 3
+    SEMICOLON   shift, and go to state 7
     IF          shift, and go to state 8
     WHILE       shift, and go to state 9
     RETURN      shift, and go to state 10
@@ -3110,7 +3110,7 @@ State 140
 
     NUMBER      shift, and go to state 1
     IDENTIFIER  shift, and go to state 2
-    SEMICOLON   shift, and go to state 3
+    SEMICOLON   shift, and go to state 7
     IF          shift, and go to state 8
     WHILE       shift, and go to state 9
     RETURN      shift, and go to state 10
@@ -3147,7 +3147,7 @@ State 142
 
     NUMBER      shift, and go to state 1
     IDENTIFIER  shift, and go to state 2
-    SEMICOLON   shift, and go to state 3
+    SEMICOLON   shift, and go to state 7
     IF          shift, and go to state 8
     WHILE       shift, and go to state 9
     RETURN      shift, and go to state 10

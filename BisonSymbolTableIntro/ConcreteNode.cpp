@@ -11,7 +11,13 @@ string g_nodetypesstr[] = { "NA","NUMBER","IDENTIFIER",
 	"EQUAL", "NOTEQUAL", "INCREMENT", "DECREMENT", "USERDEFINEDFUNCTIONCALL",
 	"BUILTINFUNCTIONCALL",
 	   "BITWISEAND","BITWISEOR","BITWISEXOR", "BITWISENOT",
-		"LSHIFT", "RSHIFT" , "ARGUMENTLIST", "FUNCTIONDEFINITION", "PARAMLIST" };
+		"LSHIFT", "RSHIFT" , "ARGUMENTLIST", "FUNCTIONDEFINITION", "PARAMLIST",
+	"STATEMENT", "STATEMENTLIST", "COMPILATION_UNIT", "DECLARATION", "VARIABLEDECLARATION",
+	"TYPESPECIFIER", "DECLARATORS", "DIRECTDECLARATOR","ARRAYDIRECTDECLARATOR", "EXPRESSIONSTATEMENT",
+	"COMMPOUNDSTATEMENT", "FORLOOP", "WHILELOOP", "DOWHILELOOP", "IFSTATEMENT",
+	"RETURNSTATEMENT", "BREAKSTATEMENT", "CONTINUESTATEMENT", "DECLARATIONS", "EMPTYSTATEMENT",
+	"IFELSESTATEMENT"
+};
 STNode* STNode::mg_root = nullptr;
 
 
@@ -56,6 +62,132 @@ IDENTIFIER::~IDENTIFIER() {
 string IDENTIFIER::GetIdentifierText() {
 	return m_identifier;
 }
+
+CompilationUnit::CompilationUnit(STNode* c1) : STNode(COMPILATION_UNIT) {
+	AddChild(c1);
+	c1->setParent(this);
+}
+CompilationUnit::CompilationUnit(STNode* c1, STNode* c2) : STNode(COMPILATION_UNIT) {
+	AddChild(c1);
+	AddChild(c2);
+	c1->setParent(this);
+	c2->setParent(this);
+}
+
+void CompilationUnit::Accept(CVisitor* visitor) {
+	visitor->VisitCompilationUnit(this);
+}
+
+void Declaration::Accept(CVisitor* visitor) {
+	visitor->VisitDeclaration(this);
+}
+Declaration::Declaration(STNode* node) : STNode(DECLARATION) {
+	AddChild(node);
+	node->setParent(this);
+}
+
+Declarations::Declarations(STNode* declaration) : STNode(DECLARATIONS) {
+	AddChild(declaration);
+	declaration->setParent(this);
+}
+Declarations::Declarations(STNode* declarations, STNode* declaration) : STNode(DECLARATIONS) {
+	AddChild(declarations);
+	AddChild(declaration);
+	declarations->setParent(this);
+	declaration->setParent(this);
+}
+void Declarations::Accept(CVisitor* visitor) {
+	visitor->VisitDeclarations(this);
+}
+
+
+VariableDeclaration::VariableDeclaration(STNode* typeSpecifier, STNode* declarators) : STNode(VARIABLEDECLARATION) {
+	AddChild(typeSpecifier);
+	AddChild(declarators);
+	typeSpecifier->setParent(this);
+	declarators->setParent(this);
+}
+void VariableDeclaration::Accept(CVisitor* visitor) {
+	visitor->VisitVariableDeclaration(this);
+}
+
+TypeSpecifier::TypeSpecifier(string type) : STNode(TYPESPECIFIER) {
+	m_graphvizID += "_type_=" + type;
+}
+void TypeSpecifier::Accept(CVisitor* visitor) {
+	visitor->VisitTypeSpecifier(this);
+}
+Declarators::Declarators(STNode* node) : STNode(DECLARATORS) {
+	AddChild(node);
+	node->setParent(this);
+}
+Declarators::Declarators(STNode* declarators, STNode* directDeclarator) : STNode(DECLARATORS) {
+	AddChild(declarators);
+	AddChild(directDeclarator);
+	declarators->setParent(this);
+	directDeclarator->setParent(this);
+}
+Declarators::Declarators(STNode* declarators, STNode* directDeclarator, STNode* expression) : STNode(DECLARATORS) {
+	AddChild(declarators);
+	AddChild(directDeclarator);
+	AddChild(expression);
+	declarators->setParent(this);
+	directDeclarator->setParent(this);
+	expression->setParent(this);
+}
+
+void Declarators::Accept(CVisitor* visitor) {
+	visitor->VisitDeclarators(this);
+}
+
+
+DirectDeclarator::DirectDeclarator(STNode* directDeclarator) : STNode(DIRECTDECLARATOR) {
+	AddChild(directDeclarator);
+	directDeclarator->setParent(this);
+}
+DirectDeclarator::DirectDeclarator(string identifier) : STNode(DIRECTDECLARATOR) {
+	m_graphvizID += "_identifier_=" + identifier;
+}
+void DirectDeclarator::Accept(CVisitor* visitor) {
+	visitor->VisitDirectDeclarator(this);
+}
+
+
+/*
+
+statement : expression_statement
+		  | compound_statement
+		  | iteration_statement
+		  | selection_statement
+		  | jump_statement
+		  ;
+expression_statement : expression SEMICOLON
+						| SEMICOLON
+						;
+
+compound_statement : '{' statements '}'
+						| '{' '}'
+						;
+
+iteration_statement : WHILE '(' expression ')' statement
+					| FOR '(' expression_statement expression_statement  expression ')' statement
+					| FOR '(' expression_statement expression_statement ')' statement
+					| DO statement WHILE '(' expression ')' SEMICOLON
+					;
+
+selection_statement : IF '(' expression ')' statement ELSE statement
+					| IF '(' expression ')' statement		%prec LOWIF
+					;
+jump_statement : RETURN expression SEMICOLON
+			   | RETURN SEMICOLON
+			   | BREAK SEMICOLON
+			   | CONTINUE SEMICOLON
+ *
+ */
+
+
+
+
 
 Addition::Addition(STNode* number) :STNode(ADDITION) {
 	AddChild(number);
@@ -278,23 +410,25 @@ ArgumentList::ArgumentList(STNode* identifierList, STNode* identifier) :
 	identifier->setParent(this);
 }
 
-FunctionDefinition::FunctionDefinition(STNode* identifier, STNode* paramList, STNode* expList) :
-	STNode(FUNCTIONDEFINITION) {
+FunctionDefinition::FunctionDefinition(STNode* typspec, STNode* identifier, STNode* paramList, STNode* expList) : STNode(FUNCTIONDEFINITION) {
+	AddChild(typspec);
 	AddChild(identifier);
 	AddChild(paramList);
 	AddChild(expList);
+	typspec->setParent(this);
 	identifier->setParent(this);
 	paramList->setParent(this);
 	expList->setParent(this);
 }
-
-FunctionDefinition::FunctionDefinition(STNode* identifier, STNode* expList) :
-	STNode(FUNCTIONDEFINITION) {
+FunctionDefinition::FunctionDefinition(STNode* typspec, STNode* identifier, STNode* expList) : STNode(FUNCTIONDEFINITION) {
+	AddChild(typspec);
 	AddChild(identifier);
 	AddChild(expList);
+	typspec->setParent(this);
 	identifier->setParent(this);
 	expList->setParent(this);
 }
+
 
 ParamList::ParamList(STNode* paramList, STNode* identifier) :
 	STNode(PARAMLIST) {
@@ -309,6 +443,9 @@ ParamList::ParamList(STNode* identifier) :
 	AddChild(identifier);
 	identifier->setParent(this);
 }
+
+
+
 
 void NUMBER::Accept(CVisitor* visitor) {
 	visitor->VisitNumber(this);
@@ -445,6 +582,192 @@ void FunctionDefinition::Accept(CVisitor* visitor) {
 void ParamList::Accept(CVisitor* visitor) {
 	visitor->VisitParameterList(this);
 }
+
+Statement::Statement(STNode* node)
+	: STNode(STATEMENT) {
+	AddChild(node);
+	node->setParent(this);
+}
+
+void Statement::Accept(CVisitor* visitor) {
+	visitor->VisitStatement(this);
+}
+
+
+ExpressionStatement::ExpressionStatement(STNode* expression)
+	: STNode(EXPRESSIONSTATEMENT) {
+	AddChild(expression);
+	expression->setParent(this);
+}
+
+ExpressionStatement::ExpressionStatement()
+	: STNode(EXPRESSIONSTATEMENT) {
+}
+
+void ExpressionStatement::Accept(CVisitor* visitor) {
+	visitor->VisitExpressionStatement(this);
+}
+
+CompoundStatement::CompoundStatement(STNode* statements)
+	: STNode(COMMPOUNDSTATEMENT) {
+	AddChild(statements);
+	statements->setParent(this);
+}
+CompoundStatement::CompoundStatement()
+	: STNode(COMMPOUNDSTATEMENT) {
+}
+
+
+void CompoundStatement::Accept(CVisitor* visitor) {
+	visitor->VisitCompoundStatement(this);
+}
+
+ForLoop::ForLoop(STNode* init, STNode* cond, STNode* iter, STNode* body)
+	: STNode(FORLOOP) {
+	AddChild(init);
+	AddChild(cond);
+	AddChild(iter);
+	AddChild(body);
+	init->setParent(this);
+	cond->setParent(this);
+	iter->setParent(this);
+	body->setParent(this);
+}
+
+ForLoop::ForLoop(STNode* init, STNode* cond, STNode* body)
+	: STNode(FORLOOP) {
+	AddChild(init);
+	AddChild(cond);
+	AddChild(body);
+	init->setParent(this);
+	cond->setParent(this);
+	body->setParent(this);
+}
+
+void ForLoop::Accept(CVisitor* visitor) {
+	visitor->VisitForLoop(this);
+}
+
+WhileLoop::WhileLoop(STNode* cond, STNode* body)
+	: STNode(WHILELOOP) {
+	AddChild(cond);
+	AddChild(body);
+	cond->setParent(this);
+	body->setParent(this);
+}
+
+void WhileLoop::Accept(CVisitor* visitor) {
+	visitor->VisitWhileLoop(this);
+}
+
+DoWhileLoop::DoWhileLoop(STNode* body, STNode* cond)
+	: STNode(DOWHILELOOP) {
+	AddChild(body);
+	AddChild(cond);
+	body->setParent(this);
+	cond->setParent(this);
+}
+
+void DoWhileLoop::Accept(CVisitor* visitor) {
+	visitor->VisitDoWhileLoop(this);
+}
+
+IfStatement::IfStatement(STNode* cond, STNode* thenStmt, STNode* elseStmt)
+	: STNode(IFSTATEMENT) {
+	AddChild(cond);
+	AddChild(thenStmt);
+	AddChild(elseStmt);
+	cond->setParent(this);
+	thenStmt->setParent(this);
+	elseStmt->setParent(this);
+}
+
+IfStatement::IfStatement(STNode* cond, STNode* thenStmt)
+	: STNode(IFSTATEMENT) {
+	AddChild(cond);
+	AddChild(thenStmt);
+	cond->setParent(this);
+	thenStmt->setParent(this);
+}
+
+void IfStatement::Accept(CVisitor* visitor) {
+	visitor->VisitIfStatement(this);
+}
+
+ReturnStatement::ReturnStatement(STNode* expression)
+	: STNode(RETURNSTATEMENT) {
+	AddChild(expression);
+	expression->setParent(this);
+}
+
+ReturnStatement::ReturnStatement()
+	: STNode(RETURNSTATEMENT) {
+}
+
+void ReturnStatement::Accept(CVisitor* visitor) {
+	visitor->VisitReturnStatement(this);
+}
+
+BreakStatement::BreakStatement()
+	: STNode(BREAKSTATEMENT) {
+}
+
+void BreakStatement::Accept(CVisitor* visitor) {
+	visitor->VisitBreakStatement(this);
+}
+
+ContinueStatement::ContinueStatement()
+	: STNode(CONTINUESTATEMENT) {
+}
+
+void ContinueStatement::Accept(CVisitor* visitor) {
+	visitor->VisitContinueStatement(this);
+}
+
+Statements::Statements(STNode* statement) : STNode(STATEMENTS) {
+	AddChild(statement);
+	statement->setParent(this);
+}
+Statements::Statements(STNode* statementList, STNode* statement) : STNode(STATEMENTS) {
+	AddChild(statementList);
+	AddChild(statement);
+	statementList->setParent(this);
+	statement->setParent(this);
+}
+void Statements::Accept(CVisitor* visitor) {
+	visitor->VisitStatements(this);
+}
+
+EmptyStatement::EmptyStatement() : STNode(EMPTYSTATEMENT) {
+}
+void EmptyStatement::Accept(CVisitor* visitor) {
+	visitor->VisitEmptyStatement(this);
+}
+
+IfElseStatement::IfElseStatement(STNode* condition,
+	STNode* thenBranch,
+	STNode* elseBranch) : STNode(IFELSESTATEMENT) {
+	AddChild(condition);
+	AddChild(thenBranch);
+	AddChild(elseBranch);
+	condition->setParent(this);
+	thenBranch->setParent(this);
+	elseBranch->setParent(this);
+}
+void IfElseStatement::Accept(CVisitor* visitor) {
+	visitor->VisitIfElseStatement(this);
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 

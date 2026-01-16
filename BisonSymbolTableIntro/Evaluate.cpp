@@ -3,6 +3,8 @@
 #include "ConcreteNode.h"
 #include "ScopeSystem.h"
 
+
+
 int STNode::Evaluate() {
 	std::list<STNode*>::iterator it;
 	for (it = m_children->begin(); it != m_children->end(); ++it) {
@@ -18,6 +20,167 @@ int NUMBER::Evaluate() {
 
 int IDENTIFIER::Evaluate() {
 	return GetValue();
+}
+
+int CompilationUnit::Evaluate() {
+	int result = 0;
+	for (auto child : *(this->m_children)) {
+		result = child->Evaluate();
+	}
+	return result;
+}
+
+int IfStatement::Evaluate() {
+	int result = 0;
+	std::list<STNode*>::iterator it = m_children->begin();
+	STNode* cond = (it != m_children->end()) ? *it : nullptr;
+	// Evaluate condition
+	if (cond == nullptr || !cond->Evaluate()) {
+		// condition is false: execute else branch if present
+		if (m_children->size() >= 3) {
+			it = m_children->begin();
+			if (it != m_children->end()) ++it; // then
+			if (it != m_children->end()) ++it; // else
+			if (it != m_children->end() && *it != nullptr) {
+				result = (*it)->Evaluate();
+			}
+		}
+	}
+	else {
+		// condition is true: execute then branch
+		if (m_children->size() >= 2) {
+			it = m_children->begin();
+			if (it != m_children->end()) ++it; // then
+			if (it != m_children->end() && *it != nullptr) {
+				result = (*it)->Evaluate();
+			}
+		}
+	}
+	return result;
+}
+int ReturnStatement::Evaluate() {
+	// If there is an expression, evaluate and return it.
+	if (!m_children->empty()) {
+		STNode* child = m_children->front();
+		if (child != nullptr) {
+			return child->Evaluate();
+		}
+	}
+	return 0;
+}
+
+int ContinueStatement::Evaluate() {
+	// Continue statements typically do not produce a runtime value.
+	return 0;
+}
+int BreakStatement::Evaluate() {
+	// Break statements typically do not produce a runtime value.
+	return 0;
+}
+int VariableDeclaration::Evaluate() {
+	// Evaluate the declarators node (which is responsible for actual
+	// variable creation / initialization in symbol table aware visitors)
+	if (m_children->size() >= 2) {
+		auto it = m_children->begin();
+		++it; // Move to declarators
+		STNode* declarators = (it != m_children->end()) ? *it : nullptr;
+		if (declarators != nullptr) {
+			return declarators->Evaluate();
+		}
+	}
+	return 0;
+}
+int Declarations::Evaluate() {
+	// Evaluate all declarations in order, returning the last value
+	int result = 0;
+	for (auto child : *(this->m_children)) {
+		if (child != nullptr) {
+			result = child->Evaluate();
+		}
+	}
+	return result;
+}
+int Declaration::Evaluate() {
+	// Declarations typically don't produce a runtime value,
+	// but we forward evaluation to the contained node for consistency.
+	if (!m_children->empty()) {
+		STNode* child = m_children->front();
+		if (child != nullptr) {
+			return child->Evaluate();
+		}
+	}
+	return 0;
+}
+int Statement::Evaluate() {
+	// Forward to the wrapped node
+	if (!m_children->empty()) {
+		STNode* child = m_children->front();
+		if (child != nullptr) {
+			return child->Evaluate();
+		}
+	}
+	return 0;
+}
+int ExpressionStatement::Evaluate() {
+	// Evaluate expression if present; otherwise it's just a ';'
+	if (!m_children->empty()) {
+		STNode* child = m_children->front();
+		if (child != nullptr) {
+			return child->Evaluate();
+		}
+	}
+	return 0;
+}
+int CompoundStatement::Evaluate() {
+	// Execute all statements in the compound block, return last value
+	int result = 0;
+	for (auto child : *(this->m_children)) {
+		if (child != nullptr) {
+			result = child->Evaluate();
+		}
+	}
+	return result;
+}
+
+int TypeSpecifier::Evaluate() {
+	return 0;
+}
+
+int Declarators::Evaluate() {
+	// Evaluate all contained declarators, return last value
+	int result = 0;
+	for (std::list<STNode*>::iterator it = m_children->begin(); it != m_children->end(); ++it) {
+		STNode* child = *it;
+		if (child != nullptr) {
+			result = child->Evaluate();
+		}
+	}
+	return result;
+
+}
+
+int DirectDeclarator::Evaluate() {
+	// Direct declarator itself is just a name; no runtime value.
+	// Any initializer expression would be in another child node and
+	// should be handled by the surrounding declarator logic.
+	return 0;
+
+
+}
+
+int DoWhileLoop::Evaluate() {
+	return 0;
+}
+
+int WhileLoop::Evaluate() {
+	return 0;
+}
+
+int ForLoop::Evaluate() {
+	// For loop evaluation logic would go here.
+	// This is a placeholder implementation.
+
+	return 0;
 }
 
 int Addition::Evaluate() {
@@ -95,7 +258,7 @@ int Decrement::Evaluate() {
 	return idnode->SetValue(result - 1);
 }
 
-int Subtraction::Evaluate() {	
+int Subtraction::Evaluate() {
 	list<STNode*>::iterator it = m_children->begin();
 	return (*it)->Evaluate() - (*(++it))->Evaluate();
 }
@@ -190,21 +353,32 @@ int ArgumentList::Evaluate() {
 	return 0;
 }
 
-int BuiltInFunctionCall::Evaluate()
-{
+int BuiltInFunctionCall::Evaluate() {
 	return 0;
 }
 
-int FunctionDefinition::Evaluate()
-{
+int FunctionDefinition::Evaluate() {
 	return 0;
 }
 
-int ParamList::Evaluate()
-{
+int ParamList::Evaluate() {
 	return 0;
 }
 
+int Statements::Evaluate() {
+	int result = 0;
+	for (auto child : *(this->m_children)) {
+		if (child != nullptr) {
+			result = child->Evaluate();
+		}
+	}
+	return result;
+}
 
+int EmptyStatement::Evaluate() {
+	return 0;
+}
 
-
+int IfElseStatement::Evaluate() {
+	return 0;
+}

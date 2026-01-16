@@ -1,7 +1,109 @@
-function b(x) {
-	x;
+
+/* Comprehensive test input for the provided grammar */
+
+/* Global variable declarations (including multiple declarators and initialization) */
+int a, b = 2, c;
+float f = 3;
+char ch;
+int arr[];
+int x, y = 10, z = 0;
+
+/* Function with parameters */
+int add(x, y) {
+    ;                     /* empty statement */
+
+    /* expression statement with assignment + precedence */
+    a = (x + y) * (b - 1);
+
+    /* postfix increment/decrement */
+    a++;
+    b--;
+
+    /* unary operators and grouping */
+    c = -a + +b;          /* unary - and unary + */
+    z = !0;               /* logical not */
+    y = ~z;               /* bitwise not */
+
+    /* arithmetic, modulo, exponentiation */
+    c = (a / b) + (a % b) + (a ^ 2);
+
+    /* floor division token (adapt if your lexer differs) */
+    c = a // b;
+
+    /* bitwise ops */
+    x = (a & b) | (a ^ b);
+
+    /* shifts */
+    x = (a << 2) + (b >> 1);
+
+    /* comparisons and equality */
+    z = (a == b) || (a != b);
+    z = (a < b) || (a <= b) || (a > b) || (a >= b);
+
+    /* logical and/or with precedence */
+    z = (a < b) && (b < c) || (c == a);
+
+    /* built-in function calls: no-arg and with args */
+    foo();
+    bar(a, b, (c + 1), (a << 1));
+
+    /* if-else */
+    if (a < b)
+        a = a + 1;
+    else
+        a = a - 1;
+
+    /* dangling else test: else binds to inner if */
+    if (a < b)
+        if (b < c)
+            a = a + 2;
+        else
+            a = a + 3;
+
+    /* while loop with break/continue */
+    while (a < 20) {
+        a++;
+        if (a == 15) break;
+        if (a == 12) continue;
+        b = b + 1;
+    }
+
+    /* for loop form with 3 expressions */
+    for (a = 0; a < 5; a = a + 1) {
+        b = b + a;
+    }
+
+    /* for loop form with missing third expression */
+    for (a = 0; a < 3; ) {
+        a = a + 1;
+    }
+
+    /* do-while */
+    do {
+        c = c + 1;
+    } while (c < 10);
+
+    return a;
 }
 
-a=2;
-1+a*2;
-b(a);
+/* Function without parameters */
+void main() {
+    /* local statements at top-level of function body */
+    a = 1;
+    b = 2;
+    c = 3;
+
+    /* argument list stress */
+    baz(a, b, c, (a + b) * c, (a << 1), (b >> 1), (a & b), (a | b), (a ^ b));
+
+    /* nested compound statements, including empty compound */
+    { }
+    { a = a + 1; ; b = b + 1; }
+
+    /* return without expression */
+    return;
+}
+
+/* Top-level statement after declarations (allowed by compilation_unit) */
+foo(1, 2, 3);
+;

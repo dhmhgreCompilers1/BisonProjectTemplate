@@ -49,8 +49,9 @@
  
 #include "STNode.h"
 #include "ScopeSystem.h"
+extern int yylineno;
 
-#line 54 "grammar.tab.h"
+#line 55 "grammar.tab.h"
 
 
 # include <cstdlib> // std::abort
@@ -95,7 +96,7 @@
 #else
 # define YY_CONSTEXPR
 #endif
-
+# include "location.hh"
 
 
 #ifndef YY_ATTRIBUTE_PURE
@@ -185,7 +186,7 @@
 #endif
 
 namespace yy {
-#line 189 "grammar.tab.h"
+#line 190 "grammar.tab.h"
 
 
 
@@ -203,30 +204,36 @@ namespace yy {
     /// Symbol semantic values.
     union value_type
     {
-#line 18 "grammar.y"
+#line 19 "grammar.y"
 
 	STNode *node;	
 
-#line 211 "grammar.tab.h"
+#line 212 "grammar.tab.h"
 
     };
 #endif
     /// Backward compatibility (Bison 3.8).
     typedef value_type semantic_type;
 
+    /// Symbol locations.
+    typedef location location_type;
 
     /// Syntax errors thrown from user actions.
     struct syntax_error : std::runtime_error
     {
-      syntax_error (const std::string& m)
+      syntax_error (const location_type& l, const std::string& m)
         : std::runtime_error (m)
+        , location (l)
       {}
 
       syntax_error (const syntax_error& s)
         : std::runtime_error (s.what ())
+        , location (s.location)
       {}
 
       ~syntax_error () YY_NOEXCEPT YY_NOTHROW;
+
+      location_type location;
     };
 
     /// Token kinds.
@@ -240,11 +247,11 @@ namespace yy {
     YYUNDEF = 257,                 // "invalid token"
     NUMBER = 258,                  // NUMBER
     IDENTIFIER = 259,              // IDENTIFIER
-    SEMICOLON = 260,               // SEMICOLON
-    FLOAT = 261,                   // FLOAT
-    INT = 262,                     // INT
-    VOID = 263,                    // VOID
-    CHAR = 264,                    // CHAR
+    FLOAT = 260,                   // FLOAT
+    INT = 261,                     // INT
+    VOID = 262,                    // VOID
+    CHAR = 263,                    // CHAR
+    SEMICOLON = 264,               // SEMICOLON
     IF = 265,                      // IF
     ELSE = 266,                    // ELSE
     WHILE = 267,                   // WHILE
@@ -295,11 +302,11 @@ namespace yy {
         S_YYUNDEF = 2,                           // "invalid token"
         S_NUMBER = 3,                            // NUMBER
         S_IDENTIFIER = 4,                        // IDENTIFIER
-        S_SEMICOLON = 5,                         // SEMICOLON
-        S_FLOAT = 6,                             // FLOAT
-        S_INT = 7,                               // INT
-        S_VOID = 8,                              // VOID
-        S_CHAR = 9,                              // CHAR
+        S_FLOAT = 5,                             // FLOAT
+        S_INT = 6,                               // INT
+        S_VOID = 7,                              // VOID
+        S_CHAR = 8,                              // CHAR
+        S_SEMICOLON = 9,                         // SEMICOLON
         S_IF = 10,                               // IF
         S_ELSE = 11,                             // ELSE
         S_WHILE = 12,                            // WHILE
@@ -374,7 +381,7 @@ namespace yy {
     /// Expects its Base type to provide access to the symbol kind
     /// via kind ().
     ///
-    /// Provide access to semantic value.
+    /// Provide access to semantic value and location.
     template <typename Base>
     struct basic_symbol : Base
     {
@@ -384,6 +391,7 @@ namespace yy {
       /// Default constructor.
       basic_symbol () YY_NOEXCEPT
         : value ()
+        , location ()
       {}
 
 #if 201103L <= YY_CPLUSPLUS
@@ -391,17 +399,20 @@ namespace yy {
       basic_symbol (basic_symbol&& that)
         : Base (std::move (that))
         , value (std::move (that.value))
+        , location (std::move (that.location))
       {}
 #endif
 
       /// Copy constructor.
       basic_symbol (const basic_symbol& that);
       /// Constructor for valueless symbols.
-      basic_symbol (typename Base::kind_type t);
+      basic_symbol (typename Base::kind_type t,
+                    YY_MOVE_REF (location_type) l);
 
       /// Constructor for symbols with semantic value.
       basic_symbol (typename Base::kind_type t,
-                    YY_RVREF (value_type) v);
+                    YY_RVREF (value_type) v,
+                    YY_RVREF (location_type) l);
 
       /// Destroy the symbol.
       ~basic_symbol ()
@@ -434,6 +445,9 @@ namespace yy {
 
       /// The semantic value.
       value_type value;
+
+      /// The location.
+      location_type location;
 
     private:
 #if YY_CPLUSPLUS < 201103L
@@ -523,8 +537,9 @@ namespace yy {
 #endif
 
     /// Report a syntax error.
+    /// \param loc    where the syntax error is found.
     /// \param msg    a description of the syntax error.
-    virtual void error (const std::string& msg);
+    virtual void error (const location_type& loc, const std::string& msg);
 
     /// Report a syntax error.
     void error (const syntax_error& err);
@@ -541,6 +556,8 @@ namespace yy {
       context (const parser& yyparser, const symbol_type& yyla);
       const symbol_type& lookahead () const YY_NOEXCEPT { return yyla_; }
       symbol_kind_type token () const YY_NOEXCEPT { return yyla_.kind (); }
+      const location_type& location () const YY_NOEXCEPT { return yyla_.location; }
+
       /// Put in YYARG at most YYARGN of the expected tokens, and return the
       /// number of tokens stored in YYARG.  If YYARG is null, return the
       /// number of expected tokens (guaranteed to be less than YYNTOKENS).
@@ -861,7 +878,7 @@ namespace yy {
     /// Constants.
     enum
     {
-      yylast_ = 654,     ///< Last index in yytable_.
+      yylast_ = 657,     ///< Last index in yytable_.
       yynnts_ = 19,  ///< Number of nonterminal symbols.
       yyfinal_ = 52 ///< Termination state number.
     };
@@ -872,7 +889,7 @@ namespace yy {
 
 
 } // yy
-#line 876 "grammar.tab.h"
+#line 893 "grammar.tab.h"
 
 
 

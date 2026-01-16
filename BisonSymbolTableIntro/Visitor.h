@@ -47,6 +47,26 @@ public:
 	virtual void VisitArgumentList(ArgumentList* argList) { VisitChildren(argList); }
 	virtual void VisitFunctionDefinition(FunctionDefinition* funcDef) { VisitChildren(funcDef); }
 	virtual void VisitParameterList(ParamList* paramList) { VisitChildren(paramList); }
+	virtual void VisitCompilationUnit(CompilationUnit* compUnit) { VisitChildren(compUnit); }
+	virtual void VisitStatement(Statement* statement) { VisitChildren(statement); }
+	virtual void VisitStatements(Statements* stmts) { VisitChildren(stmts); }
+	virtual void VisitDeclaration(Declaration* decl) { VisitChildren(decl); }
+	virtual void VisitDeclarations(Declarations* decls) { VisitChildren(decls); }
+	virtual void VisitVariableDeclaration(VariableDeclaration* varDecl) { VisitChildren(varDecl); }
+	virtual void VisitTypeSpecifier(TypeSpecifier* typeSpec) { VisitChildren(typeSpec); }
+	virtual void VisitDeclarators(Declarators* decls) { VisitChildren(decls); }
+	virtual void VisitDirectDeclarator(DirectDeclarator* directDecl) { VisitChildren(directDecl); }
+	virtual void VisitExpressionStatement(ExpressionStatement* exprStmt) { VisitChildren(exprStmt); }
+	virtual void VisitCompoundStatement(CompoundStatement* compStmt) { VisitChildren(compStmt); }
+	virtual void VisitForLoop(ForLoop* forLoop) { VisitChildren(forLoop); }
+	virtual void VisitWhileLoop(WhileLoop* whileLoop) { VisitChildren(whileLoop); }
+	virtual void VisitDoWhileLoop(DoWhileLoop* doWhileLoop) { VisitChildren(doWhileLoop); }
+	virtual void VisitIfStatement(IfStatement* ifStmt) { VisitChildren(ifStmt); }
+	virtual void VisitReturnStatement(ReturnStatement* returnStmt) { VisitChildren(returnStmt); }
+	virtual void VisitBreakStatement(BreakStatement* breakStmt) { VisitChildren(breakStmt); }
+	virtual void VisitContinueStatement(ContinueStatement* continueStmt) { VisitChildren(continueStmt); }
+	virtual void VisitEmptyStatement(EmptyStatement* emptyStmt) { VisitChildren(emptyStmt); }
+	virtual void VisitIfElseStatement(IfElseStatement* ifElseStmt) { VisitChildren(ifElseStmt); }
 
 };
 

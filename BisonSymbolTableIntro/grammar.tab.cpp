@@ -901,7 +901,7 @@ yyla.location.begin.filename = yyla.location.end.filename = new std::string("tes
 
   case 48: // expression: IDENTIFIER '(' ')'
 #line 139 "grammar.y"
-                                                        { (yylhs.value.node) = new BuiltInFunctionCall((yystack_[2].value.node),nullptr); }
+                                                        { (yylhs.value.node) = new BuiltInFunctionCall((yystack_[2].value.node)); }
 #line 906 "grammar.tab.cpp"
     break;
 

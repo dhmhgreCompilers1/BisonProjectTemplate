@@ -17,10 +17,14 @@
 loc->step ();
 %}
 
-"int" { return yy::parser::token::INT; }
-"float" { return yy::parser::token::FLOAT; }
-"void" { return yy::parser::token::VOID; }
-"char" { return yy::parser::token::CHAR; }
+"int" {		yylval->node = new TypeSpecifier(yytext);
+			return yy::parser::token::INT; }
+"float" {	yylval->node = new TypeSpecifier(yytext);
+			return yy::parser::token::FLOAT; }
+"void" {	yylval->node = new TypeSpecifier(yytext);
+			return yy::parser::token::VOID; }
+"char" {	yylval->node = new TypeSpecifier(yytext);
+			return yy::parser::token::CHAR; }
 "if"  { return yy::parser::token::IF; }
 "else"  { return yy::parser::token::ELSE; }
 "while"  { return yy::parser::token::WHILE; }
@@ -33,6 +37,7 @@ loc->step ();
 "&&"  { return yy::parser::token::LAND; }
 "|"   { return yy::parser::token::BITOR; }
 "^^"   { return yy::parser::token::BITXOR; }
+"^"   { return '^';}
 "&"   { return yy::parser::token::BITAND; }
 "=="  { return yy::parser::token::EQ; }
 "!="  { return yy::parser::token::NEQ; }
@@ -49,10 +54,16 @@ loc->step ();
 "/"   { return '/'; }
 "%"   { return '%'; }
 "^"   { return '^'; }
+"<<"  { return yy::parser::token::LSHIFT; }
+">>"  { return yy::parser::token::RSHIFT; }
 "("   { return '('; }
 ")"   { return ')'; }
 "{"   { return '{'; }
 "}"   { return '}'; }
+"!"   { return yy::parser::token::LNOT; }
+"~"   { return yy::parser::token::BNOT; }
+"["   { return '['; }
+"]"   { return ']'; }
 ";"   { return  yy::parser::token::SEMICOLON; }
 "="   { return  '='; }
 [a-zA-Z_][a-zA-Z0-9_]* {

@@ -26,17 +26,18 @@ int main(int argc, char** argv) {
 
 	root = STNode::mg_root;
 
-	CScopeSystemVisitor* scopeVisitor = new CScopeSystemVisitor();
-	scopeVisitor->Visit(root);
-
-	root->PrintTree(nullptr,nullptr);
-
 	
 
-	root->Evaluate();
+	root->PrintTree(nullptr,nullptr);
 	cout << "Working Directory is :" << endl;
 	system("cd");
 	system("dot -Tgif output1.dot -o output1.gif");
+
+	CScopeSystemVisitor* scopeVisitor = new CScopeSystemVisitor();
+	scopeVisitor->Visit(root);
+
+	root->Evaluate();
+	
 
 	CScopeSystem* sys = CScopeSystem::GetInstance();
 	std::cout << (*sys) << "\n";

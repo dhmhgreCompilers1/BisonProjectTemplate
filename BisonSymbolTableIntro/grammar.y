@@ -87,7 +87,7 @@ param_list : IDENTIFIER	{ $$ = new ParamList($1); }
 variable_declaration : type_specifier declarators SEMICOLON	{ $$ = new VariableDeclaration($1,$2); }
 ;
 
-type_specifier : INT	
+type_specifier : INT 	
 	| FLOAT	
 	| VOID	
 	| CHAR
@@ -136,7 +136,7 @@ jump_statement : RETURN expression SEMICOLON { $$ = new ReturnStatement($2); }
 expression : NUMBER						{ $$ = $1; }
 		|  IDENTIFIER					{ $$ = $1; }
 		| '(' expression ')'			{ $$ = $2; }
-		|  IDENTIFIER '(' ')'			{ $$ = new BuiltInFunctionCall($1,nullptr); }										
+		|  IDENTIFIER '(' ')'			{ $$ = new BuiltInFunctionCall($1); }										
 		|  IDENTIFIER '(' args ')'		{ $$ = new BuiltInFunctionCall($1,$3); }
 		|  expression '+' expression		{ $$ = new Addition($1,$3);}
 		|  expression '-' expression		{ $$ = new Subtraction($1,$3);}

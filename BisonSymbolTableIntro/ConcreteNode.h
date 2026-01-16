@@ -268,6 +268,8 @@ public:
 class BuiltInFunctionCall : public STNode {
 public:
 	BuiltInFunctionCall(STNode* identifier, STNode* args);
+	BuiltInFunctionCall(STNode* identifier);
+
 
 public:
 	int Evaluate() override;

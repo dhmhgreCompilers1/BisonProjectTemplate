@@ -377,6 +377,12 @@ BuiltInFunctionCall::BuiltInFunctionCall(STNode* id, STNode* args) :
 	id->setParent(this);
 	args->setParent(this);
 }
+BuiltInFunctionCall::BuiltInFunctionCall(STNode* id) :
+	STNode(BUILTINFUNCTIONCALL) {
+	AddChild(id);	
+	id->setParent(this);	
+}
+
 
 BITWISENOT::BITWISENOT(STNode* expr) : STNode(BITNOT) {
 	AddChild(expr);

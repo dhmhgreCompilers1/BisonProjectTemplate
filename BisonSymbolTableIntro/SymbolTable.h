@@ -35,12 +35,17 @@ public:
 		}
 	}
 
+	int GetValue() {
+		return m_value;
+	}
+
 	// Pointer to the AST node representing this symbol (variable or function).
 	STNode* m_node;
 	// Type of the symbol (variable or function).
 	SYMBOLTYPE m_symbolType;
 	// Name of the symbol.
 	string m_name;
+	int m_value;
 };
 
 class VariableSymbol : public Symbol {

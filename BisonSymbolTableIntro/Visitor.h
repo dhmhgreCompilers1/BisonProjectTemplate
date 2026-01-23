@@ -15,7 +15,6 @@ public:
 	virtual void VisitNumber(NUMBER* num) {}
 	virtual void VisitIdentifier(IDENTIFIER* id) {}
 	virtual void VisitAddition(Addition* add) { VisitChildren(add); }
-	virtual void VisitExpressionList(ExpressionList* exprList) { VisitChildren(exprList); }
 	virtual void VisitAssignment(Assignment* assignment) { VisitChildren(assignment); }
 	virtual void VisitSubtraction(Subtraction* sub) { VisitChildren(sub); }
 	virtual void VisitMultiplication(Multiplication* mul) { VisitChildren(mul); }
@@ -72,7 +71,5 @@ public:
 
 
 
-class CEvaluateVisitor : CVisitor {
-	void VisitNumber(NUMBER* num) override;
-};
+
 

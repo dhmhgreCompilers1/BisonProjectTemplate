@@ -913,127 +913,127 @@ yyla.location.begin.filename = yyla.location.end.filename = new std::string("tes
 
   case 50: // expression: expression '+' expression
 #line 141 "grammar.y"
-                                                        { (yylhs.value.node) = new Addition((yystack_[2].value.node),(yystack_[0].value.node));}
+                                                { (yylhs.value.node) = new Addition((yystack_[2].value.node),(yystack_[0].value.node));}
 #line 918 "grammar.tab.cpp"
     break;
 
   case 51: // expression: expression '-' expression
 #line 142 "grammar.y"
-                                                        { (yylhs.value.node) = new Subtraction((yystack_[2].value.node),(yystack_[0].value.node));}
+                                                { (yylhs.value.node) = new Subtraction((yystack_[2].value.node),(yystack_[0].value.node));}
 #line 924 "grammar.tab.cpp"
     break;
 
   case 52: // expression: expression '*' expression
 #line 143 "grammar.y"
-                                                        { (yylhs.value.node) = new Multiplication((yystack_[2].value.node),(yystack_[0].value.node));}
+                                                { (yylhs.value.node) = new Multiplication((yystack_[2].value.node),(yystack_[0].value.node));}
 #line 930 "grammar.tab.cpp"
     break;
 
   case 53: // expression: expression '/' expression
 #line 144 "grammar.y"
-                                                        { (yylhs.value.node) = new Division((yystack_[2].value.node),(yystack_[0].value.node));}
+                                                { (yylhs.value.node) = new Division((yystack_[2].value.node),(yystack_[0].value.node));}
 #line 936 "grammar.tab.cpp"
     break;
 
   case 54: // expression: expression '%' expression
 #line 145 "grammar.y"
-                                                        { (yylhs.value.node) = new Modulo((yystack_[2].value.node),(yystack_[0].value.node));}
+                                                { (yylhs.value.node) = new Modulo((yystack_[2].value.node),(yystack_[0].value.node));}
 #line 942 "grammar.tab.cpp"
     break;
 
   case 55: // expression: '-' expression
 #line 146 "grammar.y"
-                                                                        { (yylhs.value.node) = new UnaryMinus((yystack_[0].value.node));}
+                                                                { (yylhs.value.node) = new UnaryMinus((yystack_[0].value.node));}
 #line 948 "grammar.tab.cpp"
     break;
 
   case 56: // expression: '+' expression
 #line 147 "grammar.y"
-                                                                        { (yylhs.value.node) = new UnaryMinus((yystack_[0].value.node));}
+                                                                { (yylhs.value.node) = new UnaryMinus((yystack_[0].value.node));}
 #line 954 "grammar.tab.cpp"
     break;
 
   case 57: // expression: expression FDIV expression
 #line 148 "grammar.y"
-                                                        { (yylhs.value.node) = new FloorDivision((yystack_[2].value.node),(yystack_[0].value.node));}
+                                                { (yylhs.value.node) = new FloorDivision((yystack_[2].value.node),(yystack_[0].value.node));}
 #line 960 "grammar.tab.cpp"
     break;
 
   case 58: // expression: expression INCREMENT
 #line 149 "grammar.y"
-                                                                { (yylhs.value.node) = new Increment((yystack_[1].value.node));}
+                                                        { (yylhs.value.node) = new Increment((yystack_[1].value.node));}
 #line 966 "grammar.tab.cpp"
     break;
 
   case 59: // expression: expression DECREMENT
 #line 150 "grammar.y"
-                                                                { (yylhs.value.node) = new Decrement((yystack_[1].value.node));}
+                                                        { (yylhs.value.node) = new Decrement((yystack_[1].value.node));}
 #line 972 "grammar.tab.cpp"
     break;
 
   case 60: // expression: expression '^' expression
 #line 151 "grammar.y"
-                                                        { (yylhs.value.node) = new Exponentiation((yystack_[2].value.node),(yystack_[0].value.node));}
+                                                { (yylhs.value.node) = new Exponentiation((yystack_[2].value.node),(yystack_[0].value.node));}
 #line 978 "grammar.tab.cpp"
     break;
 
   case 61: // expression: expression LAND expression
 #line 152 "grammar.y"
-                                                        { (yylhs.value.node) = new LogicalAnd((yystack_[2].value.node),(yystack_[0].value.node));}
+                                                { (yylhs.value.node) = new LogicalAnd((yystack_[2].value.node),(yystack_[0].value.node));}
 #line 984 "grammar.tab.cpp"
     break;
 
   case 62: // expression: expression LOR expression
 #line 153 "grammar.y"
-                                                        { (yylhs.value.node) = new LogicalOr((yystack_[2].value.node),(yystack_[0].value.node));}
+                                                { (yylhs.value.node) = new LogicalOr((yystack_[2].value.node),(yystack_[0].value.node));}
 #line 990 "grammar.tab.cpp"
     break;
 
   case 63: // expression: LNOT expression
 #line 154 "grammar.y"
-                                                                        { (yylhs.value.node) = new LogicalNot((yystack_[0].value.node));}
+                                                                { (yylhs.value.node) = new LogicalNot((yystack_[0].value.node));}
 #line 996 "grammar.tab.cpp"
     break;
 
   case 64: // expression: expression EQ expression
 #line 155 "grammar.y"
-                                                                { (yylhs.value.node) = new Equal((yystack_[2].value.node),(yystack_[0].value.node));}
+                                                        { (yylhs.value.node) = new Equal((yystack_[2].value.node),(yystack_[0].value.node));}
 #line 1002 "grammar.tab.cpp"
     break;
 
   case 65: // expression: expression NEQ expression
 #line 156 "grammar.y"
-                                                        { (yylhs.value.node) = new NotEqual((yystack_[2].value.node),(yystack_[0].value.node));}
+                                                { (yylhs.value.node) = new NotEqual((yystack_[2].value.node),(yystack_[0].value.node));}
 #line 1008 "grammar.tab.cpp"
     break;
 
   case 66: // expression: expression LT expression
 #line 157 "grammar.y"
-                                                                { (yylhs.value.node) = new LessThan((yystack_[2].value.node),(yystack_[0].value.node));}
+                                                        { (yylhs.value.node) = new LessThan((yystack_[2].value.node),(yystack_[0].value.node));}
 #line 1014 "grammar.tab.cpp"
     break;
 
   case 67: // expression: expression LTE expression
 #line 158 "grammar.y"
-                                                        { (yylhs.value.node) = new LessThanOrEqual((yystack_[2].value.node),(yystack_[0].value.node));}
+                                                { (yylhs.value.node) = new LessThanOrEqual((yystack_[2].value.node),(yystack_[0].value.node));}
 #line 1020 "grammar.tab.cpp"
     break;
 
   case 68: // expression: expression GT expression
 #line 159 "grammar.y"
-                                                                { (yylhs.value.node) = new GreaterThan((yystack_[2].value.node),(yystack_[0].value.node));}
+                                                        { (yylhs.value.node) = new GreaterThan((yystack_[2].value.node),(yystack_[0].value.node));}
 #line 1026 "grammar.tab.cpp"
     break;
 
   case 69: // expression: expression GTE expression
 #line 160 "grammar.y"
-                                                        { (yylhs.value.node) = new GreaterThanOrEqual((yystack_[2].value.node),(yystack_[0].value.node));}
+                                                { (yylhs.value.node) = new GreaterThanOrEqual((yystack_[2].value.node),(yystack_[0].value.node));}
 #line 1032 "grammar.tab.cpp"
     break;
 
   case 70: // expression: expression BITAND expression
 #line 161 "grammar.y"
-                                                        { (yylhs.value.node) = new BITWISEAND((yystack_[2].value.node),(yystack_[0].value.node));}
+                                                { (yylhs.value.node) = new BITWISEAND((yystack_[2].value.node),(yystack_[0].value.node));}
 #line 1038 "grammar.tab.cpp"
     break;
 

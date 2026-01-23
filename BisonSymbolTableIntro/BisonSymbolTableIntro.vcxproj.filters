@@ -55,7 +55,7 @@
     <ClCompile Include="ConcreteNode.cpp">
       <Filter>Source Files\SyntaxTree</Filter>
     </ClCompile>
-    <ClCompile Include="Evaluate.cpp">
+    <ClCompile Include="EvaluateVisitor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SymbolTable.cpp">
@@ -97,6 +97,9 @@
       <Filter>Header Files\SyntaxTree</Filter>
     </ClInclude>
     <ClInclude Include="ScopeSystemVisitor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EvaluateVisitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

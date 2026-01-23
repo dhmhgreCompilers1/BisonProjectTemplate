@@ -28,7 +28,7 @@ public:
 	int GetValue();
 
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 
 private:
@@ -41,25 +41,17 @@ class IDENTIFIER : public STNode {
 public:
 	IDENTIFIER(char* text);
 	~IDENTIFIER();
-	string GetIdentifierText();
-	int SetValue(int v);
-	int GetValue();
-
-public:
-	int Evaluate() override;
+	string GetIdentifierText();	 
 	void Accept(CVisitor* visitor) override;
+
 private:
 	string m_identifier;
-	int m_value;
 };
 
 class Addition : public STNode {
 public:
 	Addition(STNode* number);
 	Addition(STNode* addition, STNode* number);
-
-public:
-	int Evaluate() override;
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -68,7 +60,7 @@ public:
 	Subtraction(STNode* number);
 	Subtraction(STNode* addition, STNode* number);
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -77,7 +69,7 @@ public:
 	Multiplication(STNode* number);
 	Multiplication(STNode* addition, STNode* number);
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -86,16 +78,7 @@ public:
 	Assignment(STNode* identifier, STNode* addition);
 
 public:
-	int Evaluate() override;
-	void Accept(CVisitor* visitor) override;
-};
-
-class ExpressionList : public STNode {
-public:
-	ExpressionList(STNode* addition);
-	ExpressionList(STNode* additionList, STNode* addition);
-public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -105,7 +88,7 @@ public:
 	Division(STNode* division, STNode* number);
 
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -115,7 +98,7 @@ public:
 	Modulo(STNode* modulus, STNode* number);
 
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -125,7 +108,7 @@ public:
 	Exponentiation(STNode* base, STNode* exponent);
 
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -134,7 +117,7 @@ public:
 	UnaryMinus(STNode* expression);
 
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -143,7 +126,7 @@ public:
 	UnaryPlus(STNode* expression);
 
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -153,7 +136,7 @@ public:
 	FloorDivision(STNode* floordiv, STNode* number);
 
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -162,7 +145,7 @@ public:
 	LogicalAnd(STNode* lhs, STNode* rhs);
 
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -171,7 +154,7 @@ public:
 	LogicalOr(STNode* lhs, STNode* rhs);
 
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -180,7 +163,7 @@ public:
 	LogicalNot(STNode* expr);
 
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -189,7 +172,7 @@ public:
 	LessThan(STNode* lhs, STNode* rhs);
 
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -198,7 +181,7 @@ public:
 	GreaterThan(STNode* lhs, STNode* rhs);
 
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -207,7 +190,7 @@ public:
 	LessThanOrEqual(STNode* lhs, STNode* rhs);
 
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -216,7 +199,7 @@ public:
 	GreaterThanOrEqual(STNode* lhs, STNode* rhs);
 
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -225,7 +208,7 @@ public:
 	Equal(STNode* lhs, STNode* rhs);
 
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -234,7 +217,7 @@ public:
 	NotEqual(STNode* lhs, STNode* rhs);
 
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -243,7 +226,7 @@ public:
 	Increment(STNode* identifier);
 
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -252,7 +235,7 @@ public:
 	Decrement(STNode* identifier);
 
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -261,7 +244,7 @@ public:
 	UserDefinedFunctionCall(STNode* identifier, STNode* args);
 
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -272,7 +255,7 @@ public:
 
 
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -280,7 +263,7 @@ class BITWISEAND : public STNode {
 public:
 	BITWISEAND(STNode* lhs, STNode* rhs);
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -288,7 +271,7 @@ class BITWISEOR : public STNode {
 public:
 	BITWISEOR(STNode* lhs, STNode* rhs);
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -296,7 +279,7 @@ class BITWISEXOR : public STNode {
 public:
 	BITWISEXOR(STNode* lhs, STNode* rhs);
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -304,7 +287,7 @@ class BITWISENOT : public STNode {
 public:
 	BITWISENOT(STNode* expr);
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -312,7 +295,7 @@ class LSHIFT : public STNode {
 public:
 	LSHIFT(STNode* lhs, STNode* rhs);
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -320,7 +303,7 @@ class RSHIFT : public STNode {
 public:
 	RSHIFT(STNode* lhs, STNode* rhs);
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -329,7 +312,7 @@ public:
 	ArgumentList(STNode* identifier);
 	ArgumentList(STNode* identifierList, STNode* identifier);
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -338,7 +321,7 @@ public:
 	FunctionDefinition(STNode* typspec, STNode* identifier, STNode* paramList, STNode* expList);
 	FunctionDefinition(STNode* typspec, STNode* identifier, STNode* expList);
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -347,7 +330,7 @@ public:
 	ParamList(STNode* paramList, STNode* identifier);
 	ParamList(STNode* identifier);
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -358,7 +341,7 @@ public:
 	Statement(STNode* node);
 
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -371,7 +354,7 @@ public:
 	Statements(STNode* statementList, STNode* statement);
 
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -383,7 +366,7 @@ public:
 	CompilationUnit(STNode* c1, STNode* c2);
 
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -391,7 +374,7 @@ class Declaration : public STNode {
 public:
 	Declaration(STNode* node);
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -400,7 +383,7 @@ public:
 	Declarations(STNode* declaration);
 	Declarations(STNode* declarations, STNode* declaration);
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -408,7 +391,7 @@ class VariableDeclaration : public STNode {
 public:
 	VariableDeclaration(STNode* typeSpecifier, STNode* declarators);
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -416,7 +399,7 @@ class TypeSpecifier : public STNode {
 public:
 	TypeSpecifier(string type);
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -427,7 +410,7 @@ public:
 	Declarators(STNode* declarators, STNode* directDeclarator, STNode *expression);
 
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -436,7 +419,7 @@ public:
 	DirectDeclarator(string identifier);
 	DirectDeclarator(STNode* directDeclarator);
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -445,7 +428,7 @@ public:
 	ArrayDirectDeclarator(string identifier);
 	ArrayDirectDeclarator(STNode* directDeclarator);
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -454,7 +437,7 @@ public:
 	ExpressionStatement(STNode* expression);
 	ExpressionStatement(); // For empty statement
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -463,7 +446,7 @@ public:
 	CompoundStatement(STNode* statementList);
 	CompoundStatement();
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -472,7 +455,7 @@ public:
 	ForLoop(STNode* init, STNode* condition, STNode* increment, STNode* body);
 	ForLoop(STNode* init, STNode* condition, STNode* body);
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -480,7 +463,7 @@ class WhileLoop : public STNode {
 public:
 	WhileLoop(STNode* condition, STNode* body);
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -488,7 +471,7 @@ class DoWhileLoop : public STNode {
 public:
 	DoWhileLoop(STNode* body, STNode* condition);
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -497,7 +480,7 @@ public:
 	IfStatement(STNode* condition, STNode* thenBranch, STNode* elseBranch);
 	IfStatement(STNode* condition, STNode* thenBranch);
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -505,7 +488,7 @@ class IfElseStatement : public STNode {
 public:
 	IfElseStatement(STNode* condition, STNode* thenBranch, STNode* elseBranch);
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -514,7 +497,7 @@ public:
 	ReturnStatement(STNode* expression);
 	ReturnStatement();
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -523,7 +506,7 @@ class BreakStatement : public STNode {
 public:
 	BreakStatement();
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -531,7 +514,7 @@ class ContinueStatement : public STNode {
 public:
 	ContinueStatement();
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };
 
@@ -539,6 +522,6 @@ class EmptyStatement : public STNode {
 public:
 	EmptyStatement();
 public:
-	int Evaluate() override;
+	 
 	void Accept(CVisitor* visitor) override;
 };

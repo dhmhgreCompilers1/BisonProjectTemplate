@@ -2,10 +2,19 @@
 
 #include "ScopeSystem.h"
 
+void CScopeSystemVisitor::VisitCompilationUnit(CompilationUnit* compUnit)
+{
+	CScopeSystem::GetInstance()->EnterScope();
+	CVisitor::VisitChildren(compUnit);
+	CScopeSystem::GetInstance()->ExitScope();
+}
+
 void CScopeSystemVisitor::VisitFunctionDefinition(FunctionDefinition* funcDef) {
 
 	// 0. Get the IDENTIFIER child node
-	IDENTIFIER* id = dynamic_cast<IDENTIFIER*>(funcDef->m_children->front());
+	list<STNode*>::iterator it = funcDef->m_children->begin();
+	it++;
+	IDENTIFIER* id = dynamic_cast<IDENTIFIER*>(*it);
 
 	// 1. Create FunctionSymbol with parent as FunctionDefinition node 
 	Symbol* funcSymbol = new FunctionSymbol(funcDef,
@@ -18,12 +27,15 @@ void CScopeSystemVisitor::VisitFunctionDefinition(FunctionDefinition* funcDef) {
 
 	// 3. Enter Function Scope if parent is FunctionDefinition
 	CScopeSystem::GetInstance()->EnterScope(id->GetIdentifierText());
-	
-	for (	auto it = std::next(funcDef->m_children->begin()); 
-			it != funcDef->m_children->end(); 
-			++it) {
-		Visit((*it));
-	}
+
+	// 4. Visit Parameter List
+	Visit(*++it);
+	it++;
+	// 5. Visit Function Body (Expression List)
+	Visit(*it);
+
+	// 6. Exit Function Scope
+	CScopeSystem::GetInstance()->ExitScope();
 }
 
 void CScopeSystemVisitor::VisitParameterList(ParamList* paramList) {
@@ -57,20 +69,8 @@ void CScopeSystemVisitor::VisitAssignment(Assignment* assignment) {
 		Symbol::ST_VARIABLE);
 	// 2. If not found, create new VariableSymbol and insert into Current Scope
 	if (sym == nullptr) {
-		VariableSymbol* newSym = new VariableSymbol(id, id->GetIdentifierText());
-		CScopeSystem::GetInstance()->Insert(id->GetIdentifierText(), newSym);
-	}
-	else {
-		VariableSymbol* varSym = dynamic_cast<VariableSymbol*>(sym);
-		IDENTIFIER* varNode = dynamic_cast<IDENTIFIER*>(varSym->m_node);
-		auto temp = assignment->m_children->front();
-		assignment->m_children->front() = varNode;
-		delete temp;
-	}
-
-	auto it = assignment->m_children->begin();
-	it++;
-	Visit((*it));
+		throw std::runtime_error("Variable not defined: " + id->GetIdentifierText());
+	}	
 }
 
 void CScopeSystemVisitor::VisitBuiltinFunctionCall(BuiltInFunctionCall* builtinFuncCall) {
@@ -124,24 +124,40 @@ void CScopeSystemVisitor::VisitIdentifier(IDENTIFIER* id) {
 
 	STNode* parent = id->GetParent();
 
-	Symbol* sym = CScopeSystem::GetInstance()->Lookup(id->GetIdentifierText(),
-		Symbol::ST_VARIABLE);
-	if (sym == nullptr) {
-		throw std::runtime_error("Variable not defined: " + id->GetIdentifierText());
+	Symbol* sym =nullptr;
+	if (parent->GetNodeType() == DIRECTDECLARATOR) {
+		 sym = CScopeSystem::GetInstance()->Lookup(id->GetIdentifierText(),
+			Symbol::ST_VARIABLE);
+		if (sym != nullptr) {
+			throw std::runtime_error("Variable already defined: " + id->GetIdentifierText());
+		}
+		else {
+			sym= CScopeSystem::GetInstance()->Insert(id->GetIdentifierText(),
+				new VariableSymbol(id, id->GetIdentifierText()));
+		}
+	}
+	else if (parent->GetNodeType() == FUNCTIONDEFINITION) {
+		sym = CScopeSystem::GetInstance()->Lookup(id->GetIdentifierText(),
+			Symbol::ST_FUNCTION);
+		if (sym != nullptr) {
+			throw std::runtime_error("Function already defined: " + id->GetIdentifierText());
+		}
+		else {
+			sym = CScopeSystem::GetInstance()->Insert(id->GetIdentifierText(),
+				new FunctionSymbol(id,FunctionSymbol::FT_USERDEFINEDFUNCTION, id->GetIdentifierText()));
+		}
+	}
+	else
+	{
+		if (sym == nullptr) {
+			throw std::runtime_error("Undefined variable or function: " + id->GetIdentifierText());
+		}
 	}
 	VariableSymbol* varSym = dynamic_cast<VariableSymbol*>(sym);
 	IDENTIFIER* varNode = dynamic_cast<IDENTIFIER*>(varSym->m_node);
 	auto temp = parent->m_children->front();
 	parent->m_children->front() = varNode;
 	delete temp;
-	
+
 }
 
-void CScopeSystemVisitor::VisitExpressionList(ExpressionList* exprList) {
-	CVisitor::VisitExpressionList(exprList);
-	if (exprList->GetParent() != nullptr &&
-		exprList->GetParent()->GetNodeType() == FUNCTIONDEFINITION) {
-		// Exit Function Scope after processing all parameters
-		CScopeSystem::GetInstance()->ExitScope();
-	}
-}

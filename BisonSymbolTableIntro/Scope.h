@@ -42,8 +42,9 @@ public:
 // Inherits from CScope.
 class CFunctionScope : public CScope {
 	SymbolTable* m_VTable;
+	string m_name;
 public:
-	CFunctionScope(CScope* parent);
+	CFunctionScope(CScope* parent,string name);
 	~CFunctionScope();
 	Symbol* Insert(string name, Symbol* node);
 	Symbol* Lookup(string name, Symbol::SYMBOLTYPE t) override;

@@ -36,9 +36,6 @@ int main(int argc, char** argv) {
 	CScopeSystemVisitor* scopeVisitor = new CScopeSystemVisitor();
 	scopeVisitor->Visit(root);
 
-	root->Evaluate();
-	
-
 	CScopeSystem* sys = CScopeSystem::GetInstance();
 	std::cout << (*sys) << "\n";
 	return 0;

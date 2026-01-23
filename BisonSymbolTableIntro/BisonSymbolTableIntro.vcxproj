@@ -135,7 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConcreteNode.cpp" />
-    <ClCompile Include="Evaluate.cpp" />
+    <ClCompile Include="EvaluateVisitor.cpp" />
     <ClCompile Include="grammar.flex.cpp" />
     <ClCompile Include="grammar.tab.cpp" />
     <ClCompile Include="main.cpp" />
@@ -148,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConcreteNode.h" />
+    <ClInclude Include="EvaluateVisitor.h" />
     <ClInclude Include="grammar.flex.h" />
     <ClInclude Include="grammar.tab.h" />
     <ClInclude Include="Scope.h" />

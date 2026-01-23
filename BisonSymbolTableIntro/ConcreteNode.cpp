@@ -44,14 +44,6 @@ IDENTIFIER::IDENTIFIER(char* text) : STNode(IDENTIFIER_) {
 	m_graphvizID += "_name_=" + m_identifier;
 }
 
-int IDENTIFIER::SetValue(int v) {
-	return (m_value = v);
-}
-
-int IDENTIFIER::GetValue() {
-	return m_value;
-}
-
 void IDENTIFIER::Accept(CVisitor* visitor) {
 	visitor->VisitIdentifier(this);
 }
@@ -350,18 +342,6 @@ BITWISEXOR::BITWISEXOR(STNode* lhs, STNode* rhs) : STNode(BITXOR) {
 	rhs->setParent(this);
 }
 
-ExpressionList::ExpressionList(STNode* addition) :STNode(EXPRESSIONLIST) {
-	AddChild(addition);
-	addition->setParent(this);
-}
-
-ExpressionList::ExpressionList(STNode* additionlist, STNode* addition) : STNode(EXPRESSIONLIST) {
-	AddChild(additionlist);
-	AddChild(addition);
-	additionlist->setParent(this);
-	addition->setParent(this);
-}
-
 UserDefinedFunctionCall::UserDefinedFunctionCall(STNode* identifier, STNode* args) :
 	STNode(USERDEFINEDFUNCTIONCALL) {
 	AddChild(identifier);
@@ -551,10 +531,6 @@ void BITWISEOR::Accept(CVisitor* visitor) {
 
 void BITWISEXOR::Accept(CVisitor* visitor) {
 	visitor->VisitBitXor(this);
-}
-
-void ExpressionList::Accept(CVisitor* visitor) {
-	visitor->VisitExpressionList(this);
 }
 
 void UserDefinedFunctionCall::Accept(CVisitor* visitor) {

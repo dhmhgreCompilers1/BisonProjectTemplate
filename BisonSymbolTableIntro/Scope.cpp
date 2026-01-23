@@ -42,8 +42,9 @@ Symbol* CGlobalScope::Lookup(string name, Symbol::SYMBOLTYPE t) {
 	}
 	return sym;
 }
-CFunctionScope::CFunctionScope(CScope* parent) : CScope(parent) {
+CFunctionScope::CFunctionScope(CScope* parent,string name) : CScope(parent) {
 	m_VTable = new SymbolTable();
+	m_name = name;
 }
 CFunctionScope::~CFunctionScope() {
 	delete m_VTable;
@@ -63,7 +64,7 @@ Symbol* CFunctionScope::Lookup(string name, Symbol::SYMBOLTYPE t) {
 		if (sym == nullptr && m_parent != nullptr) {
 			sym = m_parent->Lookup(name, t);
 		}
-	}
+	}	
 	else {
 		throw std::runtime_error("Only variable symbols can be looked up in function scope: " + name);
 	}

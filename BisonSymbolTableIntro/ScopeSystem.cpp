@@ -3,21 +3,24 @@
 CScopeSystem* CScopeSystem::m_instance = nullptr;
 const string CScopeSystem::GLOBAL_SCOPE_NAME = "global";
 CScopeSystem::CScopeSystem() {
-	m_scopetable = new map<string, CScope*>();
-
-	// Create global scope
-	CScope* globalScope = new CGlobalScope();
-	(*m_scopetable)[GLOBAL_SCOPE_NAME] = globalScope;
-	m_currentScope = globalScope;
-
-	// Initialize built-in functions
-	Insert("pow", 
-		new FunctionSymbol(nullptr, FunctionSymbol::FT_BUILTINFUNCTION, "pow"));
+	m_scopetable = new map<string, CScope*>();	
 }
 void CScopeSystem::EnterScope(string name) {
-	CScope* newScope = new CFunctionScope(m_currentScope);
-	(*m_scopetable)[name] = newScope;
-	m_currentScope = newScope;
+	if ( name.empty() )
+	{
+		// Create global scope
+		CScope* globalScope = new CGlobalScope();
+		(*m_scopetable)[GLOBAL_SCOPE_NAME] = globalScope;
+		m_currentScope = globalScope;
+		// Initialize built-in functions
+		Insert("pow",
+			new FunctionSymbol(nullptr, FunctionSymbol::FT_BUILTINFUNCTION, "pow"));
+	}
+	else {
+		CScope* newScope = new CFunctionScope(m_currentScope,name);
+		(*m_scopetable)[name] = newScope;
+		m_currentScope = newScope;
+	}
 }
 void CScopeSystem::ExitScope() {
 	if (m_currentScope->GetParent() != nullptr) {
@@ -43,6 +46,15 @@ Symbol* CScopeSystem::Insert(string name, Symbol* node) {
 Symbol* CScopeSystem::Lookup(string name, Symbol::SYMBOLTYPE t) {
 	return m_currentScope->Lookup(name, t);
 }
+Symbol *CScopeSystem::Lookup(string name, string scopename, Symbol::SYMBOLTYPE t) {
+	if (scopename.empty())
+	{
+		string s = GLOBAL_SCOPE_NAME;
+		return (*m_scopetable)[s]->Lookup(name, Symbol::ST_VARIABLE);
+	}
+	return (*m_scopetable)[scopename]->Lookup(name, Symbol::ST_VARIABLE);
+}
+
 CScopeSystem* CScopeSystem::GetInstance() {
 	if (m_instance == nullptr) {
 		m_instance = new CScopeSystem();

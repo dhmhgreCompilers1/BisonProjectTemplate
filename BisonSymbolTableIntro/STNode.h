@@ -28,8 +28,7 @@ public:
 
 public:
 	
-	void virtual PrintTree(ofstream *file, STNode *parent);
-	virtual int Evaluate();
+	void virtual PrintTree(ofstream* file, STNode* parent);
 
 	virtual void Accept(CVisitor* visitor) = 0;
 	

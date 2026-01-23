@@ -17,7 +17,7 @@ public:
 	// A constant string representing the name of the global scope.
 	const static string GLOBAL_SCOPE_NAME;
 	// Creates a scope with the given name and sets it as the current scope.
-	void EnterScope(string name);
+	void EnterScope(string name="");
 	// Exits the current scope and reverts to the parent scope.
 	void ExitScope();
 	// Returns the scope with the given name.
@@ -30,6 +30,7 @@ public:
 	// Looks up a symbol in the current scope's symbol table.
 	// Forwards to the current scope's Lookup method.
 	Symbol* Lookup(string name, Symbol::SYMBOLTYPE t);
+	Symbol* Lookup(string name, string scopename, Symbol::SYMBOLTYPE t);
 
 	// Returns the singleton instance of CScopeSystem.
 	static CScopeSystem* GetInstance();
